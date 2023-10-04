@@ -12,3 +12,5 @@ const char* main_options = "Please select an option:\n"
 const char* separator = "====================================================================================================\n";
 
 const char* goodbye = "Thank you for using the TFT Board Solver!\n";
+
+const char* hello = "Welcome to the TFT Board Solver!\n";

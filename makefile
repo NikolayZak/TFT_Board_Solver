@@ -1,15 +1,15 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++11
 TARGET = "TFT Board Solver"
-OBJ_FILES = main.o \
-            TFT_Algorithm.o \
-            Embeded_text/Champions.o \
-            Embeded_text/Traits.o \
-			Embeded_text/Prompts.o \
-            #TFT_Icon.o
+EMBEDED_FOLDER = Embeded_text
 
-run: 
-	./"TFT Board Solver".exe
+OBJ_FILES = $(EMBEDED_FOLDER)/Champions.o \
+            $(EMBEDED_FOLDER)/Traits.o \
+            $(EMBEDED_FOLDER)/Prompts.o \
+            TFT_Algorithm.o \
+            main.o \
+            $(EMBEDED_FOLDER)/TFT_Icon.o
+
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
@@ -18,9 +18,12 @@ $(TARGET): $(OBJ_FILES)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-TFT_Icon.o: TFT_Icon.rc
-	windres -i TFT_Icon.rc -o TFT_Icon.o
+$(EMBEDED_FOLDER)/TFT_Icon.o: $(EMBEDED_FOLDER)/TFT_Icon.rc
+	windres -i $(EMBEDED_FOLDER)/TFT_Icon.rc -o $(EMBEDED_FOLDER)/TFT_Icon.o
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	del /Q "TFT Board Solver".exe *.o
-	del /Q Embeded_text\*.o
+	del /Q $(TARGET).exe *.o
+	del /Q $(EMBEDED_FOLDER)\*.o

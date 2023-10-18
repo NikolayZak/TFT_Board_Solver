@@ -1,7 +1,7 @@
 // TFT Board Solver
 // Nikolay Zakirov
 // 2023-07-15
-#include "database.hpp"
+#include "TFT_Algorithm.hpp"
 
 
 int get_int_input(int lower, int upper) {
@@ -34,6 +34,8 @@ int main(){
     bool cost_restriction = true;
     int choice, board_size, tmp, cost;
     bool loop = true;
+
+    cout << separator << welcome;
     while(loop){
         cout << separator << main_options;
         choice = get_int_input(1, 7);
@@ -81,7 +83,7 @@ int main(){
                 cost_restriction = true;
             }else{
                 cost_restriction = false;
-                db.cost_restriction(tmp);
+                db.cost_restriction(cost);
             }
             cout << "Cost restriction changed\n";
             break;

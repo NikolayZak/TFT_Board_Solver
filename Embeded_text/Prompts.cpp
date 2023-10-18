@@ -13,4 +13,4 @@ const char* separator = "=======================================================
 
 const char* goodbye = "Thank you for using the TFT Board Solver!\n";
 
-const char* hello = "Welcome to the TFT Board Solver!\n";
+const char* welcome = "Welcome to the TFT Board Solver!\n";

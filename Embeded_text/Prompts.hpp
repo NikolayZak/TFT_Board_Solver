@@ -4,5 +4,5 @@
 extern const char* main_options;
 extern const char* separator;
 extern const char* goodbye;
-extern const char* hello;
+extern const char* welcome;
 #endif 

@@ -16,8 +16,8 @@ $(TARGET): $(OBJ_FILES)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-#TFT_Icon.o: TFT_Icon.rc
-#	windres -i TFT_Icon.rc -o TFT_Icon.o
+TFT_Icon.o: TFT_Icon.rc
+	windres -i TFT_Icon.rc -o TFT_Icon.o
 
 clean:
 	del /Q "TFT Board Solver".exe *.o

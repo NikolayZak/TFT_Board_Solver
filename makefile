@@ -8,6 +8,8 @@ OBJ_FILES = main.o \
 			Embeded_text/Prompts.o \
             #TFT_Icon.o
 
+run: 
+	./"TFT Board Solver".exe
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)

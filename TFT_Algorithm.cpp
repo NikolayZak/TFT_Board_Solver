@@ -321,15 +321,16 @@ void tft_database::compute_boards(vector<int> current_board){
 
             if((int)current_board.size() + (int)P_champs_added.size() >= P_max_size - 2){ // checks if it's the last 2 champs
                 if(feild_champ_with_synergy(counter)){ // checks for a required synergy
-                    // check if it's within a good score
-                    if(P_score + (5 * (P_max_size - (int)P_champs_added.size() + 1 - (int)current_board.size())) >= P_highscore){
+                    // check if it's within a good score if(current_score + MAX_INCREASE * champs_remaining >= P_highscore)
+                    if(P_score + (MAX_INCREASE * (P_max_size - (int)P_champs_added.size() - (int)current_board.size())) >= P_highscore){
                         compute_boards(current_board);
                     }
                     unfeild_champion(counter);
                 }
             }else{ // It's not the last 2 champs check if it's within a good scores
                 if(feild_champ(counter)){
-                    if(P_score + (5 * (P_max_size - (int)P_champs_added.size() + 1 - (int)current_board.size())) >= P_highscore){
+                    // check if it's within a good score if(current_score + BLANK_SCORE * champs_remaining >= P_highscore)
+                    if(P_score + (BLANK_SCORE * (P_max_size - (int)P_champs_added.size() - (int)current_board.size())) >= P_highscore){
                         compute_boards(current_board);
                     }
                     unfeild_champion(counter);

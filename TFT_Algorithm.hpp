@@ -15,6 +15,32 @@ using namespace std;
 #include "Embeded_text/Prompts.hpp"
 
 #define HASHED_BOARDS "Saved_boards.txt"
+
+/*
+    MAX_INCREASE should always be the highest marginal increase any champ can contribute to the board
+
+    BLANK_SCORE is one of the most important variables, it should be initialized between 0 and the
+    maximum score increase from any given champion being added
+    the best value of Blank_score should be around the average gain of any given champion ~6
+    However increasing this value will improve search results finding better boards at the cost of computing time.
+    NOTE: BLANK_SCORE can be a float Ex: 5.5 or 6.5
+
+
+    ***********      Summary     ***********
+    when BLANK_SCORE == MAX_INCREASE you have THE best possible boards
+    but you sacrifice exponentially LARGE COMPUTING TIME
+    try to make BLANK_SCORE >= AVERAGE_MARGINAL_INCREASE_OF_A_CHAMPION
+    ex: take swain to be the average who has 3 traits: (Noxus 3) (Strategist 2) (Sorcerer 2) and set the average to around 6
+    There are champs in this set who have only 2 traits, so I Imagine the average to be closer to 5.
+    NOTE: setting BLANK_SCORE to exactly the average does NOT guarentee perfect boards
+    NOTE 2: the champions that are most favoured and that have the largest individual increases (3 trait champs)
+    should be at the top of CHAMPIONS_CSV as they will make the program faster and produce better solutions.
+                
+
+
+*/
+#define BLANK_SCORE 6
+#define MAX_INCREASE 8
 // **************************************************
 
 //database structures

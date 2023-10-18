@@ -1,5 +1,10 @@
 #include "Champions.hpp"
 
+/*  CHAMPION_CSV formatting!!!!
+    separate each item by a ',' and end with a newline
+    Name,cost,traits
+*/
+
 const char* CHAMPIONS_CSV = R"csv(Swain,2,Noxus,Strategist,Sorcerer
 Shen,4,Ionia,Bastion,Invoker
 Taric,3,Targon,Bastion,Sorcerer

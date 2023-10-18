@@ -615,10 +615,10 @@ string tft_database::return_optimal_boards(){
     P_hashed = convert_boards_to_int_string();
 
     auto end_time = chrono::high_resolution_clock::now();
-    std::chrono::duration<double> time = end_time - start_time;
+    chrono::duration<double> time = end_time - start_time;
     cout << "Execution Time: " << time.count() << " Seconds" << endl;
 
-    // hashes only if it took longer then 5 seconds
+    // hashes only if it took longer then 6 seconds
     if((int)time.count() > 5){
         save_board();
     }

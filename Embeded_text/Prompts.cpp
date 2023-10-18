@@ -1,5 +1,9 @@
 #include "Prompts.hpp"
 
+/*
+    here are some common printables that is used throughout the program
+*/
+
 const char* main_options = "Please select an option:\n"
                 "1) Compute Board!\n"
                 "2) Add Champion\n"

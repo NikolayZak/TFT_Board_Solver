@@ -34,12 +34,14 @@ struct champion_Node {
 
 
 // **************************************************     Notes       *************************************************************
-// I would be nice to sort the functions
+// It would be nice to sort the function names
+// uses automatic local hashing if the execution took longer then 6 seconds
+
 
 
 class tft_database {
     private:
-    // Linked Lists
+    // Datastructure
     vector<trait_Node*> trait_root;
     vector<champion_Node*> champion_root;
 
@@ -71,7 +73,7 @@ class tft_database {
     bool feild_champ_with_synergy(int champ);
     bool feild_champ(int champ);
     void unfeild_champion(int champ);
-    void compute_boards(vector<int> board);
+    void compute_boards(vector<int> board); // recursive function that handles solving all the optimal boards in a reasonable runtime
     void add_added_champs_to_computed_boards();
     bool check_hashed();
     string convert_board(vector<int> board);
@@ -93,7 +95,7 @@ class tft_database {
 
     //public functions
     void set_max_size(int size){ P_max_size = size; }
-    string return_optimal_boards();
+    string return_optimal_boards(); // this is the big boy function that uses most of the code
     void feild_trait(int trait);
     void feild_champion(int champ);
     void reset();

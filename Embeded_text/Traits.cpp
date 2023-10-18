@@ -1,6 +1,8 @@
 #include "Traits.hpp"
 
 /*  TRAITS_CSV formatting!!!!
+    ORDER DOES NOT MATTER!
+
     Example Trait: Challenger
     First type the name of the trait and end with a newline
     Second: type all the tiers of the trait separated with a ',' and ending with a newline

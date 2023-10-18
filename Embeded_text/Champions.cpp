@@ -3,6 +3,8 @@
 /*  CHAMPION_CSV formatting!!!!
     separate each item by a ',' and end with a newline
     Name,cost,traits
+    Note: ORDER MATTERS!!!!
+    put the champions with the most traits and most "favoured" by the program to get the fastest computations
 */
 
 const char* CHAMPIONS_CSV = R"csv(Swain,2,Noxus,Strategist,Sorcerer

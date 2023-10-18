@@ -595,6 +595,18 @@ int tft_database::get_trait_input(){
     return i_input;
 }
 
+//calculates a theoretical value for BLANK_SCORE
+float tft_database::average_marginal_increase(){
+    float total_increase = 0;
+    for(int i = 0; i < P_champs_in_set; i++){
+        for(int j = 0; j < (int)champion_root[i]->traits.size(); j++){
+            total_increase += champion_root[i]->traits[j]->tier_values[1];
+        }
+    }
+    return total_increase / P_champs_in_set;
+}
+
+
 
 
 // uses private methods and variables to neatly return the answer (public)

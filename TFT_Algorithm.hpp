@@ -17,7 +17,8 @@ using namespace std;
 #define HASHED_BOARDS "Saved_boards.txt"
 
 /*
-    MAX_INCREASE should always be the highest marginal increase any champ can contribute to the board
+    MAX_INCREASE should always be the highest marginal increase of any champion, However, you can get away with lowering it
+    to the 3ird highest if you put the first and second highest in the first 2 slots CHAMPIONS_CSV
 
     BLANK_SCORE is one of the most important variables, it should be initialized between 0 and the
     maximum score increase from any given champion being added
@@ -30,16 +31,14 @@ using namespace std;
     when BLANK_SCORE == MAX_INCREASE you have THE best possible boards
     but you sacrifice exponentially LARGE COMPUTING TIME
     try to make BLANK_SCORE >= AVERAGE_MARGINAL_INCREASE_OF_A_CHAMPION
-    ex: take swain to be the average who has 3 traits: (Noxus 3) (Strategist 2) (Sorcerer 2) and set the average to around 6
-    There are champs in this set who have only 2 traits, so I Imagine the average to be closer to 5.
+    Update: I have made a function in the class called "average_marginal_increase() which returns the average for the set"
     NOTE: setting BLANK_SCORE to exactly the average does NOT guarentee perfect boards
     NOTE 2: the champions that are most favoured and that have the largest individual increases (3 trait champs)
     should be at the top of CHAMPIONS_CSV as they will make the program faster and produce better solutions.
                 
 
-
 */
-#define BLANK_SCORE 6
+#define BLANK_SCORE 5
 #define MAX_INCREASE 8
 // **************************************************
 
@@ -133,6 +132,7 @@ class tft_database {
     string champ_i_to_s(int value){ return champion_root[value]->name; }
     string trait_i_to_s(int value){ return trait_root[value]->name; }
     void print_custom_settings();
+    float average_marginal_increase();
 };
 
 

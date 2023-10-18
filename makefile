@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++11 -static
+CXXFLAGS = -Wall -std=c++11 -static -static-libgcc -static-libstdc++
 TARGET = "TFT Board Solver"
 EMBEDED_FOLDER = Embeded_text
 

@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -std=c++11
 TARGET = "TFT Board Solver"
 OBJ_FILES = main.o \
-            database.o \
+            TFT_Algorithm.o \
             Embeded_text/Champions.o \
             Embeded_text/Traits.o \
 			Embeded_text/Prompts.o \

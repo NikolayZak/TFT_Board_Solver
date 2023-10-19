@@ -343,7 +343,7 @@ void tft_database::compute_boards(vector<int> current_board){
 }
 
 void tft_database::default_cost_restriction(){
-    if(P_max_size > 6){
+    if(P_max_size > (int)level_chance.size()){
         P_cost_limitation = 5;
         return;
     }

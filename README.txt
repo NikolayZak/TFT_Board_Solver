@@ -13,9 +13,9 @@ out of easy access to the datastructure.
 
 // Time Complexity
 let n be the number of champions on each board; let x be the number of champions in the set
-Each board is computed in O(log(x)) as we constuct them recursively. The number of possible boards is O(x choose n) there are optimizations that prune boards that are doomed to fail to save computation time.
+Each board is computed in O(1) as we constuct them recursively. The number of possible boards is O(x choose n) there are optimizations that prune boards that are doomed to fail to save computation time.
 
-The worst case senario is O(log(x)*(x choose n))
+The worst case senario is O(x choose n)
 
 // Interesting Outcomes
 It turns out that spamming 9 noxus or 8 void is almost never the most efficient use of traits!

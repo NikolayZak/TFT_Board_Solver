@@ -5,8 +5,11 @@ Current Set: 9.5
 // Overview
 Includes methods for adding champions, emblems/hearts, printing settings, clearing settings, as well as limiting the cost or keeping its default probabilities.
 (uses the board size as your current level and if a tier is possible those cost units are allowed)
-
 This program is easily modifiable for future sets. Best optimized when the most "favoured" champions are put at the top of the lists in the embeded text folders.
+
+The main class is very overfilled with functions that should be in their own class cpps, however I just squished them in for ease of programming main and avoided using void* as I didn't know it existed.
+I may create a "client" version of the code with the barebones for manipulating the database and search, but this main branche will contain all of the auxillary functions that I use to make the most
+out of easy access to the datastructure.
 
 // Time Complexity
 let n be the number of champions on each board; let x be the number of champions in the set

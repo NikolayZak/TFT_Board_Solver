@@ -10,9 +10,9 @@ This program is easily modifiable for future sets. Best optimized when the most 
 
 // Time Complexity
 let n be the number of champions on each board; let x be the number of champions in the set
-Each board is computed in O(log(n)) as we constuct them recursively. The number of possible boards is O(x choose n) there are optimizations that prune boards that are doomed to fail to save computation time.
+Each board is computed in O(log(x)) as we constuct them recursively. The number of possible boards is O(x choose n) there are optimizations that prune boards that are doomed to fail to save computation time.
 
-The worst case senario is O(logx(n)*(x choose n))
+The worst case senario is O(log(x)*(x choose n))
 
 Because of this, I use methods that will almost never compute 6 or more in 1 trait in exchange for signifigantly faster compution time. It also turns out that
 the way this TFT set is designed these boards are 100% of the time the most efficient use of traits since there are no traits that only reap benifits after fielding

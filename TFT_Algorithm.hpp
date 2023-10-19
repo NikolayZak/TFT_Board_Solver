@@ -38,8 +38,8 @@ using namespace std;
                 
 
 */
-#define BLANK_SCORE 5
-#define MAX_INCREASE 8
+#define BLANK_SCORE 6
+#define MAX_INCREASE 7
 // **************************************************
 
 //database structures

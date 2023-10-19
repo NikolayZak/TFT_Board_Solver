@@ -14,9 +14,9 @@ Each board is computed in O(log(x)) as we constuct them recursively. The number 
 
 The worst case senario is O(log(x)*(x choose n))
 
-Because of this, I use methods that will almost never compute 6 or more in 1 trait in exchange for signifigantly faster compution time. It also turns out that
-the way this TFT set is designed these boards are 100% of the time the most efficient use of traits since there are no traits that only reap benifits after fielding
-4 or more traits.
+// Interesting Outcomes
+It turns out that spamming 9 noxus or 8 void is almost never the most efficient use of traits!
+My program prunes these out very fast and unless you set the value of 9 noxus really high, raise the value of BLANK_SCORE and MAX_INCREASE accoardingly causing the program to load for ungodly amount of time,
+you won't ever see these outcomes.
 
-In a future set if they re-add something similar to the Ace trait, I may need to loosen the efficiency to improve searchspace or develope a designated search for
-those edge cases; as it would be a smaller subset of boards.
+In the future I plan on adding an edge case detector which will add these anomalies to the computed boards, if the user ups the value of these rare stacked traits.

@@ -58,7 +58,7 @@ struct champion_Node {
 };
 
 
-// **************************************************     Notes       *************************************************************
+// *************************************************     Notes       *************************************************************
 // It would be nice to sort the function names
 // uses automatic local hashing if the execution took longer then 6 seconds
 

@@ -3,19 +3,26 @@ Solves TFT boards with the most amount of synergies active.
 Current Set: 9.5
 
 // Overview
-Includes methods for adding champions, emblems/hearts, printing settings, clearing settings, as well as limiting the cost or keeping its default probabilities.
+Includes methods for adding champions, traits, printing settings, clearing settings, as well as limiting the cost or keeping its default restrictions.
 (uses the board size as your current level and if a tier is possible those cost units are allowed)
-This program is easily modifiable for future sets. Best optimized when the most "favoured" champions are put at the top of the lists in the embeded text folders.
+This program is easily modifiable for future sets. Best optimized when the most "favoured" champions (usually with the most traits) are at the top of "champs.csv".
 
-The main class is very overfilled with functions that should be in their own class cpps, however I just squished them in for ease of programming main and avoided using void* as I didn't know it existed.
-I may create a "client" version of the code with the barebones for manipulating the database and search, but this main branche will contain all of the auxillary functions that I use to make the most
-out of easy access to the datastructure.
+// Rebuild
+The Rebuilt version now contains multiple embeded classes that build off one-another and is much cleaner and easier to maintain/edit.
+Solver(Board(Database)) is the main class, where (Interface) and (Hasher) are independent classes that handle their names respectively.
 
 // Time Complexity
-let n be the number of champions on each board; let x be the number of champions in the set
-Each board is computed in O(1) as we constuct them recursively. The number of possible boards is O(x choose n) there are optimizations that prune boards that are doomed to fail to save computation time.
+let t` be the number of traits any given champ has
+let t`` be the number of tiers any given trait has
+let c be the number of champions in the set
+let c` be the number of champions on a given board
 
-The worst case senario is O(x choose n)
+The main solver has a worst case runtime of O((c choose c')*(t`*t``))
+(when Blank_Score == Max_Increase)
+Blank_Score is the score we give to empty slots while building the board, this way we can prune the boards before we even compute them.
+Max_Increase is the biggest score increase any 1 champion can offer.
+
+
 
 // Interesting Outcomes
 It turns out that spamming 9 noxus or 8 void is almost never the most efficient use of traits!

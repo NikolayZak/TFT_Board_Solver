@@ -1,13 +1,6 @@
-#include "Champions.hpp"
-
-/*  CHAMPION_CSV formatting!!!!
-    separate each item by a ',' and end with a newline
-    Name,cost,traits
-    Note: ORDER MATTERS!!!!
-    put the champions with the most traits and most "favoured" by the program to get the fastest computations
-*/
-
-const char* CHAMPIONS_CSV = R"csv(Cassiopeia,1,Noxus,Shurima,Invoker
+Level Restriction
+1,1,2,3,4,4,5
+Cassiopeia,1,Noxus,Shurima,Invoker
 Aatrox,5,Darkin,Slayer,Juggernaut
 Naafiri,2,Darkin,Shurima,Challenger
 Swain,2,Noxus,Strategist,Sorcerer
@@ -66,4 +59,3 @@ Sion,5,Noxus,Bruiser
 Sona,3,Demacia,Multicaster
 Vi,2,Piltover,Bruiser
 Ryze,5,Wanderer,Invoker
-)csv";

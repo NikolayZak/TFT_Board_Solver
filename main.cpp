@@ -1,100 +1,93 @@
-// TFT Board Solver
-// Nikolay Zakirov
-// 2023-07-15
-#include "TFT_Algorithm.hpp"
-
-
-int get_int_input(int lower, int upper) {
-    int input = -1;
-    bool input_valid = false;
-
-    while (!input_valid) {
-        cout << "Option: ";
-        cin >> input;
-        if (input < lower || input > upper) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << separator;
-            continue;
-        }
-        input_valid = true;
-    }
-
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << separator;
-    return input;
-}
-
+#include "Solver.hpp"
+#include "Hasher.hpp"
+#include "Interface.hpp"
 
 
 int main(){
-    tft_database db;
-    string output;
-    bool cost_restriction = true;
-    int choice, board_size, tmp, cost;
+    // initialization
+    int size, cost;
+    Input I;
+    vector<string> champions_added, traits_added;
+    Solver S("traits.csv", "champs.csv");
+    Hasher H("saved_boards.txt");
+    int champs_in_set = S.Get_All_Champions().size();
+    int traits_in_set = S.Get_All_Traits().size();
+    vector<string> all_champions = S.Get_All_Champions();
+    vector<string> all_traits = S.Get_All_Traits();
     bool loop = true;
+    int choice;
 
+
+
+    // main loop
     cout << separator << welcome;
     while(loop){
-        cout << separator << main_options;
-        choice = get_int_input(1, 7);
+        cout << separator;
+        choice = Get_Input(1, 7, main_options);
         switch (choice){
         case 1: //compute board
-            cout << "What is the board size?\n";
-            board_size = get_int_input(1 + db.board_size(), 15 + db.board_size());
-            db.set_max_size(board_size);
-            if(cost_restriction){
-                db.default_cost_restriction();
+            size = Get_Input(S.Champions_Added().size() + 1, champs_in_set - S.Champions_Added().size(), size_prompt);
+            H.Configure(S.Cost_Restriction(), S.Champions_Added(), S.Traits_Added(), size);
+            if(H.Check_Hashed()){
+                Print_Boards(S.Uncompress_Champions(H.Fetch()));
+            }else{
+                S.Compute_Optimal_Boards(size);
+                Print_Boards(S.Optimal_Boards());
+                cout << separator << "Execution Time: " << S.Runtime() << " Seconds\n";
+                if(S.Runtime() > 5){
+                    H.Hash(S.Compressed_Optimal_Boards());
+                }
             }
-            cout << db.return_optimal_boards();
             break;
 
         case 2: //add champion
-            cout << "Type the name or number of the champ you want to add! (enter 0 to cancel)\n";
-            tmp = db.get_champ_input();
-            if(tmp != -1){
-                db.feild_champion(tmp);
-                cout << db.champ_i_to_s(tmp) << " added\n";
+            Print_Elements(all_champions);
+            I = Get_Input(0, champs_in_set, champions_prompt, all_champions);
+            if(I.Is_Int){
+                if(I.name != 0){
+                    S.Add_Champion(I.name - 1);
+                    cout << S.Uncompress_Champions(I.name - 1) << " Added\n";
+                }else{
+                    cout << "Canceled\n";
+                }
             }else{
-                cout << "Canceled\n";
+                I.name = S.Compress_Champions(I.misspelled);
+                S.Add_Champion(I.name);
+                cout << S.Uncompress_Champions(I.name) << " Added\n";
             }
             break;
 
-        case 3: //add emblem
-            cout << "Type the name or number of the trait you want to add! (enter 0 to cancel)\n";
-            tmp = db.get_trait_input();
-            if(tmp != -1){
-                db.feild_trait(tmp);
-                cout << db.trait_i_to_s(tmp) << " added\n";
+        case 3: //add trait
+            Print_Elements(all_traits);
+            I = Get_Input(0, traits_in_set, traits_prompt, all_traits);
+            if(I.Is_Int){
+                if(I.name != 0){
+                    S.Add_Trait(I.name - 1);
+                    cout << S.Uncompress_Traits(I.name - 1) << " Added\n";
+                }else{
+                    cout << "Canceled\n";
+                }
             }else{
-                cout << "Canceled\n";
+                I.name = S.Compress_Traits(I.misspelled);
+                S.Add_Trait(I.name);
+                cout << S.Uncompress_Traits(I.name) << " Added\n";
             }
             break;
         case 4: //clear board
-            db.reset();
+            S.Reset();
             cout << "Board Reset\n";
             break;
         
         case 5: //set cost limitation
-            cout << "What is the cost restriction? 1-5 (enter 0 for default probabilities)\n";
-            cost = get_int_input(0,5);
-            if(cost == 0){
-                cost_restriction = true;
-            }else{
-                cost_restriction = false;
-                db.cost_restriction(cost);
-            }
+            cost = Get_Input(0, std::numeric_limits<int>::max(), cost_prompt);
+            S.Cost_Restriction(cost);
             cout << "Cost restriction changed\n";
             break;
 
         case 6: //print custom settings
-            db.print_custom_settings();
-            if(cost_restriction){
-                cout << "Default" << endl;
-            }else{
-                cout << cost << endl;
-            }
+            champions_added = S.Uncompress_Champions(S.Champions_Added());
+            traits_added = S.Uncompress_Traits(S.Traits_Added());
+            Print_Settings(champions_added, traits_added, S.Cost_Restriction());
             break;
         
         case 7: //exits
@@ -106,5 +99,11 @@ int main(){
             break;
         }
     }
+
+    // clean up
+    champions_added.clear();
+    traits_added.clear();
+    all_champions.clear();
+    all_traits.clear();
     return 0;
 }

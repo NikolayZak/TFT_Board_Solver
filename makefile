@@ -3,10 +3,12 @@ CXXFLAGS = -Wall -std=c++11
 TARGET = "TFT Board Solver"
 EMBEDED_FOLDER = Embeded_text
 
-OBJ_FILES = $(EMBEDED_FOLDER)/Champions.o \
-            $(EMBEDED_FOLDER)/Traits.o \
-            $(EMBEDED_FOLDER)/Prompts.o \
-            TFT_Algorithm.o \
+OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
+			Database.o \
+			Board.o \
+			Solver.o \
+			Hasher.o \
+			Interface.o \
             main.o \
             $(EMBEDED_FOLDER)/TFT_Icon.o
 

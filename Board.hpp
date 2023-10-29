@@ -51,6 +51,8 @@ class Board{
     vector<string> Get_Traits();
     void Set_Cost_Restriction(const int &cost);
     vector<int> Level_Restriction();
+    int Compress_Champion(const string &champion);
+    int Compress_Trait(const string &trait);
 
 };
 #endif

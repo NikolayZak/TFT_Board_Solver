@@ -41,9 +41,13 @@ class Solver{
     vector<vector<int>> Compressed_Optimal_Boards();
     vector<string> Get_All_Champions();
     vector<string> Get_All_Traits();
-    vector<vector<string>> Uncompress_Boards(const vector<vector<int>> &boards);
-    vector<string> Uncompress_Board(const vector<int> &board);
+    vector<vector<string>> Uncompress_Champions(const vector<vector<int>> &boards);
+    vector<string> Uncompress_Champions(const vector<int> &board);
+    string Uncompress_Champions(const int &champion);
     vector<string> Uncompress_Traits(const vector<int> &traits);
+    string Uncompress_Traits(const int &trait);
+    int Compress_Traits(const string &trait);
+    int Compress_Champions(const string &champion);
     void Add_Champion(const int &int_champion);
     void Add_Trait(const int &int_trait);
     void Max_Increase(const int &value);
@@ -52,8 +56,6 @@ class Solver{
     int Cost_Restriction(); // getter
     vector<int> Champions_Added();
     vector<int> Traits_Added();
-    string Champion_To_String(const int &champion);
-    string Trait_To_String(const int &trait);
     void Reset();
     float Runtime();
 

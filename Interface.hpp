@@ -17,6 +17,7 @@
 #include <sstream>
 #include <limits>
 #include <iomanip>
+#include <algorithm>
 #include "Embeded_text/Prompts.hpp"
 
 using std::cout;
@@ -27,10 +28,18 @@ using std::cin;
 using std::left;
 using std::setw;
 
+// return type for input
+struct Input{
+    bool Is_Int;
+    int name;
+    string misspelled;
+};
+
 
 
 // Independante functions
 int Get_Input(const int &lower, const int &higher, const string &prompts);
+Input Get_Input(const int &lower, const int &higher, const string &prompts, const vector<string> &data);
 void Print_Boards(const vector<vector<string>> &Boards);
 void Print_Elements(const vector<string> &elements);
 void Print_Settings(const vector<string> &champions_added, const vector<string> &traits_added, const int &size);

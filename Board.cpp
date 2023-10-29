@@ -22,17 +22,6 @@ Board::~Board(){
     current_board.clear();
 }
 
-/*     Legacy
-// gets the current board   O(c`log(c`))
-vector<string> Board::Get(){
-    vector<string> current;
-    for(size_t i = 0; i < current_board.size(); i++){
-        current.push_back(db->all_champions[current_board[i]]->name);
-    }
-    sort(current.begin(), current.end());
-    return current;
-}
-*/
 
 // gets the compressed current board   O(1)
 vector<int> Board::Get_Compressed(){
@@ -202,33 +191,6 @@ int Board::Traits_In_Set(){
     return db->traits_in_set;
 }
 
-/*         Using the first tier seems more accurate
-Legacy code
-//calculates the average trait tier increase   O(t``)
-float Board::Average_Trait_Tier_Increase(Trait* current){
-    float total = 0;
-    float difference;
-    for(int i = 1; i < (int)current->tier_values.size(); i++){
-        difference = current->tier_values[i] - current->tier_values[i-1];
-        total += difference;
-    }
-    return total / (float)current->tier_values.size();
-}
-
-// calculates the largest increase of a trait   O(t``)
-int Board::Max_Trait_Tier_Increase(Trait* current){
-    int highscore = 0;
-    int difference;
-    for(int i = 1; i < (int)current->tier_values.size(); i++){
-        difference = current->tier_values[i] - current->tier_values[i-1];
-        if(difference > highscore){
-            highscore = difference;
-        }
-    }
-    return highscore;
-}
-*/
-
 // calculates the average score increase of the first tier   O(c*t`)
 float Board::Average_Score_Increase(){
     float total_increase = 0;
@@ -301,4 +263,28 @@ void Board::Set_Cost_Restriction(const int &cost){
 // ropes the level restriction vector through   O(1)
 vector<int> Board::Level_Restriction(){
     return db->level_restriction;
+}
+
+// compresses a champion   O(n)
+int Board::Compress_Champion(const string &champion){
+    int counter = 0;
+    for(const auto &champ : db->all_champions){
+        if(champ->name == champion){
+            return counter;
+        }
+        counter++;
+    }
+    return counter;
+}
+
+// compresses a trait   O(n)
+int Board::Compress_Trait(const string &traits){
+    int counter = 0;
+    for(const auto &trait : db->all_traits){
+        if(trait->name == traits){
+            return counter;
+        }
+        counter++;
+    }
+    return counter;
 }

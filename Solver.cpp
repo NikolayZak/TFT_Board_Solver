@@ -158,7 +158,7 @@ vector<vector<string>> Solver::Optimal_Boards(){
 }
 
 // unzips a compressed vector of boards   O(n^2)
-vector<vector<string>> Solver::Uncompress_Boards(const vector<vector<int>> &boards){
+vector<vector<string>> Solver::Uncompress_Champions(const vector<vector<int>> &boards){
     vector<vector<string>> uncompressed;
     for(const auto &board : boards){
         uncompressed.push_back(B->Uncompress_Champions(board));
@@ -167,7 +167,7 @@ vector<vector<string>> Solver::Uncompress_Boards(const vector<vector<int>> &boar
 }
 
 // unzips a compressed board   O(n)
-vector<string> Solver::Uncompress_Board(const vector<int> &board){
+vector<string> Solver::Uncompress_Champions(const vector<int> &board){
     return B->Uncompress_Champions(board);
 }
 
@@ -249,11 +249,21 @@ float Solver::Runtime(){
 }
 
 // returns the string of the champion
-string Solver::Champion_To_String(const int &champion){
+string Solver::Uncompress_Champions(const int &champion){
     return B->Uncompress_Champion(champion);
 }
 
 // returns the string of the trait
-string Solver::Trait_To_String(const int &trait){
+string Solver::Uncompress_Traits(const int &trait){
     return B->Uncompress_Trait(trait);
+}
+
+//returns the compressed champion
+int Solver::Compress_Champions(const string &champion){
+    return B->Compress_Champion(champion);
+}
+
+//returns the compressed trait
+int Solver::Compress_Traits(const string &trait){
+    return B->Compress_Trait(trait);
 }

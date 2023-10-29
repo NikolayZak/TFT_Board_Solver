@@ -1,0 +1,63 @@
+/*
+    Author: Nikolay Zakirov
+    Email: nikolayzakirov31@gmail.com
+    Date Created: 2023-10-26
+    Last Modified: 2023-10-27
+
+    Description: Solver.hpp
+    Algorithm using tft Board methods to calculate the optimal tft board
+*/
+#ifndef SOLVER
+#define SOLVER
+// Dependencies
+#include "Board.hpp"
+#include <chrono>
+
+class Solver{
+    private:
+    // variables
+    Board* B;
+    vector<vector<int>> optimal_boards;
+    vector<int> champions_required;
+    vector<int> traits_required;
+    int highscore;
+    int target_size;
+    int max_increase;
+    float blank_score;
+    int cost_restriction;
+    float runtime;
+
+
+    void Solve_Boards_Rec();
+    bool check_vec(const vector<int> &vec, const int &item);
+    void Private_Cost_Restriction();
+
+    public:
+    // functions
+    Solver(const string &traits_file, const string &champions_file);
+    ~Solver();
+    void Compute_Optimal_Boards(const int &size);
+    vector<vector<string>> Optimal_Boards();
+    vector<vector<int>> Compressed_Optimal_Boards();
+    vector<string> Get_All_Champions();
+    vector<string> Get_All_Traits();
+    vector<vector<string>> Uncompress_Boards(const vector<vector<int>> &boards);
+    vector<string> Uncompress_Board(const vector<int> &board);
+    vector<string> Uncompress_Traits(const vector<int> &traits);
+    void Add_Champion(const int &int_champion);
+    void Add_Trait(const int &int_trait);
+    void Max_Increase(const int &value);
+    void Blank_Score(const float &value);
+    void Cost_Restriction(const int &value); // setter
+    int Cost_Restriction(); // getter
+    vector<int> Champions_Added();
+    vector<int> Traits_Added();
+    string Champion_To_String(const int &champion);
+    string Trait_To_String(const int &trait);
+    void Reset();
+    float Runtime();
+
+};
+
+
+#endif

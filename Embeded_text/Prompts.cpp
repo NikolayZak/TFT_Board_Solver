@@ -18,3 +18,11 @@ const char* separator = "=======================================================
 const char* goodbye = "Thank you for using the TFT Board Solver!\n";
 
 const char* welcome = "Welcome to the TFT Board Solver!\n";
+
+const char* size_prompt = "What is the board size?\n";
+
+const char* champions_prompt = "Type the name or the number of the champion (0 to cancel)\n";
+
+const char* traits_prompt = "Type the name of the number of the trait (0 to cancel)\n";
+
+const char* cost_prompt = "Type the cost restriction (0 for default)\n";

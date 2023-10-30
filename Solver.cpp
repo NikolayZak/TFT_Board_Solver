@@ -137,8 +137,8 @@ void Solver::Compute_Optimal_Boards(const int &size){
 
     // end time
     auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
-    runtime = static_cast<float>(duration.count());
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    runtime = static_cast<float>(duration.count()) / 1000;
 }
 
 // returns the raw solved boards   O(1)

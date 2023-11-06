@@ -36,28 +36,33 @@ class Solver{
     // functions
     Solver(const string &traits_file, const string &champions_file);
     ~Solver();
-    void Compute_Optimal_Boards(const int &size);
-    vector<vector<string>> Optimal_Boards();
-    vector<vector<int>> Compressed_Optimal_Boards();
-    vector<string> Get_All_Champions();
-    vector<string> Get_All_Traits();
-    vector<vector<string>> Uncompress_Champions(const vector<vector<int>> &boards);
-    vector<string> Uncompress_Champions(const vector<int> &board);
-    string Uncompress_Champions(const int &champion);
-    vector<string> Uncompress_Traits(const vector<int> &traits);
-    string Uncompress_Traits(const int &trait);
-    int Compress_Traits(const string &trait);
-    int Compress_Champions(const string &champion);
-    void Add_Champion(const int &int_champion);
-    void Add_Trait(const int &int_trait);
+
     void Max_Increase(const int &value);
     void Blank_Score(const float &value);
     void Cost_Restriction(const int &value); // setter
     int Cost_Restriction(); // getter
+    void Add_Champion(const int &int_champion);
+    void Add_Trait(const int &int_trait);
+    void Compute_Optimal_Boards(const int &size);
+    vector<string> Get_All_Champions();
+    vector<string> Get_All_Traits();
     vector<int> Champions_Added();
     vector<int> Traits_Added();
+    vector<vector<string>> Optimal_Boards();
+    vector<vector<int>> Compressed_Optimal_Boards();
     void Reset();
     float Runtime();
+
+    // compression and extraction
+    vector<vector<string>> Uncompress_Champions(const vector<vector<int>> &boards);
+    vector<string> Uncompress_Champions(const vector<int> &board);
+    string Uncompress_Champions(const int &champion);
+
+    vector<string> Uncompress_Traits(const vector<int> &traits);
+    string Uncompress_Traits(const int &trait);
+
+    int Compress_Traits(const string &trait);
+    int Compress_Champions(const string &champion);
 
 };
 

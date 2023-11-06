@@ -4,7 +4,7 @@ TARGET = "TFT Board Solver"
 EMBEDED_FOLDER = Embeded_text
 
 OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
-			Database.o \
+			Parser.o \
 			Board.o \
 			Solver.o \
 			Hasher.o \

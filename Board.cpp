@@ -24,7 +24,7 @@ Board::~Board(){
 
 
 // gets the compressed current board   O(1)
-vector<int> Board::Get_Compressed(){
+vector<int> Board::Get_Board(){
     return current_board;
 }
 
@@ -132,7 +132,7 @@ void Board::Unfield_Champion(){
 }
 
 // shadow unfields a champion
-void Board::Unfield_Champion(const int &int_champion){
+void Board::Shadow_Unfield_Champion(const int &int_champion){
     int counter, score, prev_score;
     for(auto &trait : db->all_champions[int_champion]->traits){
         counter = 0;
@@ -221,7 +221,7 @@ int Board::Maximum_Score_Increase(){
 }
 
 // returns a vector of all the champions   O(c)
-vector<string> Board::Get_Champions(){
+vector<string> Board::All_Champions(){
     vector<string> all_champs;
     for(const auto &champ : db->all_champions){
         all_champs.push_back(champ->name);
@@ -230,7 +230,7 @@ vector<string> Board::Get_Champions(){
 }
 
 // returns a vector of all the traits   O(t)
-vector<string> Board::Get_Traits(){
+vector<string> Board::All_Traits(){
     vector<string> all_traits;
     for(const auto &trait : db->all_traits){
         all_traits.push_back(trait->name);

@@ -142,13 +142,23 @@ Input Get_Input(const int &lower, const int &higher, const string &prompt, const
 // prints the custom settings
 void Print_Settings(const vector<string> &champions_added, const vector<string> &traits_added, const int &cost_restriction){
     cout << "CHAMPIONS ADDED: ";
-    for(auto& champ : champions_added){
-        cout << champ << " ";
+    if(champions_added.size() == 0){
+        cout << "NONE";
+    }else{
+        for(auto& champ : champions_added){
+            cout << champ << " ";
+        }
     }
+
     cout << endl << "EMBLEMS ADDED: ";
-    for(auto& trait : traits_added){
-        cout << trait << " ";
+    if(traits_added.size() == 0){
+        cout << "NONE";
+    }else{
+        for(auto& trait : traits_added){
+            cout << trait << " ";
+        }
     }
+    
     cout << endl << "COST LIMITATION: ";
     if(cost_restriction == 0){
         cout << "DEFAULT" << endl;

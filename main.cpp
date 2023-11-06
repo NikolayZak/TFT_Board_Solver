@@ -51,7 +51,7 @@ int main(){
                     S.Add_Champion(I.name - 1);
                     cout << S.Uncompress_Champions(I.name - 1) << " Added\n";
                 }else{
-                    cout << "Canceled\n";
+                    cout << "Cancelled\n";
                 }
             }else{
                 I.name = S.Compress_Champions(I.misspelled);
@@ -68,7 +68,7 @@ int main(){
                     S.Add_Trait(I.name - 1);
                     cout << S.Uncompress_Traits(I.name - 1) << " Added\n";
                 }else{
-                    cout << "Canceled\n";
+                    cout << "Cancelled\n";
                 }
             }else{
                 I.name = S.Compress_Traits(I.misspelled);

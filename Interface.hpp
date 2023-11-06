@@ -42,7 +42,7 @@ int Get_Input(const int &lower, const int &higher, const string &prompts);
 Input Get_Input(const int &lower, const int &higher, const string &prompts, const vector<string> &data);
 void Print_Boards(const vector<vector<string>> &Boards);
 void Print_Elements(const vector<string> &elements);
-void Print_Settings(const vector<string> &champions_added, const vector<string> &traits_added, const int &size);
+void Print_Settings(const vector<string> &champions_added, const vector<string> &traits_added, const int &cost_restriction);
 
 
 #endif

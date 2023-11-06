@@ -5,7 +5,7 @@
     Last Modified: 2023-10-28
 
     Description: Hasher.hpp
-    Uses a txt file to save calculated boards, if they take more then 5 seconds to compute
+    Handles hashing and retrieving of board configurations
 */
 #ifndef HASHER
 #define HASHER

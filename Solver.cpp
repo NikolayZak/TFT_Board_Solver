@@ -48,10 +48,10 @@ void Solver::Solve_Boards_Rec(){
         if(highscore < B->Score()){
             highscore = B->Score();
             optimal_boards.clear();
-            optimal_boards.push_back(B->Get_Compressed());
+            optimal_boards.push_back(B->Get_Board());
 
         }else if(highscore == B->Score()){
-            optimal_boards.push_back(B->Get_Compressed());
+            optimal_boards.push_back(B->Get_Board());
         }
         return;
     }
@@ -178,12 +178,12 @@ vector<string> Solver::Uncompress_Traits(const vector<int> &traits){
 
 // Returns a vector of all the champion names   O(c)
 vector<string> Solver::Get_All_Champions(){
-    return B->Get_Champions();
+    return B->All_Champions();
 }
 
 // Returns a vector of all the trait names   O(t)
 vector<string> Solver::Get_All_Traits(){
-    return B->Get_Traits();
+    return B->All_Traits();
 }
 
 // Uses a shadow add and keeps a local account   O(t'*t'')
@@ -221,7 +221,7 @@ void Solver::Reset(){
         B->Unfield_Trait(trait);
     }
     for(const auto &champ : champions_required){
-        B->Unfield_Champion(champ);
+        B->Shadow_Unfield_Champion(champ);
     }
     champions_required.clear();
     traits_required.clear();

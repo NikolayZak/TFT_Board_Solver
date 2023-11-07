@@ -130,10 +130,11 @@ int main(){
     // testing the deconstructor
     cout << "deconstructing" << endl;
     delete test_board;
+
     cout << "----- Board.hpp Successful -----" << endl;
 
     cout << "----- Testing Solver.hpp -----" << endl;
-    // code for checking
+    // test against solved boards and make sure it solves them
 
 
     cout << "----- All Tests Passed -----" << endl;

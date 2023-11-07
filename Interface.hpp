@@ -18,7 +18,7 @@
 #include <limits>
 #include <iomanip>
 #include <algorithm>
-#include "Embeded_text/Prompts.hpp"
+#include "embeded_text/Prompts.hpp"
 
 using std::cout;
 using std::endl;

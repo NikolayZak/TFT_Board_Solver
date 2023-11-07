@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Build And Test
 
 on:
   push:
@@ -13,11 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+
+    - name: Compile Test Driver
+      run: g++ -o test_driver test_driver.cpp
+
+    - name: Run Test Driver
+      run: ./test_driver

@@ -58,7 +58,7 @@ int main(){
         cout << endl;
     }
 
-    // check the deconstructor
+    // testing the deconstructor
     cout << "deconstructing" << endl;
     delete test_db;
 
@@ -74,44 +74,63 @@ int main(){
     /* wrapper methods that won't be tested:
     int Champs_In_Set();
     int Traits_In_Set();
-    vector<int> Level_Restriction();
-    */
-
-   // tbh too many functions to test thoroughly, and I know all of them work lmao
-
-   // testing deconstructor
-   delete test_board;
-
-   
-/*
-// methods
-    int Champs_In_Set();
-    int Traits_In_Set();
-    int Size();
     int Back();
-    int Score();
-    bool Field_Champion(const int &int_champion, const bool &synergy); // housekeeping
-    void Unfield_Champion(); // housekeeping
-    void Shadow_Field_Champion(const int &int_chamption); // shadow
-    void Shadow_Unfield_Champion(const int &int_champion); // shadow
-    void Field_Trait(const int &int_trait); // shadow
-    void Unfield_Trait(const int &int_trait); // shadow
-    float Average_Score_Increase();
-    int Maximum_Score_Increase();
-    void Set_Cost_Restriction(const int &cost);
     vector<string> All_Champions();
     vector<string> All_Traits();
     vector<int> Level_Restriction();
-    vector<int> Get_Board();
+    */
 
-    // compression and uncompression
-    vector<string> Uncompress_Champions(const vector<int> &compressed);
-    vector<string> Uncompress_Traits(const vector<int> &compressed);
-    string Uncompress_Champion(const int &champion);
-    string Uncompress_Trait(const int &trait);
-    int Compress_Champion(const string &champion);
-    int Compress_Trait(const string &trait);*/
+    cout << "Average score increase = " << test_board->Average_Score_Increase() << endl;
+    cout << "Maximum score increase = " << test_board->Maximum_Score_Increase() << endl;
 
+    cout << "Fielding 5 (Taric)" << endl;
+    if(test_board->Field_Champion(5, true)){
+        cerr << "Field with synergy failed" << endl;
+    }
+
+    if(test_board->Field_Champion(5, false)){
+        cout << "Board: ";
+        cout << test_board->Uncompress_Champion(test_board->Get_Board()[test_board->Size() - 1]) << endl;
+    }
+    cout << "Unfielding from last added" << endl;
+    test_board->Unfield_Champion();
+
+    cout << "Shadow fielding 2 (Naafiri)" << endl;
+    test_board->Shadow_Field_Champion(2);
+    cout << "Board Size (should be 0) = " << test_board->Size() << endl;
+
+    cout << "Testing Field with synergy" << endl;
+    if(test_board->Field_Champion(6, true)){
+        cout << "Success" << endl;
+        test_board->Unfield_Champion();
+    }else{
+        cerr << "Field with synergy failed" << endl;
+    }
+
+    cout << "Testing Shadow trait field" << endl;
+    test_board->Field_Trait(0);
+
+    cout << "Score (should be 2) = " << test_board->Score() << endl;
+
+    cout << "Testing shadow unfield" << endl;
+    test_board->Shadow_Unfield_Champion(2);
+    if(test_board->Field_Champion(6, true)){
+        cerr << "Shadow unfield failed" << endl;
+    }else{
+        cout << "Success" << endl;
+    }
+    cout << "Testing cost restriction" << endl;
+    test_board->Set_Cost_Restriction(4);
+    if(test_board->Field_Champion(1, false)){
+        cerr << "Cost Restriction Failed" << endl;
+    }else{
+        cout << "Cost Restriction works" << endl;
+    }
+
+    // testing the deconstructor
+    cout << "deconstructing" << endl;
+    delete test_board;
+    cout << "----- Board.hpp Successful -----" << endl;
 
 
     cout << "----- All Tests Passed -----" << endl;

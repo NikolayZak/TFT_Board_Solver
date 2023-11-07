@@ -132,6 +132,9 @@ int main(){
     delete test_board;
     cout << "----- Board.hpp Successful -----" << endl;
 
+    cout << "----- Testing Solver.hpp -----" << endl;
+    // code for checking
+
 
     cout << "----- All Tests Passed -----" << endl;
     return 0;

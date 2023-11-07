@@ -2,7 +2,8 @@ CXX = g++
 CXXFLAGS = -Wall -std=c++11
 TARGET = "TFT Board Solver"
 TEST_DRIVER = "test"
-EMBEDED_FOLDER = Embeded_text
+EMBEDED_FOLDER = embeded_text
+TEST_FOLDER = test_files
 
 OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
 			Parser.o \
@@ -19,7 +20,7 @@ TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
 			   Solver.o \
 			   Hasher.o \
 			   Interface.o \
-			   test_driver.o \
+			   $(TEST_FOLDER)/test_driver.o \
 			   $(EMBEDED_FOLDER)/TFT_Icon.o
 
 all: $(TARGET)
@@ -47,3 +48,4 @@ test_driver.o: test_driver.cpp
 clean:
 	del /Q $(TARGET).exe $(TEST_DRIVER).exe *.o
 	del /Q $(EMBEDED_FOLDER)\*.o
+	del /Q $(TEST_FOLDER)\*.o

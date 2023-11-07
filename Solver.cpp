@@ -154,6 +154,7 @@ vector<vector<string>> Solver::Optimal_Boards(){
     for(auto &board : optimal_boards){
         boards.push_back(B->Uncompress_Champions(board));
     }
+    sort(boards.begin(), boards.end());
     return boards;
 }
 
@@ -163,6 +164,7 @@ vector<vector<string>> Solver::Uncompress_Champions(const vector<vector<int>> &b
     for(const auto &board : boards){
         uncompressed.push_back(B->Uncompress_Champions(board));
     }
+    sort(uncompressed.begin(), uncompressed.end());
     return uncompressed;
 }
 

@@ -8,7 +8,7 @@ int main(){
     int size, cost;
     Input I;
     vector<string> champions_added, traits_added;
-    Solver S("traits.csv", "champs.csv");
+    Solver S("embeded_text/traits.csv", "embeded_text/champs.csv");
     //S.Blank_Score(8);  This Sets the solver to always produce the best results at the cost of time efficiency
     //S.Max_Increase(8);
 

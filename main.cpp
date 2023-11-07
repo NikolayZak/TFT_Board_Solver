@@ -13,8 +13,8 @@ int main(){
     //S.Max_Increase(8);
 
     Hasher H("saved_boards.txt");
-    int champs_in_set = S.Get_All_Champions().size();
-    int traits_in_set = S.Get_All_Traits().size();
+    int champs_in_set = S.Champions_In_Set();
+    int traits_in_set = S.Traits_In_Set();
     vector<string> all_champions = S.Get_All_Champions();
     vector<string> all_traits = S.Get_All_Traits();
     bool loop = true;

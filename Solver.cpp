@@ -34,7 +34,7 @@ Solver::~Solver(){
 void Solver::Solve_Boards_Rec(){
     //base case, empty board
     if(B->Size() == 0){
-        for(int i = 0; i < B->Champs_In_Set(); i++){
+        for(int i = 0; i < B->Champions_In_Set(); i++){
             if(check_vec(champions_required, i) && B->Field_Champion(i, false)){
                 Solve_Boards_Rec();
                 B->Unfield_Champion();
@@ -58,7 +58,7 @@ void Solver::Solve_Boards_Rec(){
 
     // case champion on board & needs to add a champ
     int counter = B->Back() + 1;
-    int max_index = B->Champs_In_Set() - (target_size - (int)champions_required.size() - B->Size());
+    int max_index = B->Champions_In_Set() - (target_size - (int)champions_required.size() - B->Size());
     while(counter <= max_index){
         if(check_vec(champions_required, counter)){ // check if the champ is already added
 
@@ -158,7 +158,7 @@ vector<vector<string>> Solver::Optimal_Boards(){
     return boards;
 }
 
-// unzips a compressed vector of boards   O(n^2)
+// unzips a compressed vector of boards   O(c'*b)
 vector<vector<string>> Solver::Uncompress_Champions(const vector<vector<int>> &boards){
     vector<vector<string>> uncompressed;
     for(const auto &board : boards){
@@ -168,12 +168,12 @@ vector<vector<string>> Solver::Uncompress_Champions(const vector<vector<int>> &b
     return uncompressed;
 }
 
-// unzips a compressed board   O(n)
+// unzips a compressed board   O(c')
 vector<string> Solver::Uncompress_Champions(const vector<int> &board){
     return B->Uncompress_Champions(board);
 }
 
-// unzips a compressed vector of traits   O(n)
+// unzips a compressed vector of traits   O(t')
 vector<string> Solver::Uncompress_Traits(const vector<int> &traits){
     return B->Uncompress_Traits(traits);
 }
@@ -217,7 +217,7 @@ void Solver::Cost_Restriction(const int &cost){
     cost_restriction = cost;
 }
 
-// resets the solver's cost restrictions, traits and champions added O(1)
+// resets the solver's cost restrictions, traits and champions added   O(1)
 void Solver::Reset(){
     for(const auto &trait : traits_required){
         B->Unfield_Trait(trait);
@@ -230,42 +230,52 @@ void Solver::Reset(){
     cost_restriction = 0;
 }
 
-// returns the current cost restriction
+// returns the current cost restriction   O(1)
 int Solver::Cost_Restriction(){
     return cost_restriction;
 }
 
-// returns the Champions added
+// returns the Champions added   O(1)
 vector<int> Solver::Champions_Added(){
     return champions_required;
 }
 
-// returns the traits added
+// returns the traits added   O(1)
 vector<int> Solver::Traits_Added(){
     return traits_required;
 }
 
-// returns the runtime of the solver
+// returns the runtime of the solver   O(1)
 float Solver::Runtime(){
     return runtime;
 }
 
-// returns the string of the champion
+// returns the string of the champion   O(c')
 string Solver::Uncompress_Champions(const int &champion){
     return B->Uncompress_Champion(champion);
 }
 
-// returns the string of the trait
+// returns the string of the trait   O(t')
 string Solver::Uncompress_Traits(const int &trait){
     return B->Uncompress_Trait(trait);
 }
 
-//returns the compressed champion
+//returns the compressed champion   O(c')
 int Solver::Compress_Champions(const string &champion){
     return B->Compress_Champion(champion);
 }
 
-//returns the compressed trait
+//returns the compressed trait   O(t')
 int Solver::Compress_Traits(const string &trait){
     return B->Compress_Trait(trait);
+}
+
+// ropes through the value   O(1)
+int Solver::Traits_In_Set(){
+    return B->Traits_In_Set();
+}
+
+// ropes through the value   O(1)
+int Solver::Champions_In_Set(){
+    return B->Champions_In_Set();
 }

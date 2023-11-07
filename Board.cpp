@@ -182,7 +182,7 @@ void Board::Unfield_Trait(const int &int_trait){
 }
 
 // ropes the data through   O(1)
-int Board::Champs_In_Set(){
+int Board::Champions_In_Set(){
     return db->champions_in_set;
 }
 

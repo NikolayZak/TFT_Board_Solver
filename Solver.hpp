@@ -50,6 +50,8 @@ class Solver{
     vector<int> Traits_Added();
     vector<vector<string>> Optimal_Boards();
     vector<vector<int>> Compressed_Optimal_Boards();
+    int Champions_In_Set();
+    int Traits_In_Set();
     void Reset();
     float Runtime();
 

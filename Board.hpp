@@ -30,7 +30,7 @@ class Board{
     Board(const string &traits_file, const string &champions_file);
     ~Board();
     // methods
-    int Champs_In_Set();
+    int Champions_In_Set();
     int Traits_In_Set();
     int Size();
     int Back();

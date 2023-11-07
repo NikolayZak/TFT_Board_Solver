@@ -12,7 +12,7 @@ int main(){
     //S.Blank_Score(8);  This Sets the solver to always produce the best results at the cost of time efficiency
     //S.Max_Increase(8);
 
-    Hasher H("saved_boards.txt");
+    Hasher H("embeded_text/saved_boards.txt");
     int champs_in_set = S.Champions_In_Set();
     int traits_in_set = S.Traits_In_Set();
     vector<string> all_champions = S.Get_All_Champions();

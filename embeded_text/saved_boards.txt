@@ -1,0 +1,1 @@
+cost|board_size|champions_added|traits_added

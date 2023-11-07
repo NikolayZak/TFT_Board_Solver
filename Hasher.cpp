@@ -25,23 +25,32 @@ void Hasher::Configure(const int &cost_restriction, const vector<int> &required_
  void Hasher::Barcode(){
     string new_barcode;
 
+    // adds the cost limit and board size
     new_barcode.append(to_string(cost_limit));
     new_barcode.append("|");
     new_barcode.append(to_string(board_size));
     new_barcode.append("|");
 
 
-
-    for(const auto &digit : champions){
-        new_barcode.append(to_string(digit));
-        new_barcode.append(",");
+    // adds the champion ids
+    for(int i = 0; i < (int)champions.size(); i++){
+        if(i + 1 == (int)champions.size()){
+            new_barcode.append(to_string(champions[i]));
+        }else{
+            new_barcode.append(to_string(champions[i]));
+            new_barcode.append(",");
+        }
     }
-
     new_barcode.append("|");
 
-    for(const auto &digit : traits){
-        new_barcode.append(to_string(digit));
-        new_barcode.append(",");
+    // adds the trait ids
+    for(int i = 0; i < (int)traits.size(); i++){
+        if(i + 1 == (int)traits.size()){
+            new_barcode.append(to_string(traits[i]));
+        }else{
+            new_barcode.append(to_string(traits[i]));
+            new_barcode.append(",");
+        }
     }
     barcode = new_barcode;
 }

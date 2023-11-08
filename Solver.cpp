@@ -15,7 +15,7 @@ Solver::Solver(const string &traits_file, const string &champions_file){
     highscore = 0;
     target_size = 1;
     cost_restriction = 0;
-    blank_score = B->Average_Score_Increase() + 1;
+    blank_score = B->Average_Score_Increase() + 1; // adding 1 for accuracy as the champs are not sorted
     max_increase = B->Maximum_Score_Increase();
     //std::cout << "Blank_Score: " << blank_score << endl;
     //std::cout << "Max_increase: " << max_increase << endl;

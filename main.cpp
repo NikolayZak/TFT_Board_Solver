@@ -9,8 +9,8 @@ int main(){
     Input I;
     vector<string> champions_added, traits_added;
     Solver S("embeded_text/traits.csv", "embeded_text/champs.csv");
-    //S.Blank_Score(8);  This Sets the solver to always produce the best results at the cost of time efficiency
-    //S.Max_Increase(8);
+    //S.Blank_Score(8);  //This Sets the solver to always produce the best results at the cost of time efficiency
+    //S.Max_Increase(8); //This increases the max_increase
 
     Hasher H("embeded_text/saved_boards.txt");
     int champs_in_set = S.Champions_In_Set();

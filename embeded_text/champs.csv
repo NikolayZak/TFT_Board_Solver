@@ -1,61 +1,62 @@
 Level Restriction
 1,1,2,3,4,4,5
-Cassiopeia,1,Noxus,Shurima,Invoker
-Aatrox,5,Darkin,Slayer,Juggernaut
-Naafiri,2,Darkin,Shurima,Challenger
-Swain,2,Noxus,Strategist,Sorcerer
-Shen,4,Ionia,Bastion,Invoker
-Taric,3,Targon,Bastion,Sorcerer
-Warwick,2,Zaun,Juggernaut,Challenger
-Ekko,3,Zaun,Piltover,Rogue
-Qiyana,2,Slayer,Ixtal,Rogue
-Graves,1,Bilgewater,Gunner,Rogue
-Rek'Sai,3,Void,Bruiser,Slayer
-Darius,3,Noxus,Juggernaut,Vanquisher
-Vel'Koz,3,Void,Multicaster,Sorcerer
-Nasus,4,Shurima,Juggernaut
-Soraka,2,Targon,Invoker
-Milio,1,Ixtal,Invoker
-Taliyah,2,Shurima,Multicaster
-Poppy,1,Demacia,Bastion
-Jinx,2,Zaun,Gunner
-Aphelios,4,Targon,Gunner
-Arhi,5,Ionia,Sorcerer
-Ashe,2,Freljord,Vanquisher
-Azir,4,Shurima,Strategist
-Bel'Veth,5,Empress,Void
-Fiora,4,Demacia,Challenger
-Gangplank,5,Bilgewater,Gunner,Reaver King
-Illaoi,1,Bilgewater,Bastion
-Miss Fortune,3,Bilgewater,Strategist
-Mordekaiser,4,Noxus,Slayer
-Nautilus,3,Bilgewater,Juggernaut
-Neeko,3,Ixtal,Bastion
-Nilah,4,Bilgewater,Vanquisher
-Quinn,3,Demacia,Slayer
-Silco,4,Zaun,Sorcerer
-Twisted Fate,2,Bilgewater,Multicaster,
-Xayah,4,Ionia,Vanquisher
-Cho'Gath,1,Void,Bruiser
-Galio,2,Demacia,Invoker
-Heimerdinger,5,Piltover,Technogenius
-Irelia,1,Ionia,Challenger
-Jarvan,4,Demacia,Strategist
-Jayce,3,Piltover,Gunner
-Jhin,1,Ionia,Vanquisher
-K'Sante,5,Shurima,Bastion
-Kai'Sa,4,Void,Challenger,
-Karma,3,Ionia,Invoker
-Kassadin,2,Void,Bastion
-Katarina,3,Noxus,Rogue
-Kayle,1,Demacia,Slayer
-Malzahar,1,Void,Sorcerer
-Orianna,1,Piltover,Sorcerer
-Renekton,1,Shurima,Bruiser
-Samira,1,Noxus,Challenger
-Sejuani,4,Freljord,Bruiser
-Sett,2,Ionia,Juggernaut
-Sion,5,Noxus,Bruiser
-Sona,3,Demacia,Multicaster
-Vi,2,Piltover,Bruiser
-Ryze,5,Wanderer,Invoker
+Ahri,4,K/DA,Spellweaver
+Akali K/DA,4,K/DA,Breakout,Executioner
+Akali True-DMG,4,True Damage,Breakout,Executioner
+Amumu,4,Emo,Guardian
+Annie,1,Emo,Spellweaver
+Aphelios,2,HEARTSTEEL,Rapidfire
+Bard,2,Jazz,Dazzler
+Blitzcrank,4,Disco,Sentinel
+Caitlyn,4,8-Bit,Rapidfire
+Corki,1,8-Bit,Big Shot
+Ekko,3,True Damage,Spellweaver,Sentinel
+Evelynn,1,K/DA,Crowd Diver
+Ezreal,4,HEARTSTEEL,Big Shot
+Garen,2,8-Bit,Sentinel
+Gnar,2,Pentakill,Superfan,Mosher
+Gragas,2,Disco,Spellweaver,Bruiser
+Illaoi,5,ILLBEATS,Bruiser
+Jax,2,EDM,Mosher
+Jhin,5,Maestro,Big Shot
+Jinx,1,Punk,Rapidfire
+Kai'Sa,2,K/DA,Big Shot
+Karthus,4,Pentakill,Executioner
+Katarina,2,Country,Crowd Diver
+Kayle,2,Pentakill,Edgelord
+Kayn,5,HEARTSTEEL,Wildcard,Edgelord
+Kennen,1,True Damage,Superfan,Guardian
+K'Sante,1,HEARTSTEEL,Sentinel
+Lillia,1,K/DA,Superfan,Sentinel
+Lucian,5,Jazz,Rapidfire
+Lulu,3,Hyperpop,Spellweaver
+Lux,3,EDM,Dazzler
+Miss Fortune,3,Jazz,Big Shot
+Mordekaiser,3,Pentakill,Sentinel
+Nami,1,Disco,Dazzler
+Neeko,3,K/DA,Superfan,Guardian
+Olaf,1,Pentakill,Bruiser
+Pantheon,2,Punk,Guardian
+Poppy,4,Emo,Mosher
+Qiyana,5,True Damage,Crowd Diver
+Riven,3,8-Bit,Edgelord
+Samira,3,Country,Executioner
+Senna,2,True Damage,Rapidfire
+Seraphine,2,K/DA,Spellweaver
+Sett,3,HEARTSTEEL,Bruiser,Mosher
+Sona,5,Mixmaster,Spellweaver
+Tahm Kench,1,Country,Bruiser
+Taric,1,Disco,Guardian
+Thresh,4,Country,Guardian
+Twisted Fate,4,Disco,Dazzler
+Twitch,2,Punk,Executioner
+Urgot,3,Country,Mosher
+Vex,3,Emo,Executioner
+Vi,1,Punk,Mosher
+Viego,4,Pentakill,Edgelord
+Yasuo,1,True Damage,Edgelord
+Yone,3,HEARTSTEEL,Edgelord,Crowd Diver
+Yorick,5,Pentakill,Mosher,Guardian
+Zac,4,EDM,Bruiser
+Zed,4,EDM,Crowd Diver
+Ziggs,5,Hyperpop,Dazzler

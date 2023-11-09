@@ -46,6 +46,6 @@ test_driver.o: test_driver.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	del /Q $(TARGET).exe $(TEST_DRIVER).exe *.o
-	del /Q $(EMBEDED_FOLDER)\*.o
-	del /Q $(TEST_FOLDER)\*.o
+	rm -f $(TARGET).exe $(TEST_DRIVER).exe *.o
+	rm -f $(EMBEDED_FOLDER)/*.o
+	rm -f $(TEST_FOLDER)/*.o

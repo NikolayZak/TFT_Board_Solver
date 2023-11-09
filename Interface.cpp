@@ -90,15 +90,26 @@ int Calculate_Levenshtein_Distance(const string& str1, const string& str2) {
     return dp[len1][len2];
 }
 
+// Local Funciton
+// Lowercases a string   O(n)
+string toLowerCase(const std::string& input) {
+    string result;
+    for (char c : input) {
+        result += tolower(c);
+    }
+    return result;
+}
+
+
 // Local Function
 // Function to find the closest match in the dataset
-string Find_Closest_Match(const string& misspelled, const vector<string>& names) {
+string Find_Closest_Match(const string &misspelled, const vector<string> &names) {
     int minDistance = 10000;
     string closestMatch;
 
-    for (const string& current : names) {
-        int distance = Calculate_Levenshtein_Distance(misspelled, current);
-        if (distance < minDistance) {
+    for(const string &current : names) {
+        int distance = Calculate_Levenshtein_Distance(toLowerCase(misspelled), toLowerCase(current));
+        if(distance < minDistance) {
             minDistance = distance;
             closestMatch = current;
         }

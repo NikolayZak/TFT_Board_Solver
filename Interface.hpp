@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cctype>
 #include <sstream>
 #include <limits>
 #include <iomanip>
@@ -27,6 +28,7 @@ using std::string;
 using std::cin;
 using std::left;
 using std::setw;
+using std::tolower;
 
 // return type for input
 struct Input{

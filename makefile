@@ -1,7 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++11 -I"C:/msys64/mingw64/include/opencv4"
-LDFLAGS = -L"C:/msys64/mingw64/lib"
-LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui
+CXXFLAGS = -Wall -std=c++11
 
 TARGET = "TFT Board Solver"
 TEST_DRIVER = "test"
@@ -29,7 +27,7 @@ TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
-	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJ_FILES) $(LIBS)
+	$(CXX) -o $(TARGET) $(OBJ_FILES)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -43,7 +41,7 @@ run: $(TARGET)
 test: $(TEST_DRIVER)
 
 $(TEST_DRIVER): $(TD_OBJ_FILES)
-	$(CXX) $(LDFLAGS) -o $(TEST_DRIVER) $(TD_OBJ_FILES) $(LIBS)
+	$(CXX) -o $(TEST_DRIVER) $(TD_OBJ_FILES)
 
 test_driver.o: test_driver.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

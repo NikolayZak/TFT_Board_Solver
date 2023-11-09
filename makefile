@@ -1,32 +1,35 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++11 -I"C:/msys64/mingw64/include/opencv4"
+LDFLAGS = -L"C:/msys64/mingw64/lib"
+LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui
+
 TARGET = "TFT Board Solver"
 TEST_DRIVER = "test"
 EMBEDED_FOLDER = embeded_text
 TEST_FOLDER = test_files
 
 OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
-			Parser.o \
-			Board.o \
-			Solver.o \
-			Hasher.o \
-			Interface.o \
+            Parser.o \
+            Board.o \
+            Solver.o \
+            Hasher.o \
+            Interface.o \
             main.o \
             $(EMBEDED_FOLDER)/TFT_Icon.o
 
 TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
-			   Parser.o \
-			   Board.o \
-			   Solver.o \
-			   Hasher.o \
-			   Interface.o \
-			   $(TEST_FOLDER)/test_driver.o \
-			   $(EMBEDED_FOLDER)/TFT_Icon.o
+               Parser.o \
+               Board.o \
+               Solver.o \
+               Hasher.o \
+               Interface.o \
+               $(TEST_FOLDER)/test_driver.o \
+               $(EMBEDED_FOLDER)/TFT_Icon.o
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
-	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJ_FILES)
+	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJ_FILES) $(LIBS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -40,7 +43,7 @@ run: $(TARGET)
 test: $(TEST_DRIVER)
 
 $(TEST_DRIVER): $(TD_OBJ_FILES)
-	$(CXX) $(LDFLAGS) -o $(TEST_DRIVER) $(TD_OBJ_FILES)
+	$(CXX) $(LDFLAGS) -o $(TEST_DRIVER) $(TD_OBJ_FILES) $(LIBS)
 
 test_driver.o: test_driver.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

@@ -10,3 +10,12 @@ Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &tra
 
     global_highscore = 0;
 }
+
+// Deconstructor
+Multithreaded_Solver::~Multithreaded_Solver(){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        delete Workspace[i];
+    }
+    compressed_global_optimal.clear();
+}
+

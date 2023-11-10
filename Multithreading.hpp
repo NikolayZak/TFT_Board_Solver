@@ -16,7 +16,20 @@
 #include <cmath>
 
 // Public Function
-void Multithreaded_Compute(const int &size, vector<Solver*> &solvers);
+class Multithreaded_Solver{
+    private:
+    vector<Solver*> Workspace;
+    vector<vector<int>> compressed_global_optimal;
+    int global_highscore;
+
+    public:
+    Multithreaded_Solver(const int &threads, const string &traits_file, const string &champions_file);
+    ~Multithreaded_Solver();
+
+    
+};
+
+
 
 
 

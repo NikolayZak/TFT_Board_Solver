@@ -12,6 +12,7 @@
 // Dependencies
 #include "Board.hpp"
 #include <chrono>
+using std::cout;
 
 class Solver{
     private:
@@ -27,9 +28,15 @@ class Solver{
     int cost_restriction;
     float runtime;
 
+    //subset solver
+    vector<int> subset_start;
+    vector<int> subset_end;
+
 
     void Solve_Boards_Rec();
-    bool check_vec(const vector<int> &vec, const int &item);
+    void Subset_Solve_Boards_Rec();
+    bool Check_Vec(const vector<int> &vec, const int &item);
+    bool Check_Subset(const vector<int> &v1, const vector<int> &v2);
     void Private_Cost_Restriction();
 
     public:
@@ -44,6 +51,7 @@ class Solver{
     void Add_Champion(const int &int_champion);
     void Add_Trait(const int &int_trait);
     void Compute_Optimal_Boards(const int &size);
+    void Subset_Optimal_Boards(const int &size, const vector<int> &start, const vector<int> &end);
     vector<string> Get_All_Champions();
     vector<string> Get_All_Traits();
     vector<int> Champions_Added();
@@ -54,6 +62,7 @@ class Solver{
     int Traits_In_Set();
     void Reset();
     float Runtime();
+    int Highscore();
 
     // compression and extraction
     vector<vector<string>> Uncompress_Champions(const vector<vector<int>> &boards);

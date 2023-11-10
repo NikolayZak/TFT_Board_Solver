@@ -35,7 +35,7 @@ void Solver::Solve_Boards_Rec(){
     //base case, empty board
     if(B->Size() == 0){
         for(int i = 0; i < B->Champions_In_Set(); i++){
-            if(check_vec(champions_required, i) && B->Field_Champion(i, false)){
+            if(Check_Vec(champions_required, i) && B->Field_Champion(i, false)){
                 Solve_Boards_Rec();
                 B->Unfield_Champion();
             }
@@ -60,7 +60,7 @@ void Solver::Solve_Boards_Rec(){
     int counter = B->Back() + 1;
     int max_index = B->Champions_In_Set() - (target_size - (int)champions_required.size() - B->Size());
     while(counter <= max_index){
-        if(check_vec(champions_required, counter)){ // check if the champ is already added
+        if(Check_Vec(champions_required, counter)){ // check if the champ is already added
 
             if(B->Size() + (int)champions_required.size() >= target_size - 2){ // checks if it's the last 2 champs
                 if(B->Field_Champion(counter, true)){ // checks for a required synergy
@@ -84,9 +84,90 @@ void Solver::Solve_Boards_Rec(){
     }
 }
 
+// Generates the optimal boards within a subset
+// EX: subset_start = {1,2,3,4}  subset_end = {2,3,4,5} computes the starting board until the ending board inclusively
+void Solver::Subset_Solve_Boards_Rec(){
+    //base case, empty board
+    if(B->Size() == 0){
+        for(int i = subset_start[0]; i <= subset_end[0]; i++){
+            if(Check_Vec(champions_required, i) && B->Field_Champion(i, false)){
+                Subset_Solve_Boards_Rec();
+                B->Unfield_Champion();
+            }
+        }
+        return;
+    }
+
+    // case final board size reached
+    if(B->Size() == target_size - (int)champions_required.size()){
+        if(highscore < B->Score()){
+            highscore = B->Score();
+            optimal_boards.clear();
+            optimal_boards.push_back(B->Get_Board());
+
+        }else if(highscore == B->Score()){
+            optimal_boards.push_back(B->Get_Board());
+        }
+        return;
+    }
+    
+    // case champion on board & needs to add a champ
+    int counter;
+    int max_index;
+    // Sets the loop values
+    if(Check_Subset(B->Get_Board(), subset_end)){
+        counter = subset_start[B->Size()];
+        max_index = subset_end[B->Size()];
+    }else{
+        counter = B->Back() + 1;
+        max_index = B->Champions_In_Set() - (target_size - (int)champions_required.size() - B->Size());
+    }
+
+    while(counter <= max_index){
+        if(Check_Vec(champions_required, counter)){ // check if the champ is already added
+
+            if(B->Size() + (int)champions_required.size() >= target_size - 2){ // checks if it's the last 2 champs
+                if(B->Field_Champion(counter, true)){ // checks for a required synergy
+                    // check if it's within a good score if(current_score + MAX_INCREASE * champs_remaining >= P_highscore)
+                    if(B->Score() + (max_increase * (target_size - (int)champions_required.size() - B->Size())) >= highscore){
+                        Subset_Solve_Boards_Rec();
+                    }
+                    B->Unfield_Champion();
+                }
+            }else{ // It's not the last 2 champs check if it's within a good scores
+                if(B->Field_Champion(counter, false)){
+                    // check if it's within a good score if(current_score + BLANK_SCORE * champs_remaining >= P_highscore)
+                    if(B->Score() + (blank_score * (target_size - (int)champions_required.size() - B->Size())) >= highscore){
+                        Subset_Solve_Boards_Rec();
+                    }
+                    B->Unfield_Champion();
+                }
+            }
+        }
+        counter++;
+    }
+}
+
+// compares the first vector against the second one and returns weather it's a subset of the other one
+bool Solver::Check_Subset(const vector<int> &v1, const vector<int> &v2){
+    // sets a max index
+    int max_index;
+    if(v1.size() > v2.size()){
+        max_index = v2.size();
+    }else{
+        max_index = v1.size();
+    }
+    // checks it's a subset
+    for(int i = 0; i < max_index; i++){
+        if(v1[i] != v2[i]){
+            return false;
+        }
+    }
+    return true;
+}
 
 // used to check if an item is in a vector   O(n)
-bool Solver::check_vec(const vector<int> &vec, const int &item){
+bool Solver::Check_Vec(const vector<int> &vec, const int &item){
     for(int i = 0; i < (int)vec.size(); i++){
         if(vec[i] == item){
             return false;
@@ -127,6 +208,36 @@ void Solver::Compute_Optimal_Boards(const int &size){
 
     // solve
     Solve_Boards_Rec();
+
+    // add in requisites if needed
+    for(auto &board : optimal_boards){
+        for(const auto &champ : champions_required){
+            board.push_back(champ);
+        }
+    }
+
+    // end time
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    runtime = static_cast<float>(duration.count()) / 1000;
+}
+
+// used to reset the variables for the recursive function   O((c choose c')*(t`*t``))
+// precondition: target size must be set
+void Solver::Subset_Optimal_Boards(const int &size, const vector<int> &start, const vector<int> &end){
+    // start timing
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    // clean up
+    target_size = size;
+    highscore = 0;
+    optimal_boards.clear();
+    subset_start = start;
+    subset_end = end;
+    Private_Cost_Restriction();
+
+    // solve
+    Subset_Solve_Boards_Rec();
 
     // add in requisites if needed
     for(auto &board : optimal_boards){
@@ -278,4 +389,9 @@ int Solver::Traits_In_Set(){
 // ropes through the value   O(1)
 int Solver::Champions_In_Set(){
     return B->Champions_In_Set();
+}
+
+// returns the highscore   O(1)
+int Solver::Highscore(){
+    return highscore;
 }

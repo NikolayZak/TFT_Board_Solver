@@ -1,9 +1,11 @@
 #include "Multithreading.hpp"
 
-// uses the copy constructor of solver to return a vector with x number of solvers
-vector<Solver*> Create_Thread_Space(const int &threads, Solver* main){
-
-}
-void Multithreaded_Compute(const int &size, vector<Solver*> &solvers){
+// Constructor
+Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &traits_file, const string &champions_file){
+    Solver* worker = new Solver(traits_file, champions_file);
+    Workspace.push_back(worker);
+    for(int i = 1; i < threads; i++){
+        Workspace.push_back(new Solver(*worker));
+    }
 
 }

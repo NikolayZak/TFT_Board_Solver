@@ -21,6 +21,16 @@ Solver::Solver(const string &traits_file, const string &champions_file){
     //std::cout << "Max_increase: " << max_increase << endl;
 }
 
+// copy constructor
+Solver::Solver(const Solver &a_solver){
+    B = new Board(*a_solver.B);
+    highscore = a_solver.highscore;
+    target_size = a_solver.target_size;
+    cost_restriction = a_solver.cost_restriction;
+    blank_score = a_solver.blank_score;
+    max_increase = a_solver.max_increase;
+}
+
 // deconstructor   O(t+c)
 Solver::~Solver(){
     delete B;

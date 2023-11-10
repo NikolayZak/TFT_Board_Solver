@@ -42,6 +42,7 @@ class Solver{
     public:
     // functions
     Solver(const string &traits_file, const string &champions_file);
+    Solver(const Solver &a_solver);
     ~Solver();
 
     void Max_Increase(const int &value);

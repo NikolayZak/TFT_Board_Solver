@@ -3,6 +3,8 @@
 #include "Interface.hpp"
 
 
+
+
 int main(){
     // initialization
     int size, cost;
@@ -110,3 +112,40 @@ int main(){
     all_traits.clear();
     return 0;
 }
+
+
+/*
+Example of multithreading
+
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <chrono>
+
+using namespace std;
+
+// The function you want to call
+void myFunction(int condition) {
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::cout << "Thread did task " << condition << std::endl;
+    // Your function's work goes here
+}
+
+int main() {
+    vector<int> initial_conditions = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    const int numTasks = 100;
+    vector<thread> threads;
+
+    for (int i = 0; i < numTasks; i++) {
+        threads.emplace_back(myFunction, initial_conditions[i%10]);
+    }
+
+    // Join all threads to wait for them to finish
+    for (std::thread &t : threads) {
+        t.join();
+        cout << "#";
+    }
+
+    return 0;
+}
+*/

@@ -57,6 +57,7 @@ Database::Database(const string &traits_file, const string &champions_file){
 Database::Database(const Database &a_database){
     traits_in_set = a_database.traits_in_set;
     champions_in_set = a_database.champions_in_set;
+    level_restriction = a_database.level_restriction;
 
 
     // make a deep copy of all the traits

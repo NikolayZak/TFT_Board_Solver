@@ -29,6 +29,13 @@ Solver::Solver(const Solver &a_solver){
     cost_restriction = a_solver.cost_restriction;
     blank_score = a_solver.blank_score;
     max_increase = a_solver.max_increase;
+    optimal_boards = a_solver.optimal_boards;
+    champions_required = a_solver.champions_required;
+    traits_required = a_solver.traits_required;
+    target_size = a_solver.target_size;
+    runtime = a_solver.runtime;
+    subset_start = a_solver.subset_start;
+    subset_end = a_solver.subset_end;
 }
 
 // deconstructor   O(t+c)

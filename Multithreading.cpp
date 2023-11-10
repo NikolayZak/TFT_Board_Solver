@@ -8,4 +8,5 @@ Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &tra
         Workspace.push_back(new Solver(*worker));
     }
 
+    global_highscore = 0;
 }

@@ -20,6 +20,7 @@ Board::Board(const Board &a_board){
     db = new Database(*a_board.db);
     board_score = a_board.board_score;
     cost_restriction = a_board.cost_restriction;
+    current_board = a_board.current_board;
 }
 
 // Deconstructor   O(t+c)

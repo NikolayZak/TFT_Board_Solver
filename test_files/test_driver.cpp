@@ -135,6 +135,20 @@ int main(){
 
     cout << "----- Testing Solver.hpp -----" << endl;
     // test against solved boards and make sure it solves them
+    // testing the copy constructor of solver
+    Solver* Test_Solver = new Solver(TRAIT_FILE, CHAMPION_FILE);
+    Solver* Test_Solver_2 = new Solver(*Test_Solver);
+    delete Test_Solver;
+
+
+    // testing subset solver
+    vector<int> start = {0,15,30,43};
+    vector<int> end = {0,15,30,43};
+    Test_Solver_2->Cost_Restriction(5);
+    Test_Solver_2->Subset_Optimal_Boards(4, start, end);
+    Print_Boards(Test_Solver_2->Optimal_Boards());
+
+
 
 
     cout << "----- All Tests Passed -----" << endl;

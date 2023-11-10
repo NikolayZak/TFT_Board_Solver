@@ -15,6 +15,13 @@ Board::Board(const string &traits_file, const string &champions_file){
     cost_restriction = db->level_restriction.back();
 }
 
+// Copy Constructor
+Board::Board(const Board &a_board){
+    db = new Database(*a_board.db);
+    board_score = a_board.board_score;
+    cost_restriction = a_board.cost_restriction;
+}
+
 // Deconstructor   O(t+c)
 Board::~Board(){
     delete db;

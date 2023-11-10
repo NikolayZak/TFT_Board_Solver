@@ -10,6 +10,7 @@ OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
             Parser.o \
             Board.o \
             Solver.o \
+            Multithreading.o \
             Hasher.o \
             Interface.o \
             main.o \
@@ -19,6 +20,7 @@ TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
                Parser.o \
                Board.o \
                Solver.o \
+               Multithreading.o \
                Hasher.o \
                Interface.o \
                $(TEST_FOLDER)/test_driver.o \

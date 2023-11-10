@@ -28,6 +28,7 @@ class Board{
     
     public:
     Board(const string &traits_file, const string &champions_file);
+    Board(const Board &a_board);
     ~Board();
     // methods
     int Champions_In_Set();

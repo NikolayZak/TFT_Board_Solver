@@ -16,6 +16,15 @@ Trait::Trait(const string &name, const vector<int> &tiers, const vector<int> &ti
     score = 0;
 }
 
+// copy constructor
+Trait::Trait(const Trait &a_trait){
+    name = a_trait.name;
+    tiers = a_trait.tiers;
+    tier_values = a_trait.tier_values;
+    fielded = a_trait.fielded;
+    score = a_trait.score;
+}
+
 // deconstructor
 Trait::~Trait(){
     // nothing to put here
@@ -29,6 +38,7 @@ Champion::Champion(const string &name, const int &cost, const vector<Trait*> &tr
     this->traits = traits;
 }
 
+
 // deconstructor  O(t`) 
 Champion::~Champion(){
     traits.clear();
@@ -41,6 +51,32 @@ Database::Database(const string &traits_file, const string &champions_file){
     Parse_Champions(champions_file);
     traits_in_set = (int)all_traits.size();
     champions_in_set = (int)all_champions.size();
+}
+
+// copy constructor
+Database::Database(const Database &a_database){
+    traits_in_set = a_database.traits_in_set;
+    champions_in_set = a_database.champions_in_set;
+
+
+    // make a deep copy of all the traits
+    for(int i = 0; i < traits_in_set; i++){
+        all_traits.push_back(new Trait(*a_database.all_traits[i]));
+    }
+
+    // make a deep copy of all the champions
+    Champion* new_champion;
+    vector<Trait*> new_traits;
+    for(int i = 0; i < champions_in_set; i++){
+        // push back the deep copies of traits
+        for(int j = 0; j < (int)a_database.all_champions[i]->traits.size(); j++){
+            new_traits.push_back(Find_Trait(a_database.all_champions[i]->traits[j]->name));
+        }
+        // make a deep copy of the champions with the pointers to their new deep copy traits
+        new_champion = new Champion(a_database.all_champions[i]->name, a_database.all_champions[i]->cost, new_traits);
+        all_champions.push_back(new_champion);
+        new_traits.clear();
+    }
 }
 
 // deconstructor   O(t+c)

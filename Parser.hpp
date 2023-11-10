@@ -56,6 +56,7 @@ class Trait{
     int score;
     int fielded;
     Trait(const string &name, const vector<int> &tiers, const vector<int> &tier_values);
+    Trait(const Trait &a_trait);
     ~Trait();
 };
 
@@ -88,6 +89,7 @@ class Database{
     
 
     Database(const string &traits_file, const string &champions_file);
+    Database(const Database &a_database);
     ~Database();
 
 };

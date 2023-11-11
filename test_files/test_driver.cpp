@@ -1,6 +1,7 @@
 #include "../Solver.hpp" // includes parser.hpp and board.hpp
 #include "../Hasher.hpp"
 #include "../Interface.hpp"
+#include "../Multithreading.hpp"
 
 #define CHAMPION_FILE "test_files/test_champs.csv"
 #define TRAIT_FILE "test_files/test_traits.csv"
@@ -148,8 +149,12 @@ int main(){
     Test_Solver_2->Subset_Optimal_Boards(4, start, end);
     Print_Boards(Test_Solver_2->Optimal_Boards());
 
+    
+    cout << "----- Testing Multithreading.hpp -----" << endl;
 
-
+    Multithreaded_Solver M(10, TRAIT_FILE, CHAMPION_FILE);
+    M.Solve(4);
+    
 
     cout << "----- All Tests Passed -----" << endl;
     return 0;

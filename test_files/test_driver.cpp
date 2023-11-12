@@ -146,15 +146,24 @@ int main(){
     vector<int> start = {0,1,2,3};
     vector<int> end = {7,57,58,59};
     Test_Solver_2->Cost_Restriction(5);
+    Test_Solver_2->Blank_Score(8);
     Test_Solver_2->Subset_Optimal_Boards(4, start, end);
     Print_Boards(Test_Solver_2->Optimal_Boards());
 
     
     cout << "----- Testing Multithreading.hpp -----" << endl;
     
-    Multithreaded_Solver M(4, TRAIT_FILE, CHAMPION_FILE);
-    M.Solve(9);
-    Print_Boards(M.Optimal_Boards());
+    Multithreaded_Solver M(17, *Test_Solver_2);
+    // testing time save
+    float total_runtime = 0;
+    for(int i = 1; i < 6; i++){
+        M.Solve(8);
+        total_runtime += M.Runtime();
+        cout << "Iteration #" << i << " Time: " << M.Runtime() << endl;
+    }
+    cout << "Average Runtime: " << total_runtime/5 << endl;
+    Test_Solver_2->Compute_Optimal_Boards(8);
+    cout << "Non-Threaded Time: " << Test_Solver_2->Runtime() << endl;
 
     cout << "----- All Tests Passed -----" << endl;
     return 0;

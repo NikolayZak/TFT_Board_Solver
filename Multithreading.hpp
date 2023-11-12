@@ -30,6 +30,7 @@ class Multithreaded_Solver{
     vector<vector<int>> end;
     int num_threads;
     int global_highscore;
+    float runtime;
 
     // private functions
     long long nCr(int n, int r);
@@ -43,8 +44,10 @@ class Multithreaded_Solver{
     Multithreaded_Solver(const int &threads, const string &traits_file, const string &champions_file);
     Multithreaded_Solver(const int &threads, const Solver &main);
     ~Multithreaded_Solver();
-    void Solve(const int &size);
 
+
+    float Runtime();
+    void Solve(const int &size);
     vector<vector<string>> Optimal_Boards();
     vector<vector<int>> Compressed_Optimal_Boards();
 };

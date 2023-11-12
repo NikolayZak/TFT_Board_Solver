@@ -111,6 +111,7 @@ void Multithreaded_Solver::Configure_Subsets(){
 
 // Solves the subsets and joins them together in the global optimal
 void Multithreaded_Solver::Solve(const int &size){
+    auto start_time = std::chrono::high_resolution_clock::now();
     board_size = size;
     global_highscore = -1;
     compressed_global_optimal.clear();
@@ -137,6 +138,11 @@ void Multithreaded_Solver::Solve(const int &size){
             compressed_global_optimal.insert(compressed_global_optimal.end(), Workspace[i]->Compressed_Optimal_Boards().begin(), Workspace[i]->Compressed_Optimal_Boards().end());
         }
     }
+
+    // end time
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    runtime = static_cast<float>(duration.count()) / 1000;
 }
 
 
@@ -150,39 +156,7 @@ vector<vector<string>> Multithreaded_Solver::Optimal_Boards(){
     return Workspace[0]->Uncompress_Champions(compressed_global_optimal);
 }
 
-
-/*
-Example of multithreading
-
-#include <iostream>
-#include <thread>
-#include <vector>
-#include <chrono>
-
-using namespace std;
-
-// The function you want to call
-void myFunction(int condition) {
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    std::cout << "Thread did task " << condition << std::endl;
-    // Your function's work goes here
+// returns the runtime;
+float Multithreaded_Solver::Runtime(){
+    return runtime;
 }
-
-int main() {
-    vector<int> initial_conditions = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    const int numTasks = 100;
-    vector<thread> threads;
-
-    for (int i = 0; i < numTasks; i++) {
-        threads.emplace_back(myFunction, initial_conditions[i%10]);
-    }
-
-    // Join all threads to wait for them to finish
-    for (std::thread &t : threads) {
-        t.join();
-        cout << "#";
-    }
-
-    return 0;
-}
-*/

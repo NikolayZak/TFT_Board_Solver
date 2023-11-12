@@ -153,7 +153,7 @@ int main(){
     
     cout << "----- Testing Multithreading.hpp -----" << endl;
     
-    Multithreaded_Solver M(17, *Test_Solver_2);
+    Multithreaded_Solver M(16, *Test_Solver_2);
     // testing time save
     float total_runtime = 0;
     for(int i = 1; i < 6; i++){

@@ -143,18 +143,18 @@ int main(){
 
 
     // testing subset solver
-    vector<int> start = {0,15,30,43};
-    vector<int> end = {0,15,30,43};
+    vector<int> start = {0,1,2,3};
+    vector<int> end = {7,57,58,59};
     Test_Solver_2->Cost_Restriction(5);
     Test_Solver_2->Subset_Optimal_Boards(4, start, end);
     Print_Boards(Test_Solver_2->Optimal_Boards());
 
     
     cout << "----- Testing Multithreading.hpp -----" << endl;
-
-    Multithreaded_Solver M(10, TRAIT_FILE, CHAMPION_FILE);
-    M.Solve(4);
     
+    Multithreaded_Solver M(4, TRAIT_FILE, CHAMPION_FILE);
+    M.Solve(9);
+    Print_Boards(M.Optimal_Boards());
 
     cout << "----- All Tests Passed -----" << endl;
     return 0;

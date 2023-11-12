@@ -13,7 +13,6 @@
 // Dependencies
 #include "Solver.hpp"
 #include <thread>
-#include <cmath>
 
 using std::thread;
 
@@ -35,7 +34,7 @@ class Multithreaded_Solver{
     // private functions
     long long nCr(int n, int r);
     void Print_List(const vector<int> &my_list);
-    void Add_To_List(vector<int> &my_list, const long long &value);
+    vector<int> Add_To_List(vector<int> my_list, const long long &value);
     void Configure_Subsets();
 
     

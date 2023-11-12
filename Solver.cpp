@@ -106,7 +106,7 @@ void Solver::Solve_Boards_Rec(){
 void Solver::Subset_Solve_Boards_Rec(){
     //base case, empty board
     if(B->Size() == 0){
-        for(int i = subset_start[0]; i <= subset_end[0]; i++){
+        for(int i = subset_start[0]; i < subset_end[0]; i++){
             if(Check_Vec(champions_required, i) && B->Field_Champion(i, false)){
                 Subset_Solve_Boards_Rec();
                 B->Unfield_Champion();

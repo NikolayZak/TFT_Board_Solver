@@ -8,7 +8,7 @@ Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &tra
     for(int i = 1; i < threads; i++){
         Workspace.push_back(new Solver(*worker));
     }
-
+    champions_in_set = Workspace[0]->Champions_In_Set();
     global_highscore = 0;
 }
 
@@ -54,19 +54,19 @@ void Multithreaded_Solver::Print_List(const vector<int> &my_list){
 
 
 // Function that given a sorted list will give x lists later Ex: z = 9; {1,2,3,4} adding 7 = {1,2,4,6}
-void Multithreaded_Solver::Add_To_List(vector<int> &my_list, const long long &value){
-    long long current = 0;
-    int z = champions_in_set - my_list[0];
-    int n = board_size;
+vector<int> Multithreaded_Solver::Add_To_List(vector<int> my_list, const long long &value){
     int index = 0;
-    long long spacer;
+    long long current = 0;
+    int z = champions_in_set;
+    int n = board_size;
+    long long tester;
     while(current < value){
-        spacer = nCr(z-1, n-1);
-        if(current + spacer <= value){
-            current += spacer;
+        tester = nCr(z-1, n-1);
+        if(current + tester <= value){
+            // increment
+            current += tester;
             z--;
             // increment the list
-            my_list[index] += 1;
             for(int i = index; i < (int)my_list.size(); i++){
                 my_list[i] += 1;
             }
@@ -77,6 +77,7 @@ void Multithreaded_Solver::Add_To_List(vector<int> &my_list, const long long &va
             n--;
         }
     }
+    return my_list;
 }
 
 // Configure subsets
@@ -89,26 +90,32 @@ void Multithreaded_Solver::Configure_Subsets(){
     for(int i = 0; i < board_size; i++){
         a_board.push_back(i);
     }
+    
     // put in the partitions
     for(int i = 0; i < num_threads; i++){
-        start.push_back(a_board);
-        Add_To_List(a_board, partition);
-        end.push_back(a_board);
-        Add_To_List(a_board, 1);
+        // adding in the starts
+        if(i != 0){
+            start.push_back(Add_To_List(a_board, (partition * i) + 1));
+        }else{
+            start.push_back(Add_To_List(a_board, partition * i));
+        }
+
+        // adding in the ends
+        if(i != num_threads - 1){
+            end.push_back(Add_To_List(a_board, partition * (i + 1) ));
+        }else{
+            end.push_back(Add_To_List(a_board, total - 1));
+        }
     }
 }
 
 // Solves the subsets and joins them together in the global optimal
 void Multithreaded_Solver::Solve(const int &size){
     board_size = size;
-    global_highscore = 0;
+    global_highscore = -1;
     compressed_global_optimal.clear();
     Configure_Subsets();
     // call all the threads on their partitions
-    for(auto list : start){
-        Print_List(list);
-    }
-
     vector<thread> threads;
     for(int i = 0; i < num_threads; i++){
         threads.emplace_back(&Solver::Subset_Optimal_Boards, Workspace[i], size, start[i], end[i]);
@@ -124,12 +131,11 @@ void Multithreaded_Solver::Solve(const int &size){
         if(Workspace[i]->Highscore() > global_highscore){
             global_highscore = Workspace[i]->Highscore();
             compressed_global_optimal.clear();
-            compressed_global_optimal.insert(compressed_global_optimal.end(), Workspace[i]->Compressed_Optimal_Boards().begin(), Workspace[i]->Compressed_Optimal_Boards().end());
+            compressed_global_optimal = Workspace[i]->Compressed_Optimal_Boards();
 
         }else if(Workspace[i]->Highscore() == global_highscore){
             compressed_global_optimal.insert(compressed_global_optimal.end(), Workspace[i]->Compressed_Optimal_Boards().begin(), Workspace[i]->Compressed_Optimal_Boards().end());
         }
-        return;
     }
 }
 

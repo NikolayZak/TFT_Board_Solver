@@ -412,3 +412,13 @@ int Solver::Champions_In_Set(){
 int Solver::Highscore(){
     return highscore;
 }
+
+// returns the max_increase
+int Solver::Max_Increase(){
+    return max_increase;
+}
+
+// returns the max_increase
+float Solver::Blank_Score(){
+    return blank_score;
+}

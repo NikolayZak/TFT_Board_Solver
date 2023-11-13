@@ -46,7 +46,9 @@ class Solver{
     ~Solver();
 
     void Max_Increase(const int &value);
+    int Max_Increase();
     void Blank_Score(const float &value);
+    float Blank_Score();
     void Cost_Restriction(const int &value); // setter
     int Cost_Restriction(); // getter
     void Add_Champion(const int &int_champion);

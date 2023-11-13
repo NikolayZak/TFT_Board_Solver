@@ -38,16 +38,17 @@ class Multithreaded_Solver{
     vector<int> Add_To_List(vector<int> my_list, const long long &value);
     void Configure_Subsets();
 
-    
+
 
     public:
     Multithreaded_Solver(const int &threads, const string &traits_file, const string &champions_file);
     Multithreaded_Solver(const int &threads, const Solver &main);
     ~Multithreaded_Solver();
 
-
+    // functions
     float Runtime();
     void Solve(const int &size);
+    void Update(const Solver &main);
     vector<vector<string>> Optimal_Boards();
     vector<vector<int>> Compressed_Optimal_Boards();
 };

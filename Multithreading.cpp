@@ -2,8 +2,9 @@
 
 // Constructor
 Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &traits_file, const string &champions_file){
-    Solver* worker = new Solver(traits_file, champions_file);
     num_threads = threads;
+    Solver* worker = new Solver(traits_file, champions_file);
+    worker->Blank_Score(worker->Max_Increase());
     Workspace.push_back(worker);
     for(int i = 1; i < threads; i++){
         Workspace.push_back(new Solver(*worker));
@@ -28,6 +29,22 @@ Multithreaded_Solver::~Multithreaded_Solver(){
         delete Workspace[i];
     }
     compressed_global_optimal.clear();
+}
+
+// Updates the solver settings
+void Multithreaded_Solver::Update(const Solver &main){
+    // clears the old memory
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        delete Workspace[i];
+    }
+    compressed_global_optimal.clear();
+
+    // loads in new solvers
+    for(int i = 0; i < num_threads; i++){
+        Workspace.push_back(new Solver(main));
+    }
+    champions_in_set = Workspace[0]->Champions_In_Set();
+    global_highscore = 0;
 }
 
 // nCr function taken from online

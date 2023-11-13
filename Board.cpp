@@ -211,18 +211,31 @@ float Board::Average_Score_Increase(){
     return total_increase / db->champions_in_set;
 }
 
-// calculates the maximum increase   O(c*t`)
+// calculates the maximum increase   O(c*t`*t``)
 int Board::Maximum_Score_Increase(){
     int highscore = 0;
     int counter = 0;
     for(const auto &champion : db->all_champions){
         counter = 0;
         for(const auto &trait : champion->traits){
-            //counter += Max_Trait_Tier_Increase(trait);
-            counter += trait->tier_values[1];
+            counter += Max_Trait_Tier_Increase(trait);
         }
         if(counter > highscore){
             highscore = counter;
+        }
+    }
+    return highscore;
+}
+
+// returns the Max Trait tier value; O(t``)
+int Board::Max_Trait_Tier_Increase(Trait* trait){
+    int highscore = 0;
+    int current = 0;
+
+    for(int i = 1; i < (int)trait->tier_values.size(); i++){
+        current = trait->tier_values[i] - trait->tier_values[i-1];
+        if(current > highscore){
+            highscore = current;
         }
     }
     return highscore;

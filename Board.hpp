@@ -22,8 +22,7 @@ class Board{
     int cost_restriction;
     vector<int> current_board;
     
-    //float Average_Trait_Tier_Increase(Trait* current);
-    //int Max_Trait_Tier_Increase(Trait* current);
+    int Max_Trait_Tier_Increase(Trait* current);
     
     
     public:

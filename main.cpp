@@ -1,9 +1,6 @@
-#include "Solver.hpp"
+#include "Multithreading.hpp"
 #include "Hasher.hpp"
 #include "Interface.hpp"
-
-
-
 
 
 
@@ -12,11 +9,11 @@ int main(){
     int size, cost;
     Input I;
     vector<string> champions_added, traits_added;
-    Solver S("embeded_text/traits.csv", "embeded_text/champs.csv");
-    //S.Blank_Score(8);  //This Sets the solver to always produce the best results at the cost of time efficiency
-    //S.Max_Increase(8); //This increases the max_increase
+    Multithreaded_Solver S(16, "embeded_text/traits.csv", "embeded_text/champs.csv"); // default accuracy is 100%
+    //S.Blank_Score(S.Average_Blank_Score()); // this will speed up the program at the cost of accuracy
 
-    Hasher H("embeded_text/saved_boards.txt");
+
+    Hasher H("saved_boards.txt");
     int champs_in_set = S.Champions_In_Set();
     int traits_in_set = S.Traits_In_Set();
     vector<string> all_champions = S.Get_All_Champions();
@@ -38,7 +35,7 @@ int main(){
             if(H.Check_Hashed()){
                 Print_Boards(S.Uncompress_Champions(H.Fetch()));
             }else{
-                S.Compute_Optimal_Boards(size);
+                S.Solve(size);
                 Print_Boards(S.Optimal_Boards());
                 cout << separator << "Execution Time: " << S.Runtime() << " Seconds\n";
                 if(S.Runtime() > 5){

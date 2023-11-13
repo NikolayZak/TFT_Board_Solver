@@ -37,7 +37,10 @@ void Multithreaded_Solver::Update(const Solver &main){
     for(int i = 0; i < (int)Workspace.size(); i++){
         delete Workspace[i];
     }
+    Workspace.clear();
     compressed_global_optimal.clear();
+    start.clear();
+    end.clear();
 
     // loads in new solvers
     for(int i = 0; i < num_threads; i++){
@@ -61,6 +64,7 @@ long long Multithreaded_Solver::nCr(int n, int r) {
     return ans;
 }
 
+/*
 // helper function for debugging
 void Multithreaded_Solver::Print_List(const vector<int> &my_list){
     for(int i = 0; i < (int)my_list.size(); i++){
@@ -68,7 +72,7 @@ void Multithreaded_Solver::Print_List(const vector<int> &my_list){
     }
     cout << endl;
 }
-
+*/
 
 // Function that given a sorted list will give x lists later Ex: z = 9; {1,2,3,4} adding 7 = {1,2,4,6}
 vector<int> Multithreaded_Solver::Add_To_List(vector<int> my_list, const long long &value){
@@ -126,12 +130,21 @@ void Multithreaded_Solver::Configure_Subsets(){
     }
 }
 
+// helper function for combining vector<vector<int>> with a vector<vector<int>>
+void Multithreaded_Solver::Combine_Boards(vector<vector<int>> &v1, vector<vector<int>> &v2){
+    for(int i = 0; i < (int)v2.size(); i++){
+        v1.push_back(v2[i]);
+    }
+}
+
 // Solves the subsets and joins them together in the global optimal
 void Multithreaded_Solver::Solve(const int &size){
     auto start_time = std::chrono::high_resolution_clock::now();
     board_size = size;
     global_highscore = -1;
     compressed_global_optimal.clear();
+    start.clear();
+    end.clear();
     Configure_Subsets();
     // call all the threads on their partitions
     vector<thread> threads;
@@ -152,10 +165,10 @@ void Multithreaded_Solver::Solve(const int &size){
             compressed_global_optimal = Workspace[i]->Compressed_Optimal_Boards();
 
         }else if(Workspace[i]->Highscore() == global_highscore){
-            compressed_global_optimal.insert(compressed_global_optimal.end(), Workspace[i]->Compressed_Optimal_Boards().begin(), Workspace[i]->Compressed_Optimal_Boards().end());
+            vector<vector<int>> tmp = Workspace[i]->Compressed_Optimal_Boards();
+            compressed_global_optimal.insert(compressed_global_optimal.end(), tmp.begin(), tmp.end());
         }
     }
-
     // end time
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -176,4 +189,136 @@ vector<vector<string>> Multithreaded_Solver::Optimal_Boards(){
 // returns the runtime;
 float Multithreaded_Solver::Runtime(){
     return runtime;
+}
+
+// returns the max_increase
+int Multithreaded_Solver::Max_Increase(){
+    return Workspace[0]->Max_Increase();
+}
+
+// sets the max_increase
+void Multithreaded_Solver::Max_Increase(const int &value){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        Workspace[i]->Max_Increase(value);
+    }
+}
+
+// returns the blank_score
+float Multithreaded_Solver::Blank_Score(){
+    return Workspace[0]->Blank_Score();
+}
+
+// sets the blank_score
+void Multithreaded_Solver::Blank_Score(const float &value){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        Workspace[i]->Blank_Score(value);
+    }
+}
+
+// returns the cost_restriction
+int Multithreaded_Solver::Cost_Restriction(){
+    return Workspace[0]->Cost_Restriction();
+}
+
+// sets the cost_restriction
+void Multithreaded_Solver::Cost_Restriction(const int &value){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        Workspace[i]->Cost_Restriction(value);
+    }
+}
+
+// adds a champion
+void Multithreaded_Solver::Add_Champion(const int &champion){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        Workspace[i]->Add_Champion(champion);
+    }
+}
+
+// adds a trait
+void Multithreaded_Solver::Add_Trait(const int &trait){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        Workspace[i]->Add_Trait(trait);
+    }
+}
+
+// returns the string on all champions
+vector<string> Multithreaded_Solver::Get_All_Champions(){
+    return Workspace[0]->Get_All_Champions();
+}
+
+// returns the string on all traits
+vector<string> Multithreaded_Solver::Get_All_Traits(){
+    return Workspace[0]->Get_All_Traits();
+}
+
+// returns a vector of int of all the champs added
+vector<int> Multithreaded_Solver::Champions_Added(){
+    return Workspace[0]->Champions_Added();
+}
+
+// returns a vector of int of all the traits added
+vector<int> Multithreaded_Solver::Traits_Added(){
+    return Workspace[0]->Traits_Added();
+}
+
+// returns the number of champions in the set
+int Multithreaded_Solver::Champions_In_Set(){
+    return Workspace[0]->Champions_In_Set();
+}
+
+// returns the number of traits in the set
+int Multithreaded_Solver::Traits_In_Set(){
+    return Workspace[0]->Traits_In_Set();
+}
+
+// resets the database
+void Multithreaded_Solver::Reset(){
+    for(int i = 0; i < (int)Workspace.size(); i++){
+        Workspace[i]->Reset();
+    }
+}
+
+// returns the highscore
+int Multithreaded_Solver::Highscore(){
+    return global_highscore;
+}
+
+// returns the average blank_score
+float Multithreaded_Solver::Average_Blank_Score(){
+    return Workspace[0]->Average_Blank_Score();
+}
+
+// returns the uncompressed champions
+vector<vector<string>> Multithreaded_Solver::Uncompress_Champions(const vector<vector<int>> &boards){
+    return Workspace[0]->Uncompress_Champions(boards);
+}
+
+// returns the uncompressed champions
+vector<string> Multithreaded_Solver::Uncompress_Champions(const vector<int> &boards){
+    return Workspace[0]->Uncompress_Champions(boards);
+}
+
+// returns the uncompressed champion
+string Multithreaded_Solver::Uncompress_Champions(const int &boards){
+    return Workspace[0]->Uncompress_Champions(boards);
+}
+
+//returns the uncompressed traits
+vector<string> Multithreaded_Solver::Uncompress_Traits(const vector<int> &traits){
+    return Workspace[0]->Uncompress_Traits(traits);
+}
+
+//returns the uncompressed trait
+string Multithreaded_Solver::Uncompress_Traits(const int &trait){
+    return Workspace[0]->Uncompress_Traits(trait);
+}
+
+// returns the compressed champions
+int Multithreaded_Solver::Compress_Champions(const string &champion){
+    return Workspace[0]->Compress_Champions(champion);
+}
+
+// returns the compressed traits
+int Multithreaded_Solver::Compress_Traits(const string &trait){
+    return Workspace[0]->Compress_Traits(trait);
 }

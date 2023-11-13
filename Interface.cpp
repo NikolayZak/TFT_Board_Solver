@@ -90,7 +90,7 @@ int Calculate_Levenshtein_Distance(const string& str1, const string& str2) {
     return dp[len1][len2];
 }
 
-// Local Funciton
+// Local Function
 // Lowercases a string   O(n)
 string toLowerCase(const std::string& input) {
     string result;
@@ -98,6 +98,22 @@ string toLowerCase(const std::string& input) {
         result += tolower(c);
     }
     return result;
+}
+
+// Local Function
+// Checks if it's an integer
+bool isInteger(const string& str) {
+    if (str.empty()) {
+        return false;  // Empty string is not an integer
+    }
+    size_t start = 0;
+    // Check each character to ensure it is a digit
+    for (size_t i = start; i < str.length(); ++i) {
+        if (!std::isdigit(str[i])) {
+            return false;  // Non-digit character found
+        }
+    }
+    return true;  // All characters are digits
 }
 
 
@@ -124,14 +140,15 @@ Input Get_Input(const int &lower, const int &higher, const string &prompt, const
     string input;
     Input ans;
     bool loop = true;
+    bool is_int;
     cout << prompt;
     while(loop){
         cout << separator << "Option: ";
         cin >> input;
-
+        is_int = isInteger(input);
         // Try to convert the input string to an integer
         std::istringstream stream(input);
-        if (stream >> ans.name) {
+        if (stream >> ans.name && is_int) {
             // Conversion successful, check if it's within the specified range
             if (ans.name >= lower && ans.name <= higher) {
                 ans.Is_Int = true;

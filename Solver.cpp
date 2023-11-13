@@ -422,3 +422,9 @@ int Solver::Max_Increase(){
 float Solver::Blank_Score(){
     return blank_score;
 }
+
+// returns the average_score_increase
+
+float Solver::Average_Blank_Score(){
+    return B->Average_Score_Increase();
+}

@@ -66,6 +66,7 @@ class Solver{
     void Reset();
     float Runtime();
     int Highscore();
+    float Average_Blank_Score();
 
     // compression and extraction
     vector<vector<string>> Uncompress_Champions(const vector<vector<int>> &boards);

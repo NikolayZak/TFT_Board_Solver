@@ -154,16 +154,22 @@ int main(){
     cout << "----- Testing Multithreading.hpp -----" << endl;
     
     Multithreaded_Solver M(16, *Test_Solver_2);
+    Multithreaded_Solver* M2 = new Multithreaded_Solver(16, TRAIT_FILE, CHAMPION_FILE);
+
+    // testing update
+    M2->Update(*Test_Solver_2);
+    
     // testing time save
     float total_runtime = 0;
     for(int i = 1; i < 6; i++){
-        M.Solve(8);
-        total_runtime += M.Runtime();
-        cout << "Iteration #" << i << " Time: " << M.Runtime() << endl;
+        M2->Solve(8);
+        total_runtime += M2->Runtime();
+        cout << "Iteration #" << i << " Time: " << M2->Runtime() << endl;
     }
     cout << "Average Runtime: " << total_runtime/5 << endl;
     Test_Solver_2->Compute_Optimal_Boards(8);
     cout << "Non-Threaded Time: " << Test_Solver_2->Runtime() << endl;
+    delete M2;
 
     cout << "----- All Tests Passed -----" << endl;
     return 0;

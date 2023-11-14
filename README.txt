@@ -1,5 +1,5 @@
 # TFT_Board_Solver
-Solves TFT boards with the most amount of synergies active.
+Solves TFT boards with the most active synergies.
 Current Set: 10
 
 // Overview

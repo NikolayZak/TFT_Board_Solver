@@ -53,7 +53,7 @@ class Multithreaded_Solver{
     vector<vector<string>> Optimal_Boards();
     vector<vector<int>> Compressed_Optimal_Boards();
 
-    // rolling board functions
+    // roping board functions
     void Max_Increase(const int &value);
     int Max_Increase();
     void Blank_Score(const float &value);

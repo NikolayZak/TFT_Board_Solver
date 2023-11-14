@@ -103,6 +103,7 @@ void Solver::Solve_Boards_Rec(){
 
 // Generates the optimal boards within a subset
 // EX: subset_start = {1,2,3,4}  subset_end = {2,3,4,5} computes the starting board until the ending board inclusively
+// Runtime   O(subset size)
 void Solver::Subset_Solve_Boards_Rec(){
     //base case, empty board
     if(B->Size() == 0){
@@ -165,7 +166,7 @@ void Solver::Subset_Solve_Boards_Rec(){
     }
 }
 
-// compares the first vector against the second one and returns weather it's a subset of the other one
+// compares the first vector against the second one and returns weather it's a subset of the other one   O(n)
 bool Solver::Check_Subset(const vector<int> &v1, const vector<int> &v2){
     // sets a max index
     int max_index;
@@ -193,7 +194,7 @@ bool Solver::Check_Vec(const vector<int> &vec, const int &item){
     return true;
 }
 
-// sets the cost restriction to the correct value
+// sets the cost restriction to the correct value   O(1)
 void Solver::Private_Cost_Restriction(){
     if(cost_restriction == 0){
         vector<int> level_restriction = B->Level_Restriction();
@@ -239,7 +240,7 @@ void Solver::Compute_Optimal_Boards(const int &size){
     runtime = static_cast<float>(duration.count()) / 1000;
 }
 
-// used to reset the variables for the recursive function   O((c choose c')*(t`*t``))
+// used to reset the variables for the recursive function   O((subset_size)*(t`*t``))
 // precondition: target size must be set
 void Solver::Subset_Optimal_Boards(const int &size, const vector<int> &start, const vector<int> &end){
     // start timing
@@ -413,18 +414,17 @@ int Solver::Highscore(){
     return highscore;
 }
 
-// returns the max_increase
+// returns the max_increase   O(1)
 int Solver::Max_Increase(){
     return max_increase;
 }
 
-// returns the max_increase
+// returns the max_increase   O(1)
 float Solver::Blank_Score(){
     return blank_score;
 }
 
-// returns the average_score_increase
-
+// returns the average_score_increase   O(t*t``)
 float Solver::Average_Blank_Score(){
     return B->Average_Score_Increase();
 }

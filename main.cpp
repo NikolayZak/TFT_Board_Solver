@@ -10,7 +10,7 @@ int main(){
     Input I;
     vector<string> champions_added, traits_added;
     Multithreaded_Solver S(16, "embeded_text/traits.csv", "embeded_text/champs.csv"); // default accuracy is 100%
-    S.Blank_Score(S.Average_Blank_Score()); // this will speed up the program at the cost of accuracy
+    //S.Blank_Score(S.Average_Blank_Score()); // this will speed up the program at the cost of accuracy
 
 
     Hasher H("embeded_text/saved_boards.txt");

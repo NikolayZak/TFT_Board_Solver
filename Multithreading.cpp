@@ -118,14 +118,14 @@ void Multithreaded_Solver::Configure_Subsets(){
         if(i != 0){
             start.push_back(Add_To_List(a_board, (partition * i) + 1));
         }else{
-            start.push_back(Add_To_List(a_board, partition * i));
+            start.push_back(a_board);
         }
 
         // adding in the ends
         if(i != num_threads - 1){
             end.push_back(Add_To_List(a_board, partition * (i + 1) ));
         }else{
-            end.push_back(Add_To_List(a_board, total - 1));
+            end.push_back(Add_To_List(a_board, total));
         }
     }
 }

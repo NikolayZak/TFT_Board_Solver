@@ -38,6 +38,7 @@ int main(){
                 S.Solve(size);
                 Print_Boards(S.Optimal_Boards());
                 cout << separator << "Execution Time: " << S.Runtime() << " Seconds\n";
+                cout << "Score: " << S.Highscore() << endl;
                 if(S.Runtime() > 5){
                     H.Hash(S.Compressed_Optimal_Boards());
                 }

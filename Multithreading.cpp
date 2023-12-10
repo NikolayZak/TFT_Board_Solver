@@ -20,7 +20,6 @@ Multithreaded_Solver::Multithreaded_Solver(const int &threads, const Solver &mai
         Workspace.push_back(new Solver(main));
     }
     champions_in_set = Workspace[0]->Champions_In_Set();
-    global_highscore.store(0);
 }
 
 // Deconstructor
@@ -157,7 +156,7 @@ void Multithreaded_Solver::Solve(const int &size){
         t.join();
     }
 
-    // combines all the worker threads
+    // combines all the highscores
     for(int i = 0; i < num_threads; i++){
         if(Workspace[i]->Highscore() > global_highscore){
             global_highscore = Workspace[i]->Highscore();

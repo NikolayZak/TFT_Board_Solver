@@ -44,7 +44,7 @@ class Solver{
 
     public:
     // functions
-    Solver(atomic<int>* global_highscore, const string &traits_file, const string &champions_file);
+    Solver(atomic<int>* export_highscore, const string &traits_file, const string &champions_file);
     Solver(const Solver &a_solver);
     ~Solver();
 

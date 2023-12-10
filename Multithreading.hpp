@@ -28,8 +28,8 @@ class Multithreaded_Solver{
     vector<vector<int>> start;
     vector<vector<int>> end;
     int num_threads;
-    int global_highscore;
     float runtime;
+    atomic<int> global_highscore;
 
     // private functions
     long long nCr(int n, int r);

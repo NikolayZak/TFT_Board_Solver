@@ -10,9 +10,10 @@
 
 
 // constructor   O(c*t` + t*t``)
-Solver::Solver(const string &traits_file, const string &champions_file){
+Solver::Solver(atomic<int>* export_highscore, const string &traits_file, const string &champions_file){
     B = new Board(traits_file, champions_file);
     highscore = 0;
+    global_highscore = export_highscore;
     target_size = 1;
     cost_restriction = 0;
     blank_score = B->Average_Score_Increase() + 1; // adding 1 for accuracy as the champs are not sorted
@@ -36,12 +37,14 @@ Solver::Solver(const Solver &a_solver){
     runtime = a_solver.runtime;
     subset_start = a_solver.subset_start;
     subset_end = a_solver.subset_end;
+    global_highscore = a_solver.global_highscore;
 }
 
 // deconstructor   O(t+c)
 Solver::~Solver(){
     delete B;
     B = nullptr;
+    global_highscore = nullptr;
     optimal_boards.clear();
     champions_required.clear();
     traits_required.clear();
@@ -62,6 +65,13 @@ void Solver::Solve_Boards_Rec(){
 
     // case final board size reached
     if(B->Size() == target_size - (int)champions_required.size()){
+        // check the atomic highscore
+        int atomic_highscore = global_highscore->load();
+        if(atomic_highscore > highscore){
+            highscore = atomic_highscore;
+            optimal_boards.clear();
+        }
+        // comparing locally
         if(highscore < B->Score()){
             highscore = B->Score();
             optimal_boards.clear();
@@ -69,6 +79,13 @@ void Solver::Solve_Boards_Rec(){
 
         }else if(highscore == B->Score()){
             optimal_boards.push_back(B->Get_Board());
+        }
+
+        // check if the atomic highscore needs updating
+        while(atomic_highscore < highscore){
+            if(global_highscore->compare_exchange_weak(atomic_highscore, highscore)){
+                break;
+            }
         }
         return;
     }
@@ -118,6 +135,14 @@ void Solver::Subset_Solve_Boards_Rec(){
 
     // case final board size reached
     if(B->Size() == target_size - (int)champions_required.size()){
+        // check the atomic highscore
+        int atomic_highscore = global_highscore->load();
+        if(atomic_highscore > highscore){
+            highscore = atomic_highscore;
+            optimal_boards.clear();
+        }
+
+        // check locally
         if(highscore < B->Score()){
             highscore = B->Score();
             optimal_boards.clear();
@@ -125,6 +150,13 @@ void Solver::Subset_Solve_Boards_Rec(){
 
         }else if(highscore == B->Score()){
             optimal_boards.push_back(B->Get_Board());
+        }
+
+        // check if the atomic highscore needs updating
+        while(atomic_highscore < highscore){
+            if(global_highscore->compare_exchange_weak(atomic_highscore, highscore)){
+                break;
+            }
         }
         return;
     }

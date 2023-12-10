@@ -3,14 +3,14 @@
 // Constructor
 Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &traits_file, const string &champions_file){
     num_threads = threads;
-    Solver* worker = new Solver(traits_file, champions_file);
+    global_highscore.store(0);
+    Solver* worker = new Solver(&global_highscore, traits_file, champions_file);
     worker->Blank_Score(worker->Max_Increase());
     Workspace.push_back(worker);
     for(int i = 1; i < threads; i++){
         Workspace.push_back(new Solver(*worker));
     }
     champions_in_set = Workspace[0]->Champions_In_Set();
-    global_highscore = 0;
 }
 
 // copy constructor
@@ -20,7 +20,6 @@ Multithreaded_Solver::Multithreaded_Solver(const int &threads, const Solver &mai
         Workspace.push_back(new Solver(main));
     }
     champions_in_set = Workspace[0]->Champions_In_Set();
-    global_highscore = 0;
 }
 
 // Deconstructor
@@ -47,7 +46,7 @@ void Multithreaded_Solver::Update(const Solver &main){
         Workspace.push_back(new Solver(main));
     }
     champions_in_set = Workspace[0]->Champions_In_Set();
-    global_highscore = 0;
+    global_highscore.store(0);
 }
 
 // nCr function taken from online
@@ -141,7 +140,7 @@ void Multithreaded_Solver::Combine_Boards(vector<vector<int>> &v1, vector<vector
 void Multithreaded_Solver::Solve(const int &size){
     auto start_time = std::chrono::high_resolution_clock::now();
     board_size = size;
-    global_highscore = -1;
+    global_highscore.store(0);
     compressed_global_optimal.clear();
     start.clear();
     end.clear();
@@ -157,7 +156,7 @@ void Multithreaded_Solver::Solve(const int &size){
         t.join();
     }
 
-    // combines all the worker threads
+    // combines all the highscores
     for(int i = 0; i < num_threads; i++){
         if(Workspace[i]->Highscore() > global_highscore){
             global_highscore = Workspace[i]->Highscore();

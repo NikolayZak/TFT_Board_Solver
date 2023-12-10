@@ -9,7 +9,7 @@ This program is easily modifiable for future sets. Best optimized when the most 
 
 // Rebuild
 The Rebuilt version now contains multiple embeded classes that build off one-another and is much cleaner and easier to maintain/edit.
-Solver(Board(Database)) is the main class, where (Interface) and (Hasher) are independent classes that handle their names respectively.
+MultiThreadedSolver(Solver(Board(Database))) is the main class, where (Interface) and (Hasher) are independent classes that handle their names respectively.
 
 // Time Complexity
 let t` be the number of traits any given champ has

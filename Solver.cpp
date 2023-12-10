@@ -10,7 +10,7 @@
 
 
 // constructor   O(c*t` + t*t``)
-Solver::Solver(const string &traits_file, const string &champions_file){
+Solver::Solver(atomic<int>* global_highscore, const string &traits_file, const string &champions_file){
     B = new Board(traits_file, champions_file);
     highscore = 0;
     target_size = 1;
@@ -36,12 +36,14 @@ Solver::Solver(const Solver &a_solver){
     runtime = a_solver.runtime;
     subset_start = a_solver.subset_start;
     subset_end = a_solver.subset_end;
+    global_highscore = a_solver.global_highscore;
 }
 
 // deconstructor   O(t+c)
 Solver::~Solver(){
     delete B;
     B = nullptr;
+    global_highscore = nullptr;
     optimal_boards.clear();
     champions_required.clear();
     traits_required.clear();

@@ -12,6 +12,8 @@
 // Dependencies
 #include "Board.hpp"
 #include <chrono>
+#include <atomic>
+using std::atomic;
 using std::cout;
 
 class Solver{
@@ -27,6 +29,7 @@ class Solver{
     float blank_score;
     int cost_restriction;
     float runtime;
+    atomic<int>* global_highscore;
 
     //subset solver
     vector<int> subset_start;
@@ -41,7 +44,7 @@ class Solver{
 
     public:
     // functions
-    Solver(const string &traits_file, const string &champions_file);
+    Solver(atomic<int>* global_highscore, const string &traits_file, const string &champions_file);
     Solver(const Solver &a_solver);
     ~Solver();
 

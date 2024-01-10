@@ -112,3 +112,25 @@ int main(){
     all_traits.clear();
     return 0;
 }
+
+
+// Benchmarking
+/*
+int main(){
+    Multithreaded_Solver* tmp;
+    float average;
+    for(int i = 1; i < 33; i++){
+        tmp = new Multithreaded_Solver(i, "embeded_text/traits10.csv", "embeded_text/champs10.csv");
+        average = 0;
+        cout << "Number of Threads: " << i << endl;
+        for(int j = 1; j < 4; j++){
+            tmp->Solve(8);
+            cout << "Iteration #" << j << " Runtime: " << tmp->Runtime() << endl;
+            average += tmp->Runtime();
+        }
+        cout << "Average Runtime: " << average/3 << endl; // hardcoding
+        delete tmp;
+    }
+    return 0;
+}
+*/

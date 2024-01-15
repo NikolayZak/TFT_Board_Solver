@@ -137,7 +137,8 @@ int main(){
     cout << "----- Testing Solver.hpp -----" << endl;
     // test against solved boards and make sure it solves them
     // testing the copy constructor of solver
-    Solver* Test_Solver = new Solver(TRAIT_FILE, CHAMPION_FILE);
+    atomic<int>* empty;
+    Solver* Test_Solver = new Solver(empty, TRAIT_FILE, CHAMPION_FILE);
     Solver* Test_Solver_2 = new Solver(*Test_Solver);
     delete Test_Solver;
 

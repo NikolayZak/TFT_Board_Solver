@@ -9,7 +9,7 @@ int main(){
     int size, cost;
     Input I;
     vector<string> champions_added, traits_added;
-    Multithreaded_Solver S(16, "embeded_text/traits3.5.csv", "embeded_text/champs3.5.csv"); // default accuracy is 100%
+    Multithreaded_Solver S(16, "traits.csv", "champs.csv"); // default accuracy is 100%
     //S.Blank_Score(S.Average_Blank_Score() + 1); // this will speed up the program at the cost of accuracy
 
 

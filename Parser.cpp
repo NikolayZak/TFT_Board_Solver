@@ -120,6 +120,7 @@ void Database::Parse_Traits(const string &traits_file){
     string line, trait_name;
     vector<int> tiers, tier_values;
     //parsing
+    getline(file, line); // get rid of the comment
     while (getline(file, line)) {
         trait_name = line;
         getline(file, line);

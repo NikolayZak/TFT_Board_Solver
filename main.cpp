@@ -13,7 +13,7 @@ int main(){
     //S.Blank_Score(S.Average_Blank_Score() + 1); // this will speed up the program at the cost of accuracy
 
 
-    Hasher H("embeded_text/saved_boards.txt");
+    Hasher H("saved_boards.txt");
     int champs_in_set = S.Champions_In_Set();
     int traits_in_set = S.Traits_In_Set();
     vector<string> all_champions = S.Get_All_Champions();

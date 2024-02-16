@@ -66,7 +66,7 @@ int Get_Input(const int &lower, const int &higher, const string &prompt){
 
 // local functions
 // Function to calculate the Levenshtein distance between two strings (private)
-int Calculate_Levenshtein_Distance(const string& str1, const string& str2) {
+static int Calculate_Levenshtein_Distance(const string& str1, const string& str2) {
     const size_t len1 = str1.size();
     const size_t len2 = str2.size();
 
@@ -92,7 +92,7 @@ int Calculate_Levenshtein_Distance(const string& str1, const string& str2) {
 
 // Local Function
 // Lowercases a string   O(n)
-string toLowerCase(const std::string& input) {
+static string toLowerCase(const std::string& input) {
     string result;
     for (char c : input) {
         result += tolower(c);
@@ -102,7 +102,7 @@ string toLowerCase(const std::string& input) {
 
 // Local Function
 // Checks if it's an integer
-bool isInteger(const string& str) {
+static bool isInteger(const string& str) {
     if (str.empty()) {
         return false;  // Empty string is not an integer
     }
@@ -119,7 +119,7 @@ bool isInteger(const string& str) {
 
 // Local Function
 // Function to find the closest match in the dataset
-string Find_Closest_Match(const string &misspelled, const vector<string> &names) {
+static string Find_Closest_Match(const string &misspelled, const vector<string> &names) {
     int minDistance = 10000;
     string closestMatch;
 

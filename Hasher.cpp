@@ -22,7 +22,7 @@ void Hasher::Configure(const int &cost_restriction, const vector<int> &required_
 }
 
 // creates a barcode based on the given inputs
- void Hasher::Barcode(){
+void Hasher::Barcode(){
     string new_barcode;
 
     // adds the cost limit and board size

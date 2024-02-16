@@ -39,7 +39,7 @@ struct Input{
 
 
 
-// Independante functions
+// Independent functions
 int Get_Input(const int &lower, const int &higher, const string &prompts);
 Input Get_Input(const int &lower, const int &higher, const string &prompts, const vector<string> &data);
 void Print_Boards(const vector<vector<string>> &Boards);

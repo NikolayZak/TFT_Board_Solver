@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++11 -O3
 
 TARGET = "TFT Board Solver"
 TEST_DRIVER = "test"

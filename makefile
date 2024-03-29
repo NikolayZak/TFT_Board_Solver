@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++11 -O3
 
-TARGET = "TFT Board Solver"
+TARGET = "TFT Board Solver 6"
 TEST_DRIVER = "test"
 EMBEDED_FOLDER = embeded_text
 TEST_FOLDER = test_files

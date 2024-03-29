@@ -5,7 +5,7 @@ Multithreaded_Solver::Multithreaded_Solver(const int &threads, const string &tra
     num_threads = threads;
     global_highscore.store(0);
     Solver* worker = new Solver(&global_highscore, traits_file, champions_file);
-    worker->Blank_Score(worker->Max_Increase()); // default 
+    worker->Blank_Score(worker->Max_Increase()); // default 100% accuracy
     Workspace.push_back(worker);
     for(int i = 1; i < threads; i++){
         Workspace.push_back(new Solver(*worker));

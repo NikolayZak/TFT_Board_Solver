@@ -23,6 +23,7 @@ class Board{
     vector<int> current_board;
     
     int Max_Trait_Tier_Increase(Trait* current);
+    float Normalized_trait_increase(Trait* current);
     
     
     public:

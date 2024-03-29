@@ -103,16 +103,12 @@ bool Board::Field_Champion(const int &int_champion, const bool &needs_synergy){
 
     // fields the traits and updates the board score
     current_board.push_back(int_champion);
-    int counter, score, prev_score;
+    int score, prev_score;
     for(auto &trait : db->all_champions[int_champion]->traits){
-        counter = 0;
         score = 0;
         prev_score = trait->score;
         trait->fielded += 1;
-        while(counter < (int)trait->tiers.size() && trait->fielded >= trait->tiers[counter]){
-            counter++;
-        }
-        score = trait->tier_values[counter-1];
+        score = (trait->fielded > MAX_TIER - 1) ? trait->tier_values[MAX_TIER - 1] : trait->tier_values[trait->fielded];
         trait->score = score;
         board_score += score - prev_score;
     }
@@ -124,16 +120,12 @@ bool Board::Field_Champion(const int &int_champion, const bool &needs_synergy){
 void Board::Unfield_Champion(){
     int int_champion = current_board.back();
     current_board.pop_back();
-    int counter, score, prev_score;
+    int score, prev_score;
     for(auto &trait : db->all_champions[int_champion]->traits){
-        counter = 0;
         score = 0;
         prev_score = trait->score;
         trait->fielded -= 1;
-        while(counter < (int)trait->tiers.size() && trait->fielded >= trait->tiers[counter]){
-            counter++;
-        }
-        score = trait->tier_values[counter-1];
+        score = (trait->fielded > MAX_TIER - 1) ? trait->tier_values[MAX_TIER - 1] : trait->tier_values[trait->fielded];
         trait->score = score;
         board_score += score - prev_score;
     }
@@ -141,16 +133,12 @@ void Board::Unfield_Champion(){
 
 // shadow unfields a champion
 void Board::Shadow_Unfield_Champion(const int &int_champion){
-    int counter, score, prev_score;
+    int score, prev_score;
     for(auto &trait : db->all_champions[int_champion]->traits){
-        counter = 0;
         score = 0;
         prev_score = trait->score;
         trait->fielded -= 1;
-        while(counter < (int)trait->tiers.size() && trait->fielded >= trait->tiers[counter]){
-            counter++;
-        }
-        score = trait->tier_values[counter-1];
+        score = (trait->fielded > MAX_TIER - 1) ? trait->tier_values[MAX_TIER - 1] : trait->tier_values[trait->fielded];
         trait->score = score;
         board_score += score - prev_score;
     }
@@ -158,16 +146,12 @@ void Board::Shadow_Unfield_Champion(const int &int_champion){
 
 // fields a trait   O(t``)
 void Board::Field_Trait(const int &int_trait){
-    int counter = 0;
     int score = 0;
     Trait* trait = db->all_traits[int_trait];
     int prev_score = trait->score;
 
     trait->fielded += 1;
-    while(counter < (int)trait->tiers.size() && trait->fielded >= trait->tiers[counter]){
-        counter++;
-    }
-    score += trait->tier_values[counter-1];
+    score = (trait->fielded > MAX_TIER - 1) ? trait->tier_values[MAX_TIER - 1] : trait->tier_values[trait->fielded];
     trait->score = score;
     board_score += score - prev_score;
 }
@@ -175,16 +159,12 @@ void Board::Field_Trait(const int &int_trait){
 
 // shadow unfields a specific trait
 void Board::Unfield_Trait(const int &int_trait){
-    int counter = 0;
     int score = 0;
     Trait* trait = db->all_traits[int_trait];
     int prev_score = trait->score;
 
     trait->fielded -= 1;
-    while(counter < (int)trait->tiers.size() && trait->fielded >= trait->tiers[counter]){
-        counter++;
-    }
-    score += trait->tier_values[counter-1];
+    score = (trait->fielded > MAX_TIER - 1) ? trait->tier_values[MAX_TIER - 1] : trait->tier_values[trait->fielded];
     trait->score = score;
     board_score += score - prev_score;
 }
@@ -199,16 +179,44 @@ int Board::Traits_In_Set(){
     return db->traits_in_set;
 }
 
+// calculates the average trait increase
+float Board::Normalized_trait_increase(Trait* current){
+    int total = 0;
+    int prev = 0;
+    int jumps = 0;
+    for(int i = 0; i < MAX_TIER; i++){
+        if(current->tier_values[i] > prev){
+            jumps++;
+            total += current->tier_values[i] - prev;
+            prev = current->tier_values[i];
+        }
+    }
+    return (float) total / jumps;
+}
+
 // calculates the average score increase of the first tier   O(c*t`)
 float Board::Average_Score_Increase(){
     float total_increase = 0;
     for(const auto &champion : db->all_champions){
         for(const auto &trait : champion->traits){
-            //total_increase += Average_Trait_Tier_Increase(trait);
-            total_increase += trait->tier_values[1];
+            total_increase += Normalized_trait_increase(trait);
         }
     }
     return total_increase / db->champions_in_set;
+}
+
+// returns the Max Trait tier value; O(t``)
+int Board::Max_Trait_Tier_Increase(Trait* trait){
+    int highscore = 0;
+    int current = 0;
+
+    for(int i = 1; i < (int)trait->tier_values.size(); i++){
+        current = trait->tier_values[i] - trait->tier_values[i-1];
+        if(current > highscore){
+            highscore = current;
+        }
+    }
+    return highscore;
 }
 
 // calculates the maximum increase   O(c*t`*t``)
@@ -222,20 +230,6 @@ int Board::Maximum_Score_Increase(){
         }
         if(counter > highscore){
             highscore = counter;
-        }
-    }
-    return highscore;
-}
-
-// returns the Max Trait tier value; O(t``)
-int Board::Max_Trait_Tier_Increase(Trait* trait){
-    int highscore = 0;
-    int current = 0;
-
-    for(int i = 1; i < (int)trait->tier_values.size(); i++){
-        current = trait->tier_values[i] - trait->tier_values[i-1];
-        if(current > highscore){
-            highscore = current;
         }
     }
     return highscore;
@@ -261,16 +255,12 @@ vector<string> Board::All_Traits(){
 
 // fields a champ without adding it to the local list of champions   O(t'*t'')
 void Board::Shadow_Field_Champion(const int &int_champion){
-    int counter, score, prev_score;
+    int score, prev_score;
     for(auto &trait : db->all_champions[int_champion]->traits){
-        counter = 0;
         score = 0;
         prev_score = trait->score;
         trait->fielded += 1;
-        while(counter < (int)trait->tiers.size() && trait->fielded >= trait->tiers[counter]){
-            counter++;
-        }
-        score += trait->tier_values[counter-1];
+        score = (trait->fielded > MAX_TIER - 1) ? trait->tier_values[MAX_TIER - 1] : trait->tier_values[trait->fielded];
         trait->score = score;
         board_score += score - prev_score;
     }

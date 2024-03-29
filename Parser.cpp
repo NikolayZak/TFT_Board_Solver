@@ -8,18 +8,26 @@
 
 //          TRAIT CLASS
 // constructor   O(1)
-Trait::Trait(const string &name, const vector<int> &tiers, const vector<int> &tier_values){
-    this->name = name;
-    this->tiers = tiers;
-    this->tier_values = tier_values;
+Trait::Trait(const string &given_name, const vector<int> &given_tiers, const vector<int> &given_tier_values){
+    name = given_name;
     fielded = 0;
     score = 0;
+
+    int index = 0;
+    vector<int> new_vector;
+    for(int i = 0; i < MAX_TIER; i++){ // for the tier size
+        // check if the index is valid && check if we should go up a value
+        if(index + 1 < (int)given_tiers.size() && given_tiers[index + 1] == i){
+            index++;
+        }
+        new_vector.push_back(given_tier_values[index]);
+    }
+    tier_values = new_vector;
 }
 
 // copy constructor
 Trait::Trait(const Trait &a_trait){
     name = a_trait.name;
-    tiers = a_trait.tiers;
     tier_values = a_trait.tier_values;
     fielded = a_trait.fielded;
     score = a_trait.score;
@@ -127,6 +135,8 @@ void Database::Parse_Traits(const string &traits_file){
         tiers = Parse_Int_Line(line);
         getline(file, line);
         tier_values = Parse_Int_Line(line);
+
+
         all_traits.push_back(new Trait(trait_name, tiers, tier_values));
     }
     file.close();

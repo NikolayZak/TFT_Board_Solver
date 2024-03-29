@@ -40,6 +40,7 @@
 #include <fstream>
 #include <sstream>
 
+#define MAX_TIER 11
 
 // std abbreviations
 using std::string;
@@ -51,7 +52,6 @@ using std::cerr;
 class Trait{
     public:
     string name;
-    vector<int> tiers;
     vector<int> tier_values;
     int score;
     int fielded;

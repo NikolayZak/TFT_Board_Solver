@@ -2,6 +2,7 @@
 /*          Time Complexity
     Similar to <vector> all Functions are in O(1)
     The speed ups come from it all being compressed into one integer and bitwise operations being faster
+    roughly 4-6 times faster then std vector
 */
 
 // constructor

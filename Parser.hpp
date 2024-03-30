@@ -55,7 +55,7 @@ class Trait{
     vector<int> tier_values;
     int score;
     int fielded;
-    Trait(const string &name, const vector<int> &tiers, const vector<int> &tier_values);
+    Trait(const string &given_name, const vector<int> &given_tiers, const vector<int> &given_tier_values);
     Trait(const Trait &a_trait);
     ~Trait();
 };

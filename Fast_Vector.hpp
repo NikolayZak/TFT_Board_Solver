@@ -19,7 +19,6 @@
 #include <iostream>
 #include <stdint.h>
 #include <vector>
-#include <bitset>
 
 
 
@@ -38,7 +37,9 @@ class Fast_Vector{
     Fast_Vector();
     Fast_Vector(unsigned long long fast_vec_num);
     ~Fast_Vector();
+    // operators
     Fast_Vector& operator=(const std::vector<int>& vector);
+    int operator[](size_t index);
 };
 
 #endif

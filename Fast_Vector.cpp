@@ -52,3 +52,15 @@ Fast_Vector& Fast_Vector::operator=(const std::vector<int>& v1){
         push_back(v1[i]);
     }
 }
+
+// custom access
+int Fast_Vector::operator[](size_t index){
+    int count = 0;
+    for (int i = 63; i >= 0; --i) {
+        if (vector & (1ULL << i)) {
+            if (++count == index + 1) {
+                return 63 - i;
+            }
+        }
+    }
+}

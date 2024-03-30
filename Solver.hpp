@@ -20,7 +20,7 @@ class Solver{
     private:
     // variables
     Board* B;
-    vector<vector<int>> optimal_boards;
+    vector<Fast_Vector> optimal_boards;
     vector<int> champions_required;
     vector<int> traits_required;
     int highscore;
@@ -32,8 +32,8 @@ class Solver{
     atomic<int>* global_highscore;
 
     //subset solver
-    vector<int> subset_start;
-    vector<int> subset_end;
+    Fast_Vector subset_start;
+    Fast_Vector subset_end;
 
 
     void Solve_Boards_Rec();

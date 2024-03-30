@@ -12,6 +12,7 @@
 #define BOARD
 // Dependencies
 #include "Parser.hpp"
+#include "Fast_Vector.hpp"
 #include <algorithm>
 
 class Board{
@@ -20,7 +21,7 @@ class Board{
     Database* db;
     int board_score;
     int cost_restriction;
-    vector<int> current_board;
+    Fast_Vector current_board;
     
     int Max_Trait_Tier_Increase(Trait* current);
     float Normalized_trait_increase(Trait* current);
@@ -48,7 +49,7 @@ class Board{
     vector<string> All_Champions();
     vector<string> All_Traits();
     vector<int> Level_Restriction();
-    vector<int> Get_Board();
+    Fast_Vector Get_Board();
 
     // compression and uncompression
     vector<string> Uncompress_Champions(const vector<int> &compressed);

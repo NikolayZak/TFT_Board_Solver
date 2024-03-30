@@ -8,7 +8,6 @@ TEST_FOLDER = test_files
 
 OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
             Parser.o \
-            Fast_Vector.o \
             Board.o \
             Solver.o \
             Multithreading.o \
@@ -19,7 +18,6 @@ OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
 
 TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
                Parser.o \
-               Fast_Vector. o \
                Board.o \
                Solver.o \
                Multithreading.o \

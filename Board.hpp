@@ -12,6 +12,7 @@
 #define BOARD
 // Dependencies
 #include "Parser.hpp"
+#include "Fast_Vector.hpp"
 #include <algorithm>
 
 class Board{

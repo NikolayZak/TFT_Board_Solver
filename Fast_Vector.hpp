@@ -30,16 +30,16 @@ class Fast_Vector{
     public:
     void push_back(int x);
     int pop_back();
-    int back();
-    int size();
-    unsigned long long num();
+    int back() const;
+    int size() const;
+    unsigned long long num() const;
 
     Fast_Vector();
     Fast_Vector(unsigned long long fast_vec_num);
     ~Fast_Vector();
     // operators
     Fast_Vector& operator=(const std::vector<int>& vector);
-    int operator[](size_t index);
+    int operator[](int index) const;
 };
 
 #endif

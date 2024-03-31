@@ -32,29 +32,32 @@ int Fast_Vector::pop_back(){
 }
 
 // peeks at the highest integer NOT NECESSARILY THE LAST ELEMENT
-int Fast_Vector::back(){
+int Fast_Vector::back() const{
     return 63 - __builtin_ctzll(vector);
 }
 
 // peeks at the highest integer NOT NECESSARILY THE LAST ELEMENT
-int Fast_Vector::size(){
+int Fast_Vector::size() const{
     return __builtin_popcountll(vector);
 }
 
 // returns the Fast_Vector as a number
-unsigned long long Fast_Vector::num(){
+unsigned long long Fast_Vector::num() const{
     return vector;
 }
 
 // custom assignment
 Fast_Vector& Fast_Vector::operator=(const std::vector<int>& v1){
-    for(int i = 0; i < v1.size(); i++){
+    vector = 0;
+    for(int i = 0; i < (int)v1.size(); i++){
         push_back(v1[i]);
     }
+    return *this;
 }
 
+
 // custom access
-int Fast_Vector::operator[](size_t index){
+int Fast_Vector::operator[](int index) const{
     int count = 0;
     for (int i = 63; i >= 0; --i) {
         if (vector & (1ULL << i)) {
@@ -63,4 +66,5 @@ int Fast_Vector::operator[](size_t index){
             }
         }
     }
+    return -1; // error
 }

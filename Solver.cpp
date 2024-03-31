@@ -37,6 +37,7 @@ Solver::Solver(const Solver &a_solver){
     runtime = a_solver.runtime;
     subset_start = a_solver.subset_start;
     subset_end = a_solver.subset_end;
+    fast_subset_end = a_solver.fast_subset_end;
     global_highscore = a_solver.global_highscore;
 }
 
@@ -165,7 +166,7 @@ void Solver::Subset_Solve_Boards_Rec(){
     int counter;
     int max_index;
     // Sets the loop values
-    if(Check_Subset(B->Get_Board(), subset_end)){
+    if(Check_Subset(B->Get_Board(), fast_subset_end)){
         counter = subset_start[B->Size()];
         max_index = subset_end[B->Size()];
     }else{
@@ -198,22 +199,12 @@ void Solver::Subset_Solve_Boards_Rec(){
     }
 }
 
-// compares the first vector against the second one and returns weather it's a subset of the other one   O(n)
-bool Solver::Check_Subset(const vector<int> &v1, const vector<int> &v2){
-    // sets a max index
-    int max_index;
-    if(v1.size() > v2.size()){
-        max_index = v2.size();
-    }else{
-        max_index = v1.size();
+// returns whether v1 is a subset of v2 or not   O(1)
+bool Solver::Check_Subset(const Fast_Vector &v1, const Fast_Vector &v2){
+    if((v1.num() & v2.num()) == v1.num()){
+        return true;
     }
-    // checks it's a subset
-    for(int i = 0; i < max_index; i++){
-        if(v1[i] != v2[i]){
-            return false;
-        }
-    }
-    return true;
+    return false;
 }
 
 // used to check if an item is in a vector   O(n)
@@ -284,11 +275,12 @@ void Solver::Subset_Optimal_Boards(const int &size, const vector<int> &start, co
     optimal_boards.clear();
     subset_start = start;
     subset_end = end;
+    fast_subset_end = subset_end;
     Private_Cost_Restriction();
 
     // solve
     Subset_Solve_Boards_Rec();
-
+    
     // add in requisites if needed
     for(auto &board : optimal_boards){
         for(const auto &champ : champions_required){
@@ -305,14 +297,24 @@ void Solver::Subset_Optimal_Boards(const int &size, const vector<int> &start, co
 // returns the raw solved boards   O(1)
 // precondtion: boards must be computed!
 vector<vector<int>> Solver::Compressed_Optimal_Boards(){
-    return optimal_boards;
+    vector<vector<int>> result;
+    for(int i = 0; i < (int)optimal_boards.size(); i++){
+        vector<int> intermediate;
+        for(int j = 0; j < optimal_boards[i].size(); j++){ // Corrected loop condition
+            intermediate.push_back(optimal_boards[i][j]);
+        }
+        result.push_back(intermediate);
+    }
+    return result;
 }
 
 // adds the required champions and converts to strings   O(c`*b)
 // precondtion: boards must be computed!
 vector<vector<string>> Solver::Optimal_Boards(){
     vector<vector<string>> boards;
-    for(auto &board : optimal_boards){
+    vector<vector<int>> result = Compressed_Optimal_Boards();
+    
+    for(auto &board : result){
         boards.push_back(B->Uncompress_Champions(board));
     }
     sort(boards.begin(), boards.end());

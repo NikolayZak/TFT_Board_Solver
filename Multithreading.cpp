@@ -155,7 +155,7 @@ void Multithreaded_Solver::Solve(const int &size){
     for (thread &t : threads) {
         t.join();
     }
-
+    
     // combines all the highscores
     for(int i = 0; i < num_threads; i++){
         if(Workspace[i]->Highscore() > global_highscore){

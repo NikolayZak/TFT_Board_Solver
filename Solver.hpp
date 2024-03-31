@@ -32,14 +32,15 @@ class Solver{
     atomic<int>* global_highscore;
 
     //subset solver
-    Fast_Vector subset_start;
-    Fast_Vector subset_end;
+    vector<int> subset_start;
+    vector<int> subset_end;
+    Fast_Vector fast_subset_end;
 
 
     void Solve_Boards_Rec();
     void Subset_Solve_Boards_Rec();
     bool Check_Vec(const vector<int> &vec, const int &item);
-    bool Check_Subset(const vector<int> &v1, const vector<int> &v2);
+    bool Check_Subset(const Fast_Vector &v1, const Fast_Vector &v2);
     void Private_Cost_Restriction();
 
     public:

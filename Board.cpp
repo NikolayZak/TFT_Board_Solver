@@ -27,12 +27,11 @@ Board::Board(const Board &a_board){
 Board::~Board(){
     delete db;
     db = nullptr;
-    current_board.clear();
 }
 
 
 // gets the compressed current board   O(1)
-vector<int> Board::Get_Board(){
+Fast_Vector Board::Get_Board(){
     return current_board;
 }
 

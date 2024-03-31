@@ -12,28 +12,34 @@
     the vector can only hold integers 0 to 63
     the vector cannot hold duplicates
     the vector can only pop and push based on the largest integer
-    the vector can be seen as a static array of bool condensed into an int
+    the vector can be seen as a priority queue without duplicates and only ints 0-63
 */
 #ifndef FAST_VECTOR
 #define FAST_VECTOR
 #include <iostream>
 #include <stdint.h>
+#include <vector>
 
 
 
 class Fast_Vector{
     private:
     unsigned long long vector;
-    int element_count;
 
 
     public:
     void push_back(int x);
     int pop_back();
-    int back();
-    int size(){ return element_count; }
+    int back() const;
+    int size() const;
+    unsigned long long num() const;
+
     Fast_Vector();
+    Fast_Vector(unsigned long long fast_vec_num);
     ~Fast_Vector();
+    // operators
+    Fast_Vector& operator=(const std::vector<int>& vector);
+    int operator[](int index) const;
 };
 
 #endif

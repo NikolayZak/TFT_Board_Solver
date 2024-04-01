@@ -1,6 +1,6 @@
 # TFT_Board_Solver
 Solves TFT boards with the most active synergies.
-Current Set: 10
+Current Set: 11
 
 // Overview
 Includes methods for adding champions, traits, printing settings, clearing settings, as well as limiting the cost or keeping its default restrictions.

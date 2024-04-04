@@ -25,6 +25,7 @@
 class Fast_Vector{
     private:
     unsigned long long vector;
+    int element_count;
 
 
     public:

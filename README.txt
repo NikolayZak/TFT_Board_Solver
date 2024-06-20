@@ -34,6 +34,7 @@ you won't ever see these outcomes.
 
 // How To Compile
 to compile the executable, you need to open your IDE of choice and ENTER: "make run". Provided you have all the libraries, it should compile and produce "TFT Board Solver #.exe"
+You can then copy the application to a folder with a copy of "traits.csv" and "champs.csv" for the application to run.
 
 // Future endeavours
 In the future I plan on adding an edge case detector which will add these anomalies to the computed boards, if the user ups the value of these rare stacked traits.

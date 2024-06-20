@@ -1,11 +1,18 @@
 #include "Multithreading.hpp"
 #include "Hasher.hpp"
 #include "Interface.hpp"
+#include "StoredVarible.hpp"
 
-
+// global setting state
+int bool_stored_settings = readStoredInteger();
+string stored_name = readStoredString();
 
 int main(){
     // initialization
+    //cout << stored_name;
+    //cin >> stored_name;
+    //updateStoredString(stored_name);
+
     int size, cost;
     Input I;
     vector<string> champions_added, traits_added;

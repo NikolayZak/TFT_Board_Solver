@@ -9,6 +9,7 @@
 */
 #ifndef SOLVER
 #define SOLVER
+
 // Dependencies
 #include "Board.hpp"
 #include <chrono>

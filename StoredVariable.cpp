@@ -29,6 +29,7 @@ void updateStoredInteger(int newValue) {
     }
 }
 
+// Function to read the stored string from the Registry
 std::string readStoredString() {
     HKEY hKey;
     std::string storedString;
@@ -55,6 +56,7 @@ std::string readStoredString() {
     return storedString;
 }
 
+// Function to update and store the string in the Registry
 void updateStoredString(const std::string& newValue) {
     HKEY hKey;
 

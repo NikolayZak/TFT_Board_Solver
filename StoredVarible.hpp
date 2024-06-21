@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 
+bool readStoredBoolean(); // reads a stored boolean (defaults to 0 on first read)
+void updateStoredBoolean(bool newValue); // stores a bool
 int readStoredInteger(); // reads a stored integer (defaults to 0 on first read)
 void updateStoredInteger(int newValue); // stores the int
 std::string readStoredString(); // reads a stored string (defaults to "" on first read)

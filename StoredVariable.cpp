@@ -1,5 +1,36 @@
 #include "StoredVarible.hpp"
 
+// Function to read the stored boolean from the Registry
+bool readStoredBoolean() {
+    HKEY hKey;
+    DWORD storedBoolean = 0;
+
+    // Open (or create if not exists) the registry key
+    if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\MyApp", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        DWORD dataSize = sizeof(DWORD);
+        DWORD dataType;
+        if (RegQueryValueEx(hKey, "StoredBoolean", NULL, &dataType, (LPBYTE)&storedBoolean, &dataSize) != ERROR_SUCCESS) {
+            storedBoolean = 0;  // Default value if the value doesn't exist
+        }
+        RegCloseKey(hKey);
+    }
+
+    return storedBoolean != 0;
+}
+
+// Function to update and store the boolean in the Registry
+void updateStoredBoolean(bool newValue) {
+    HKEY hKey;
+    DWORD storedBoolean = newValue ? 1 : 0;
+
+    // Create or open the registry key
+    if (RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\MyApp", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, NULL) == ERROR_SUCCESS) {
+        RegSetValueEx(hKey, "StoredBoolean", 0, REG_DWORD, (const BYTE*)&storedBoolean, sizeof(storedBoolean));
+        RegCloseKey(hKey);
+    }
+}
+
+
 // Function to read the stored integer from the Registry
 int readStoredInteger() {
     HKEY hKey;

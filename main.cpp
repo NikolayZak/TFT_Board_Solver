@@ -4,14 +4,14 @@
 #include "StoredVarible.hpp"
 
 // global setting state
-int bool_stored_settings = readStoredInteger();
+bool bool_stored_settings = readStoredBoolean();
 string stored_name = readStoredString();
 
 int main(){
     // initialization
     //cout << stored_name;
     //cin >> stored_name;
-    //updateStoredString(stored_name);
+    //updateStoredBoolean(stored_name);
 
     int size, cost;
     Input I;

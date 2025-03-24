@@ -15,7 +15,6 @@ OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
             Hasher.o \
             Interface.o \
             main.o \
-            StoredVariable.o \
             $(EMBEDED_FOLDER)/TFT_Icon.o
 
 TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
@@ -26,7 +25,6 @@ TD_OBJ_FILES = $(EMBEDED_FOLDER)/Prompts.o \
                Multithreading.o \
                Hasher.o \
                Interface.o \
-               StoredVariable.o \
                $(TEST_FOLDER)/test_driver.o \
                $(EMBEDED_FOLDER)/TFT_Icon.o
 

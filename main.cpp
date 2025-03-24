@@ -1,21 +1,15 @@
 #include "Multithreading.hpp"
 #include "Hasher.hpp"
 #include "Interface.hpp"
-#include "StoredVarible.hpp"
-
-// global setting state
-bool bool_stored_settings = readStoredBoolean();
-string stored_name = readStoredString();
 
 int main(){
     // initialization
-    //cout << stored_name;
-    //cin >> stored_name;
-    //updateStoredBoolean(stored_name);
 
-    int size, cost;
+    int size;
     Input I;
-    vector<string> champions_added, traits_added;
+    vector<string> champions_added;
+    vector<string> traits_added;
+    int cost;
     Multithreaded_Solver S(16, "traits.csv", "champs.csv"); // default accuracy is 100%
     //S.Blank_Score(S.Average_Blank_Score() + 1); // this will speed up the program at the cost of accuracy
 

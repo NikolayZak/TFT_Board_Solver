@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #29152c;
   --foreground: #171717;
+}
+
+.text-heading {
+  font-size: 2rem; /* 32px */
+  font-weight: bold;
+  color: #ffffff; /* White */
+  text-align: center;
+  font-family: 'Arial', sans-serif;
 }
 
 @theme inline {

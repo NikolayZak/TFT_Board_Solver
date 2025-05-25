@@ -21,10 +21,13 @@ struct Champion{
     string name;
     int cost;
     vector<Trait*> traits;
-    Champion(const string &name, const int &cost, const vector<Trait*> &traits);
+    Champion(const vector<Trait*> &all_traits, const string &name, const int &cost, const string &traits);
 };
 
 string serializeVector(const vector<int>& vec);
 string serializeVector(const vector<string>& vec);
 vector<int> deserializeIntVector(const string& str);
 vector<string> deserializeStrVector(const string& str);
+
+void deallocTraits(vector<Trait*> &all_traits);
+void deallocChampions(vector<Champion*> &all_champions);

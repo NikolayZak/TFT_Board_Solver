@@ -2,18 +2,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <sstream>
+#include <unordered_map>
 
-using std::string;
-using std::vector;
-using std::endl;
-using std::cerr;
+using namespace std;
 
 struct Trait{
     string name;
     vector<int> value;
     int score;
     int quantity;
-    Trait(const string &given_name, const vector<int> &value);
+    Trait(const string &given_name, const string &value);
     Trait(const Trait &a_trait);
 };
 
@@ -23,3 +23,8 @@ struct Champion{
     vector<Trait*> traits;
     Champion(const string &name, const int &cost, const vector<Trait*> &traits);
 };
+
+string serializeVector(const vector<int>& vec);
+string serializeVector(const vector<string>& vec);
+vector<int> deserializeIntVector(const string& str);
+vector<string> deserializeStrVector(const string& str);

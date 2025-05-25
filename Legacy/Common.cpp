@@ -51,9 +51,9 @@ Trait::Trait(const Trait &a_trait){
     quantity = a_trait.quantity;
 }
 
-Champion::Champion(const vector<Trait*> &all_traits, const string &name, const int &cost, const string &trait_string){
-    this->name = name;
+Champion::Champion(const vector<Trait*> &all_traits, const int &cost, const string &name, const string &trait_string){
     this->cost = cost;
+    this->name = name;
 
     // Deserialize traits
     vector<string> trait_list = deserializeStrVector(trait_string);
@@ -65,18 +65,4 @@ Champion::Champion(const vector<Trait*> &all_traits, const string &name, const i
             }
         }
     }
-}
-
-void deallocTraits(vector<Trait*> &all_traits) {
-    for (Trait* trait : all_traits) {
-        delete trait;
-    }
-    all_traits.clear();
-}
-
-void deallocChampions(vector<Champion*> &all_champions) {
-    for (Champion* champion : all_champions) {
-        delete champion;
-    }
-    all_champions.clear();
 }

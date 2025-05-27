@@ -1,17 +1,17 @@
 #include <Common.hpp>
 
-Trait::Trait(const string &name, const int* value, int num_values){
+Trait::Trait(const string &name, vector<int> &value){
     this->name = name;
     score = 0;
     quantity = 0;
 
     // fill the value array with the provided values
-    for(int i = 0; i < num_values; i++){
+    for(int i = 0; i < value.size(); i++){
         this->value[i] = value[i];
     }
     // fill the rest of the value array with last value
-    for(int i = num_values; i < MAX_TRAIT_TIERS; i++){
-        this->value[i] = value[num_values - 1];
+    for(int i = value.size(); i < MAX_TRAIT_TIERS; i++){
+        this->value[i] = value[value.size() - 1];
     }
 }
 

@@ -20,7 +20,7 @@ struct Trait{
     int quantity;
     int value[MAX_TRAIT_TIERS];
     string name;
-    Trait(const string &name, const int* value, int num_values);
+    Trait(const string &name, vector<int> &value);
     Trait(const Trait &a_trait);
 };
 

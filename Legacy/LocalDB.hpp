@@ -29,12 +29,10 @@ public:
 private:
     void execute(const string& sql);
     void prepareSchema();
-    void insertSet(int set_number);
-    void insertTrait(int set_number, const string& name, const string& value);
-    void insertChampion(int set_number, int cost, const string& name, const string& traits);
-    vector<Trait*> allocTraits(int set_number);
-    vector<Champion*> allocChampions(int set_number, const vector<Trait*> &all_traits);
-    void deallocTraits(vector<Trait*> &all_traits);
-    void deallocChampions(vector<Champion*> &all_champions);
+    int getTraitCount(int set_number);
+    int getChampionCount(int set_number);
+
+    Trait** allocTraits(int set_number);
+    Champion** allocChampions(int set_number, const Trait** all_traits);
     sqlite3* db;
 };

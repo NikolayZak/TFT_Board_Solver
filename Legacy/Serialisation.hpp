@@ -9,6 +9,7 @@
 */
 #pragma once
 #include "Common.hpp"
+#include <sstream>
 
 string serializeVector(const vector<int>& vec);
 string serializeVector(const vector<string>& vec);

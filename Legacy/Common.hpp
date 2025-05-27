@@ -11,30 +11,31 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <sstream>
-#include <unordered_map>
+#include "StaticVariables.hpp"
 
 using namespace std;
 
 struct Trait{
     int score;
     int quantity;
-    vector<int> value;
+    int value[MAX_TRAIT_TIERS];
     string name;
-    Trait(const string &given_name, const vector<int> &value);
+    Trait(const string &name, const int* value, int num_values);
     Trait(const Trait &a_trait);
 };
 
 struct Champion{
     int cost;
+    int num_traits;
+    const Trait* traits[MAX_CHAMPION_TRAITS];
     string name;
-    vector<Trait*> traits;
-    Champion(const vector<Trait*> &all_traits, const int &cost, const string &name, const vector<string> &traits);
+    Champion(const Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
 };
 
 struct SetData{
+    Champion** champions; // array of pointers to Champion objects
+    Trait** traits; // array of pointers to Trait objects
+    int trait_count;
+    int champion_count;
     int set_number;
-    vector<Champion*> champions;
-    vector<Trait*> traits;
 };

@@ -131,7 +131,7 @@ vector<string> LocalDB::getTraitsForChampion(int champion_id) {
     return trait_names;
 }
 
-Champion** LocalDB::allocChampions(int set_number, const Trait** all_traits) {
+Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
     Champion** champions = new Champion*[getChampionCount(set_number)];
 
     string sql = "SELECT id, cost, name FROM champions WHERE set_number = " + to_string(set_number) + ";";

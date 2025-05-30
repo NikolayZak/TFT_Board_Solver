@@ -1,5 +1,5 @@
 -- Commands to create a new set in the TFT Board Solver database: 
--- sqlite3 /home/nikolay/Github/TFT_Board_Solver/Legacy/test_files/database.sqlite < InsertNewSetTemplate.sql
+-- sqlite3 /home/nikolay/Github/TFT_Board_Solver/Legacy/test_files/database.db < InsertNewSetTemplate.sql
 
 -- === Create tables if they don't exist ===
 CREATE TABLE IF NOT EXISTS sets (

@@ -29,7 +29,7 @@ struct Champion{
     int num_traits;
     const Trait* traits[MAX_CHAMPION_TRAITS];
     string name;
-    Champion(const Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
+    Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
 };
 
 struct SetData{

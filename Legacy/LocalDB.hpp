@@ -34,6 +34,6 @@ private:
     vector<string> getTraitsForChampion(int champion_id);
 
     Trait** allocTraits(int set_number);
-    Champion** allocChampions(int set_number, const Trait** all_traits);
+    Champion** allocChampions(int set_number, Trait** all_traits);
     sqlite3* db;
 };

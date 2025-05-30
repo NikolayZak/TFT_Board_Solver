@@ -1,4 +1,4 @@
-#include <Common.hpp>
+#include "Common.hpp"
 
 Trait::Trait(const string &name, vector<int> &value){
     this->name = name;
@@ -25,7 +25,7 @@ Trait::Trait(const Trait &a_trait){
     }
 }
 
-Champion::Champion(const Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits){
+Champion::Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits){
     this->cost = cost;
     this->name = name;
 

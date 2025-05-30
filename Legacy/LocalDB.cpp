@@ -25,8 +25,15 @@ void LocalDB::prepareSchema() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             set_number INTEGER,
             cost INTEGER,
-            name TEXT,
-            traits TEXT
+            name TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS champion_traits (
+            champion_id INTEGER,
+            trait_id INTEGER,
+            PRIMARY KEY (champion_id, trait_id),
+            FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE,
+            FOREIGN KEY (trait_id) REFERENCES traits(id) ON DELETE CASCADE
         );
     )";
     execute(schema);
@@ -103,27 +110,48 @@ Trait** LocalDB::allocTraits(int set_number) {
     return traits;
 }
 
-Champion** LocalDB::allocChampions(int set_number, const Trait** all_traits){
-    // Allocate memory for champions
+vector<string> LocalDB::getTraitsForChampion(int champion_id) {
+    vector<string> trait_names;
+    string sql = 
+        "SELECT t.name FROM traits t "
+        "JOIN champion_traits ct ON t.id = ct.trait_id "
+        "WHERE ct.champion_id = " + to_string(champion_id) + ";";
+
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char* name = sqlite3_column_text(stmt, 0);
+            if (name) trait_names.emplace_back(reinterpret_cast<const char*>(name));
+        }
+        sqlite3_finalize(stmt);
+    } else {
+        cerr << "Failed to fetch traits for champion " << champion_id << ": " << sqlite3_errmsg(db) << "\n";
+    }
+
+    return trait_names;
+}
+
+Champion** LocalDB::allocChampions(int set_number, const Trait** all_traits) {
     Champion** champions = new Champion*[getChampionCount(set_number)];
 
-    // Fetch champion data
-    string sql = "SELECT cost, name, traits FROM champions WHERE set_number = " + to_string(set_number) + ";";
+    string sql = "SELECT id, cost, name FROM champions WHERE set_number = " + to_string(set_number) + ";";
     sqlite3_stmt* stmt;
     int counter = 0;
 
     if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {
-            int cost = sqlite3_column_int(stmt, 0);
-            string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-            string champion_trait_block = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-            vector<string> champion_trait_list = deserializeStrVector(champion_trait_block);
-            champions[counter++] = new Champion(all_traits, cost, name, champion_trait_list);
+            int champion_id = sqlite3_column_int(stmt, 0);
+            int cost = sqlite3_column_int(stmt, 1);
+            string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+
+            vector<string> trait_names = getTraitsForChampion(champion_id);
+            champions[counter++] = new Champion(all_traits, cost, name, trait_names);
         }
         sqlite3_finalize(stmt);
     } else {
         cerr << "Failed to fetch champions: " << sqlite3_errmsg(db) << "\n";
     }
+
     return champions;
 }
 

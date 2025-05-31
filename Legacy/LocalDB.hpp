@@ -23,7 +23,6 @@ public:
     LocalDB(const string& dbPath);
     ~LocalDB();
     SetData allocSet(int set_number);
-    void deallocSet(SetData &set_data);
     vector<int> getSets();
 
 private:

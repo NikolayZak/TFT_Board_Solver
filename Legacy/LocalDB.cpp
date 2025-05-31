@@ -213,21 +213,3 @@ SetData LocalDB::allocSet(int set_number) {
     
     return set_data;
 }
-
-void LocalDB::deallocSet(SetData &set_data) {
-    // Deallocate champions
-    for (int i = 0; i < set_data.champion_count; ++i) {
-        delete set_data.champions[i];
-    }
-    delete[] set_data.champions;
-
-    // Deallocate traits
-    for (int i = 0; i < set_data.trait_count; ++i) {
-        delete set_data.traits[i];
-    }
-    delete[] set_data.traits;
-
-    // Reset counts
-    set_data.trait_count = 0;
-    set_data.champion_count = 0;
-}

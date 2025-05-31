@@ -40,3 +40,5 @@ struct SetData{
     int champion_count;
     int set_number;
 };
+
+void deallocSet(SetData &set_data);

@@ -33,8 +33,8 @@ struct Champion{
 };
 
 struct SetData{
-    Champion** champions; // array of pointers to Champion objects
     Trait** traits; // array of pointers to Trait objects
+    Champion** champions; // array of pointers to Champion objects
     int cost_restriction[MAX_PLAYER_LEVEL]; // cost restriction[0] is for level 1
     int trait_count;
     int champion_count;

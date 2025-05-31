@@ -6,6 +6,11 @@ CREATE TABLE IF NOT EXISTS sets (
     set_number INTEGER PRIMARY KEY
 );
 
+CREATE TABLE IF NOT EXISTS level_restrictions (
+    set_number INTEGER,
+    cost_restriction TEXT
+);
+
 CREATE TABLE IF NOT EXISTS traits (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     set_number INTEGER,
@@ -30,6 +35,9 @@ CREATE TABLE IF NOT EXISTS champion_traits (
 
 -- Insert sets
 INSERT OR IGNORE INTO sets (set_number) VALUES (1);
+
+-- Insert level restriction
+INSERT OR IGNORE INTO level_restrictions (set_number, cost_restriction) VALUES (1, '1,2,3,3,4,4,5,5,5,5');
 
 -- Insert traits (Set#, Name, value per each tier level Example: '0,0,2,2" means value 0 for 0 bruisers, 0 for 1 bruiser, 2 for 2 bruisers, and then last value (2) for the rest (undefined places)))
 INSERT OR IGNORE INTO traits (set_number, name, value) VALUES (1, 'Bruiser', '0,0,2,2,4,4,6,6,8');

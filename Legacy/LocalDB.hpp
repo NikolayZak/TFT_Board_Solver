@@ -29,6 +29,7 @@ public:
 private:
     void execute(const string& sql);
     void prepareSchema();
+    vector<int> getCostRestriction(int set_number);
     int getTraitCount(int set_number);
     int getChampionCount(int set_number);
     vector<string> getTraitsForChampion(int champion_id);

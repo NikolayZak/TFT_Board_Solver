@@ -14,6 +14,11 @@ void LocalDB::prepareSchema() {
             set_number INTEGER PRIMARY KEY
         );
 
+        CREATE TABLE IF NOT EXISTS level_restrictions (
+            set_number INTEGER,
+            cost_restriction TEXT
+        );
+
         CREATE TABLE IF NOT EXISTS traits (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             set_number INTEGER,
@@ -170,6 +175,24 @@ vector<int> LocalDB::getSets() {
     return sets;
 }
 
+vector<int> LocalDB::getCostRestriction(int set_number) {
+    vector<int> restrictions;
+    string sql = "SELECT cost_restriction FROM level_restrictions WHERE set_number = " + to_string(set_number) + ";";
+    sqlite3_stmt* stmt;
+
+    if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            const char* restriction_text = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+            restrictions = deserializeIntVector(restriction_text);
+        }
+        sqlite3_finalize(stmt);
+    } else {
+        cerr << "Failed to fetch cost restrictions: " << sqlite3_errmsg(db) << "\n";
+    }
+
+    return restrictions;
+}
+
 SetData LocalDB::allocSet(int set_number) {
     SetData set_data;
     set_data.set_number = set_number;
@@ -177,6 +200,17 @@ SetData LocalDB::allocSet(int set_number) {
     set_data.champions = allocChampions(set_number, set_data.traits);
     set_data.trait_count = getTraitCount(set_number);
     set_data.champion_count = getChampionCount(set_number);
+
+    // Get cost restrictions
+    vector<int> cost_restrictions = getCostRestriction(set_number);
+    for (int i = 0; i < MAX_PLAYER_LEVEL; ++i) {
+        if (i < cost_restrictions.size()) {
+            set_data.cost_restriction[i] = cost_restrictions[i];
+        } else {
+            set_data.cost_restriction[i] = 100; // Default value if not specified
+        }
+    }
+    
     return set_data;
 }
 

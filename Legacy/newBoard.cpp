@@ -18,6 +18,7 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
     }
     set_data.restrictSet(player_level, champions_added);
     current_board = Fast_Vector(); // Reset the current board
+    current_board_score = 0; // Reset the score
 }
 
 void Board::AddTrait(int trait_id) {

@@ -24,6 +24,7 @@ public:
     ~LocalDB();
     SetData allocSet(int set_number);
     vector<int> getSets();
+    void increaseChampionPickCount(int set_number, string champion_name, int increment);
 
 private:
     void execute(const string& sql);

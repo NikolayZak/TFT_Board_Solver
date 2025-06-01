@@ -30,8 +30,12 @@ void LocalDB::prepareSchema() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             set_number INTEGER,
             cost INTEGER,
-            name TEXT
+            name TEXT,
+            pick_count INTEGER DEFAULT 0
         );
+
+        CREATE INDEX IF NOT EXISTS idx_champion_pick_count 
+        ON champions(set_number, pick_count DESC);
 
         CREATE TABLE IF NOT EXISTS champion_traits (
             champion_id INTEGER,
@@ -139,7 +143,7 @@ vector<string> LocalDB::getTraitsForChampion(int champion_id) {
 Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
     Champion** champions = new Champion*[getChampionCount(set_number)];
 
-    string sql = "SELECT id, cost, name FROM champions WHERE set_number = " + to_string(set_number) + ";";
+    string sql = "SELECT id, cost, name FROM champions WHERE set_number = " + to_string(set_number) + " ORDER BY pick_count DESC;";
     sqlite3_stmt* stmt;
     int counter = 0;
 
@@ -173,6 +177,12 @@ vector<int> LocalDB::getSets() {
         cerr << "Failed to fetch sets: " << sqlite3_errmsg(db) << "\n";
     }
     return sets;
+}
+
+void LocalDB::increaseChampionPickCount(int set_number, string champion_name, int increment) {
+    string sql = "UPDATE champions SET pick_count = pick_count + " + to_string(increment) +
+                 " WHERE set_number = " + to_string(set_number) + " AND name = '" + champion_name + "';";
+    execute(sql);
 }
 
 vector<int> LocalDB::getCostRestriction(int set_number) {

@@ -10,10 +10,13 @@ Board::~Board() {
     set_data.deallocSet();
 }
 
-// NOT FINISHED
-void Board::UpdateSetData(const SetData& data, const vector<int> &champions_added) {
+void Board::UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added) {
     set_data.deallocSet(); // Free the old set data
     set_data.copySet(data); // Copy the new set data
+    for(int i = 0; i < champions_added.size(); i++) {
+        PushChampion(champions_added[i]); // Add the champions to the board
+    }
+    set_data.restrictSet(player_level, champions_added);
     current_board = Fast_Vector(); // Reset the current board
 }
 

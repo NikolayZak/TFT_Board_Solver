@@ -24,8 +24,8 @@ class Board {
     // methods
     Board(const SetData& data);
     ~Board();
-    void UpdateSetData(const SetData& data, const vector<int> &champions_added);
-
+    
+    void UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added);
     void AddTrait(int trait_id);
     void RemoveTrait(int trait_id);
     void PushChampion(int champion_id);

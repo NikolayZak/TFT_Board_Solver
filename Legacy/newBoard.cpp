@@ -32,6 +32,14 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
     current_board_score = 0; // Reset the score
 }
 
+vector<string> Board::ConvertBoard(const Fast_Vector &Fast) {
+    vector<string> result;
+    for(int i = 0; i < Fast.size(); i++) {
+        result.push_back(set_data.champions[Fast[i]]->name);
+    }
+    return result;
+}
+
 void Board::AddTrait(int trait_id) {
     current_board_score += set_data.traits[trait_id]->Increment();
 }
@@ -48,4 +56,8 @@ void Board::PushChampion(int champion_id) {
 void Board::PopChampion(){
     int champion_id = current_board.pop_back();
     current_board_score += set_data.champions[champion_id]->DecrementTraits();
+}
+
+BoardEntry Board::GetBoard() {
+    return {current_board, current_board_score};
 }

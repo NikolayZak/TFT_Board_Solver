@@ -20,16 +20,22 @@ struct Trait{
     int quantity;
     int value[MAX_TRAIT_TIERS];
     string name;
+
     Trait(const string &name, vector<int> &value);
     Trait(const Trait &a_trait);
+    void Increment();
+    void Decrement();
 };
 
 struct Champion{
     int cost;
     int num_traits;
-    const Trait* traits[MAX_CHAMPION_TRAITS];
+    Trait* traits[MAX_CHAMPION_TRAITS];
     string name;
+
     Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
+    void IncrementTraits();
+    void DecrementTraits();
 };
 
 struct SetData{
@@ -38,8 +44,10 @@ struct SetData{
     int cost_restriction[MAX_PLAYER_LEVEL]; // cost restriction[0] is for level 1
     int trait_count;
     int champion_count;
+    int current_cost_restriction;
     int set_number;
-    void copySet(const SetData &data);
-};
 
-void deallocSet(SetData &set_data);
+    void copySet(const SetData &data);
+    void RestrictSet(int player_level, vector<int> &champions_to_remove); // NOT FINISHED
+    void deallocSet();
+};

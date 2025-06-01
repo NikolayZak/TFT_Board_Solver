@@ -25,6 +25,16 @@ Trait::Trait(const Trait &a_trait){
     }
 }
 
+void Trait::Increment(){
+    quantity++;
+    score += value[quantity];
+}
+
+void Trait::Decrement(){
+    score -= value[quantity];
+    quantity--;
+}
+
 Champion::Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits){
     this->cost = cost;
     this->name = name;
@@ -43,10 +53,23 @@ Champion::Champion(Trait** all_traits, int cost, const string &name, const vecto
     }
 }
 
+void Champion::IncrementTraits() {
+    for(int i = 0; i < num_traits; i++) {
+        traits[i]->Increment(); // increment each trait's quantity
+    }
+}
+
+void Champion::DecrementTraits() {
+    for(int i = 0; i < num_traits; i++) {
+        traits[i]->Decrement(); // decrement each trait's quantity
+    }
+}
+
 void SetData::copySet(const SetData &a_set_data) {
     this->set_number = a_set_data.set_number;
     this->champion_count = a_set_data.champion_count;
     this->trait_count = a_set_data.trait_count;
+    this->current_cost_restriction = a_set_data.current_cost_restriction;
     
     for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
         this->cost_restriction[i] = a_set_data.cost_restriction[i];
@@ -63,20 +86,20 @@ void SetData::copySet(const SetData &a_set_data) {
     }
 }
 
-void deallocSet(SetData &set_data) {
+void SetData::deallocSet() {
     // Deallocate champions
-    for (int i = 0; i < set_data.champion_count; ++i) {
-        delete set_data.champions[i];
+    for (int i = 0; i < this->champion_count; ++i) {
+        delete this->champions[i];
     }
-    delete[] set_data.champions;
+    delete[] this->champions;
 
     // Deallocate traits
-    for (int i = 0; i < set_data.trait_count; ++i) {
-        delete set_data.traits[i];
+    for (int i = 0; i < this->trait_count; ++i) {
+        delete this->traits[i];
     }
-    delete[] set_data.traits;
+    delete[] this->traits;
 
     // Reset counts
-    set_data.trait_count = 0;
-    set_data.champion_count = 0;
+    this->trait_count = 0;
+    this->champion_count = 0;
 }

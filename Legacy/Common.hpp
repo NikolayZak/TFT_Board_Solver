@@ -39,8 +39,7 @@ struct SetData{
     int trait_count;
     int champion_count;
     int set_number;
-    SetData(){}
-    SetData(const SetData &a_set_data); // copy constructor
+    void copySet(const SetData &data);
 };
 
 void deallocSet(SetData &set_data);

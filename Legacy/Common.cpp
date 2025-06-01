@@ -43,25 +43,23 @@ Champion::Champion(Trait** all_traits, int cost, const string &name, const vecto
     }
 }
 
-SetData::SetData(const SetData &a_set_data) {
-    SetData new_set_data;
-    
-    new_set_data.set_number = a_set_data.set_number;
-    new_set_data.champion_count = a_set_data.champion_count;
-    new_set_data.trait_count = a_set_data.trait_count;
+void SetData::copySet(const SetData &a_set_data) {
+    this->set_number = a_set_data.set_number;
+    this->champion_count = a_set_data.champion_count;
+    this->trait_count = a_set_data.trait_count;
     
     for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
-        new_set_data.cost_restriction[i] = a_set_data.cost_restriction[i];
+        this->cost_restriction[i] = a_set_data.cost_restriction[i];
     }
 
-    new_set_data.traits = new Trait*[new_set_data.trait_count];
-    new_set_data.champions = new Champion*[new_set_data.champion_count];
+    this->traits = new Trait*[this->trait_count];
+    this->champions = new Champion*[this->champion_count];
 
-    for(int i = 0; i < new_set_data.trait_count; i++){
-        new_set_data.traits[i] = new Trait(*a_set_data.traits[i]);
+    for(int i = 0; i < this->trait_count; i++){
+        this->traits[i] = new Trait(*a_set_data.traits[i]);
     }
-    for(int i = 0; i < new_set_data.champion_count; i++){
-        new_set_data.champions[i] = new Champion(*a_set_data.champions[i]);
+    for(int i = 0; i < this->champion_count; i++){
+        this->champions[i] = new Champion(*a_set_data.champions[i]);
     }
 }
 

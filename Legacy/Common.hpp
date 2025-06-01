@@ -16,15 +16,14 @@
 using namespace std;
 
 struct Trait{
-    int score;
     int quantity;
     int value[MAX_TRAIT_TIERS];
     string name;
 
     Trait(const string &name, vector<int> &value);
     Trait(const Trait &a_trait);
-    void Increment();
-    void Decrement();
+    int Increment(); // returns the positive value of the increment
+    int Decrement(); // returns the negative value of the decrement
 };
 
 struct Champion{
@@ -34,8 +33,8 @@ struct Champion{
     string name;
 
     Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
-    void IncrementTraits();
-    void DecrementTraits();
+    int IncrementTraits(); // returns the total positive value of all traits
+    int DecrementTraits(); // returns the total negative value of all traits
 };
 
 struct SetData{

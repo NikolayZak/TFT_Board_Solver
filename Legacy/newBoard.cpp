@@ -22,19 +22,19 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
 }
 
 void Board::AddTrait(int trait_id) {
-    set_data.traits[trait_id]->Increment();
+    current_board_score += set_data.traits[trait_id]->Increment();
 }
 
 void Board::RemoveTrait(int trait_id) {
-    set_data.traits[trait_id]->Decrement();
+    current_board_score += set_data.traits[trait_id]->Decrement();
 }
 
 void Board::PushChampion(int champion_id) {
     current_board.push_back(champion_id);
-    set_data.champions[champion_id]->IncrementTraits();
+    current_board_score += set_data.champions[champion_id]->IncrementTraits();
 }
 
 void Board::PopChampion(){
     int champion_id = current_board.pop_back();
-    set_data.champions[champion_id]->DecrementTraits();
+    current_board_score += set_data.champions[champion_id]->DecrementTraits();
 }

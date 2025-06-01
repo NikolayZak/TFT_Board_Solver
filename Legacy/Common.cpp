@@ -2,7 +2,6 @@
 
 Trait::Trait(const string &name, vector<int> &value){
     this->name = name;
-    score = 0;
     quantity = 0;
     int prev_value = 0;
 
@@ -19,7 +18,6 @@ Trait::Trait(const string &name, vector<int> &value){
 
 Trait::Trait(const Trait &a_trait){
     name = a_trait.name;
-    score = a_trait.score;
     quantity = a_trait.quantity;
 
     for(int i = 0; i < MAX_TRAIT_TIERS; i++){
@@ -27,14 +25,14 @@ Trait::Trait(const Trait &a_trait){
     }
 }
 
-void Trait::Increment(){
+int Trait::Increment(){
     quantity++;
-    score += value[quantity];
+    return value[quantity];
 }
 
-void Trait::Decrement(){
-    score -= value[quantity];
+int Trait::Decrement(){
     quantity--;
+    return -value[quantity + 1];
 }
 
 Champion::Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits){
@@ -55,16 +53,20 @@ Champion::Champion(Trait** all_traits, int cost, const string &name, const vecto
     }
 }
 
-void Champion::IncrementTraits() {
+int Champion::IncrementTraits() {
+    int result = 0;
     for(int i = 0; i < num_traits; i++) {
-        traits[i]->Increment(); // increment each trait's quantity
+        result += traits[i]->Increment(); // increment each trait's quantity
     }
+    return result;
 }
 
-void Champion::DecrementTraits() {
+int Champion::DecrementTraits() {
+    int result = 0;
     for(int i = 0; i < num_traits; i++) {
-        traits[i]->Decrement(); // decrement each trait's quantity
+        result += traits[i]->Decrement(); // decrement each trait's quantity
     }
+    return result;
 }
 
 void SetData::copySet(const SetData &a_set_data) {

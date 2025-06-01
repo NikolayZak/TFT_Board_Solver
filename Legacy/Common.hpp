@@ -43,10 +43,9 @@ struct SetData{
     int cost_restriction[MAX_PLAYER_LEVEL]; // cost restriction[0] is for level 1
     int trait_count;
     int champion_count;
-    int current_cost_restriction;
     int set_number;
 
-    void copySet(const SetData &data);
-    void restrictSet(int player_level, const vector<int> &champions_to_remove);
-    void deallocSet();
+    void copySet(const SetData &data); // copy the set data from another SetData object
+    void restrictSet(int player_level, const vector<int> &champions_to_remove); // restrict the set data based on player level and champions to remove
+    void deallocSet(); // deallocate all traits and champions
 };

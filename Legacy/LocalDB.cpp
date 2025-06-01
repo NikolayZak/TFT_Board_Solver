@@ -220,7 +220,5 @@ SetData LocalDB::allocSet(int set_number) {
         set_data.cost_restriction[i] = cost_restrictions.back();
     }
 
-    // Set the current cost restriction based on the maximum player level
-    set_data.current_cost_restriction = set_data.cost_restriction[MAX_PLAYER_LEVEL - 1];
     return set_data;
 }

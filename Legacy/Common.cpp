@@ -73,7 +73,6 @@ void SetData::copySet(const SetData &a_set_data) {
     this->set_number = a_set_data.set_number;
     this->champion_count = a_set_data.champion_count;
     this->trait_count = a_set_data.trait_count;
-    this->current_cost_restriction = a_set_data.current_cost_restriction;
     
     for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
         this->cost_restriction[i] = a_set_data.cost_restriction[i];
@@ -92,7 +91,7 @@ void SetData::copySet(const SetData &a_set_data) {
 
 void SetData::restrictSet(int player_level, const vector<int> &champions_to_remove) {
     // Update the current cost restriction based on the player level
-    this->current_cost_restriction = this->cost_restriction[player_level - 1];
+    int current_cost_restriction = this->cost_restriction[player_level - 1];
     int delete_count = 0;
 
     // Deallocate specified champions from the set
@@ -104,7 +103,7 @@ void SetData::restrictSet(int player_level, const vector<int> &champions_to_remo
 
     // Deallocate champions that don't meet the cost restriction
     for (int i = 0; i < this->champion_count; ++i) {
-        if (this->champions[i] && this->champions[i]->cost > this->current_cost_restriction) {
+        if (this->champions[i] && this->champions[i]->cost > current_cost_restriction) {
             delete this->champions[i]; // Deallocate the champion
             this->champions[i] = nullptr; // Set to nullptr to avoid dangling pointer
             delete_count++;

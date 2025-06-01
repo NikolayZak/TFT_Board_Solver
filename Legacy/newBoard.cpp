@@ -1,6 +1,10 @@
 #include "newBoard.hpp"
 
 Board::Board(const SetData& data){
+    if(data.champion_count > MAX_CHAMPIONS) {
+        cerr << "Error: SetData exceeds maximum champion count." << endl;
+        exit(EXIT_FAILURE);
+    }
     current_board_score = 0;
     current_board = Fast_Vector();
     set_data.copySet(data);
@@ -17,6 +21,13 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
         PushChampion(champions_added[i]); // Add the champions to the board
     }
     set_data.restrictSet(player_level, champions_added);
+
+    // Check if the new set data exceeds the maximum champion count
+    if(data.champion_count > MAX_CHAMPIONS) {
+        cerr << "Error: SetData exceeds maximum champion count." << endl;
+        exit(EXIT_FAILURE);
+    }
+    // Reset the current board and score
     current_board = Fast_Vector(); // Reset the current board
     current_board_score = 0; // Reset the score
 }

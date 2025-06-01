@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Fast_Vector.hpp"
 #include "StaticVariables.hpp"
 
 using namespace std;
@@ -48,4 +49,27 @@ struct SetData{
     void copySet(const SetData &data); // copy the set data from another SetData object
     void restrictSet(int player_level, const vector<int> &champions_to_remove); // restrict the set data based on player level and champions to remove
     void deallocSet(); // deallocate all traits and champions
+};
+
+struct BoardEntry {
+    Fast_Vector board;
+    int board_score;
+};
+
+class TopScoringBoards {
+private:
+    vector<BoardEntry> heap;
+    int max_size;
+
+    void heapify_up(int index);
+    void heapify_down(int index);
+    bool compare(const BoardEntry& a, const BoardEntry& b) const;
+
+public:
+    TopScoringBoards(int max_size); // constructor
+    void push(const BoardEntry& entry);
+    void pop();
+    const BoardEntry& top() const;
+    bool empty() const;
+    int size() const;
 };

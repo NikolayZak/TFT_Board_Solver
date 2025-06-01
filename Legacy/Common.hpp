@@ -48,6 +48,6 @@ struct SetData{
     int set_number;
 
     void copySet(const SetData &data);
-    void RestrictSet(int player_level, vector<int> &champions_to_remove); // NOT FINISHED
+    void restrictSet(int player_level, const vector<int> &champions_to_remove);
     void deallocSet();
 };

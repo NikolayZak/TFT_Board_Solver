@@ -203,13 +203,14 @@ SetData LocalDB::allocSet(int set_number) {
 
     // Get cost restrictions
     vector<int> cost_restrictions = getCostRestriction(set_number);
-    for (int i = 0; i < MAX_PLAYER_LEVEL; ++i) {
-        if (i < cost_restrictions.size()) {
-            set_data.cost_restriction[i] = cost_restrictions[i];
-        } else {
-            set_data.cost_restriction[i] = 100; // Default value if not specified
-        }
+    for (int i = 0; i < cost_restrictions.size(); ++i) {
+        set_data.cost_restriction[i] = cost_restrictions[i];
     }
-    
+    for (int i = cost_restrictions.size(); i < MAX_PLAYER_LEVEL; ++i) {
+        set_data.cost_restriction[i] = cost_restrictions.back();
+    }
+
+    // Set the current cost restriction based on the maximum player level
+    set_data.current_cost_restriction = set_data.cost_restriction[MAX_PLAYER_LEVEL - 1];
     return set_data;
 }

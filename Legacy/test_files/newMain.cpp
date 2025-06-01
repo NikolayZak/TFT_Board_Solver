@@ -6,7 +6,10 @@ int main() {
     LocalDB db("database.db");
 
     // Allocate a set (for example, set number 1)
-    SetData set_data = db.allocSet(1);
+    SetData source_set_data = db.allocSet(1);
+    SetData set_data;
+    set_data.copySet(source_set_data); // Copy the allocated set data
+    set_data.restrictSet(3, {1}); // Restrict the set for player level 3 with no champions to remove
 
     // Print the allocated set data
     cout << "Set Number: " << set_data.set_number << endl;
@@ -31,7 +34,9 @@ int main() {
     }
 
     // Deallocate the set data
-    db.deallocSet(set_data);
+    set_data.deallocSet();
+    source_set_data.deallocSet(); // Deallocate the source set data
+    cout << "Set data deallocated." << endl;
 
     return 0;
 }

@@ -22,8 +22,12 @@ CREATE TABLE IF NOT EXISTS champions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     set_number INTEGER,
     cost INTEGER,
-    name TEXT
+    name TEXT,
+    pick_count INTEGER DEFAULT 0
 );
+
+CREATE INDEX IF NOT EXISTS idx_champion_pick_count 
+    ON champions(set_number, pick_count DESC);
 
 CREATE TABLE IF NOT EXISTS champion_traits (
     champion_id INTEGER,

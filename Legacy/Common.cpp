@@ -4,14 +4,16 @@ Trait::Trait(const string &name, vector<int> &value){
     this->name = name;
     score = 0;
     quantity = 0;
+    int prev_value = 0;
 
-    // fill the value array with the provided values
+    // fill the value array with the increments
     for(int i = 0; i < value.size(); i++){
-        this->value[i] = value[i];
+        this->value[i] = value[i] - prev_value;
+        prev_value = value[i];
     }
-    // fill the rest of the value array with last value
+    // fill the rest of the value array with 0
     for(int i = value.size(); i < MAX_TRAIT_TIERS; i++){
-        this->value[i] = value[value.size() - 1];
+        this->value[i] = 0;
     }
 }
 

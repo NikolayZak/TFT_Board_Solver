@@ -10,25 +10,26 @@
 #pragma once
 #include "newBoard.hpp"
 #include <chrono>
+#include <algorithm>
 
 class Solver {
     private:
     // variables
     Board B;
-    vector<vector<string>> optimal_boards;
+    TopScoringBoards optimal_boards;
     int highscore;
     int target_size;
-    int max_increase;
-    float blank_score;
+    int max_champion_increase;
     float runtime;
 
     void SolveBoardsRec();
 
     public:
-    Solver(const SetData& data);
+    Solver(const SetData& data, int max_optimal_board_size);
     ~Solver();
     void UpdateData(const SetData& data, int player_level, const vector<int> &champions_added, const vector<int> &traits_added);
-    vector<vector<string>> Solve(int target_size);
+    vector<BoardResult> Solve(int target_size);
+    float Runtime() const { return runtime; }
 
 
 };

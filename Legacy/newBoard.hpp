@@ -32,10 +32,12 @@ class Board {
     void PushChampion(int champion_id);
     void PopChampion();
     BoardEntry GetBoard();
+    int CalculateMaxChampionIncrease();
 
     // pass through methods
     int ChampionsInSet() const { return set_data.champion_count; }
     int TraitsInSet() const { return set_data.trait_count; }
+    int Back() const { return current_board.back(); }
     int Size() const { return current_board.size(); }
     int GetScore() const { return current_board_score; }
 };

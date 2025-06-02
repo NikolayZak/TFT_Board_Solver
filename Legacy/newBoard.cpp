@@ -61,3 +61,38 @@ void Board::PopChampion(){
 BoardEntry Board::GetBoard() {
     return {current_board, current_board_score};
 }
+
+int Board::CalculateMaxChampionIncrease() {
+    vector<int> max_trait_increases;
+    int max_trait_tier_increase = 0;
+
+    // calculate the maximum trait tier increase for each trait
+    for(int i = 0; i < set_data.trait_count; i++) {
+        max_trait_tier_increase = 0;
+        for(int j = 0; j < MAX_TRAIT_TIERS; j++) {
+            if(set_data.traits[i]->value[j] > max_trait_tier_increase) {
+                max_trait_tier_increase = set_data.traits[i]->value[j];
+            }
+        }
+        max_trait_increases.push_back(max_trait_tier_increase);
+    }
+
+    // calculate the maximum champion increase based on traits
+    int max_champion_increase = 0;
+    for(int i = 0; i < set_data.champion_count; i++) {
+        int champion_increase = 0;
+        for(int j = 0; j < set_data.champions[i]->num_traits; j++) {
+            string current_trait = set_data.champions[i]->traits[j]->name;
+            for(int k = 0; k < set_data.trait_count; k++) {
+                if(set_data.traits[k]->name == current_trait) {
+                    champion_increase += max_trait_increases[k];
+                }
+            }
+        }
+        if(champion_increase > max_champion_increase) {
+            max_champion_increase = champion_increase;
+        }
+    }
+    
+    return max_champion_increase;
+}

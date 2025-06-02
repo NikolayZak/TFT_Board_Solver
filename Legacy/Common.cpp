@@ -140,6 +140,11 @@ void SetData::deallocSet() {
     this->champion_count = 0;
 }
 
+BoardResult::BoardResult(const vector<string> &board, int score){
+    this->board = board;
+    this->score = score;
+}
+
 TopScoringBoards::TopScoringBoards(int max_size){
     heap.reserve(max_size);
     this->max_size = max_size;

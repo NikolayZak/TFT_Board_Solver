@@ -56,6 +56,13 @@ struct BoardEntry {
     int board_score;
 };
 
+struct BoardResult {
+    vector<string> board;
+    int score;
+
+    BoardResult(const vector<string> &board, int score);
+};
+
 class TopScoringBoards {
 private:
     vector<BoardEntry> heap;

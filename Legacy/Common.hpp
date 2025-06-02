@@ -74,6 +74,7 @@ private:
 
 public:
     TopScoringBoards(int max_size); // constructor
+    ~TopScoringBoards(); // destructor
     void push(const BoardEntry& entry);
     void pop();
     const BoardEntry& top() const;

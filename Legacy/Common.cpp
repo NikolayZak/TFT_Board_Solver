@@ -44,12 +44,9 @@ Champion::Champion(Trait** all_traits, int cost, const string &name, const vecto
     }
     num_traits = 0;
     for(const string &trait_name : champion_traits){
-        for(int i = 0; i < MAX_CHAMPION_TRAITS; i++){ // iterate through all traits
-            if(all_traits[i]->name == trait_name){
-                traits[num_traits++] = all_traits[i]; // assign the trait to the champion
-                break;
-            }
-        }
+        int counter = 0;
+        while(all_traits[counter]->name != trait_name) { counter ++;} // dangerous, but we assume the trait exists
+        traits[num_traits++] = all_traits[counter]; // assign the trait to the champion
     }
 }
 

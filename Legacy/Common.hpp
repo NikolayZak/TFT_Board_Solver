@@ -61,6 +61,7 @@ struct BoardResult {
     int score;
 
     BoardResult(const vector<string> &board, int score);
+    void Print() const;
 };
 
 class TopScoringBoards {

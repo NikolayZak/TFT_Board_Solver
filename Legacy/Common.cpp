@@ -142,6 +142,14 @@ BoardResult::BoardResult(const vector<string> &board, int score){
     this->score = score;
 }
 
+void BoardResult::Print() const{
+    cout << "Board: ";
+    for (const string &champion : board) {
+        cout << champion << " ";
+    }
+    cout << "\nScore: " << score << "\n";
+}
+
 TopScoringBoards::TopScoringBoards(int max_size){
     heap.reserve(max_size);
     this->max_size = max_size;

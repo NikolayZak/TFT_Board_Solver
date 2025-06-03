@@ -1,15 +1,14 @@
 #include "../LocalDB.hpp"
 
-// compile test with: g++ ../Common.cpp ../Serialisation.cpp ../LocalDB.cpp newMain.cpp -lsqlite3 -o test
+// compile test with: g++ ../Fast_Vector.cpp ../Common.cpp ../Serialisation.cpp ../LocalDB.cpp ../newBoard.cpp ../newSolver.cpp newMain.cpp -lsqlite3 -o test
 int main() {
     // Initialize the local database
     LocalDB db("database.db");
-
     // Allocate a set (for example, set number 1)
-    SetData source_set_data = db.allocSet(1);
+    SetData source_set_data = db.allocSet(11);
     SetData set_data;
     set_data.copySet(source_set_data); // Copy the allocated set data
-    set_data.restrictSet(3, {1}); // Restrict the set for player level 3 with no champions to remove
+    //set_data.restrictSet(6, {1}); // Restrict the set for player level 3 with no champions to remove
 
     // Print the allocated set data
     cout << "Set Number: " << set_data.set_number << endl;

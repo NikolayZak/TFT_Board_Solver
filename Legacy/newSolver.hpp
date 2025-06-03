@@ -25,7 +25,7 @@ class Solver {
     void SolveBoardsRec();
 
     public:
-    Solver(const SetData& data, int max_optimal_board_size);
+    Solver(const SetData& data, int heap_size);
     ~Solver();
     void UpdateData(const SetData& data, int player_level, const vector<int> &champions_added, const vector<int> &traits_added);
     vector<BoardResult> Solve(int target_size);

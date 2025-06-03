@@ -1,11 +1,10 @@
 #include "newSolver.hpp"
 
-Solver::Solver(const SetData& data, int max_optimal_board_size) : B(data), optimal_boards(max_optimal_board_size){
+Solver::Solver(const SetData& data, int heap_size) : B(data), optimal_boards(heap_size){
     max_champion_increase = B.CalculateMaxChampionIncrease();
 }
 
 Solver::~Solver() {
-    // Destructor does not need to do anything as Board's destructor will handle cleanup
 }
 
 void Solver::UpdateData(const SetData& data, int player_level, const vector<int> &champions_added, const vector<int> &traits_added) {
@@ -33,6 +32,7 @@ void Solver::SolveBoardsRec() {
             highscore = B.GetScore();
         }
         optimal_boards.push(B.GetBoard());
+        return;
     }
 
     // case: champion on board & needs to add a champ
@@ -46,18 +46,19 @@ void Solver::SolveBoardsRec() {
             SolveBoardsRec();
         }
         B.PopChampion();
+        counter++;
     }
 }
 
 vector<BoardResult> Solver::Solve(int target_size) {
     this->target_size = target_size;
     highscore = 0;
-    optimal_boards.empty();
+    optimal_boards.clear();
 
     auto start = chrono::high_resolution_clock::now();
     SolveBoardsRec();
     auto end = chrono::high_resolution_clock::now();
-    runtime = chrono::duration<float, milli>(end - start).count();
+    runtime = chrono::duration<float, milli>(end - start).count() / 1000.0f; // Convert to seconds
     
     vector<BoardResult> result;
     while(!optimal_boards.empty()) {

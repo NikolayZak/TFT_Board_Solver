@@ -209,6 +209,10 @@ void TopScoringBoards::pop() {
     heapify_down(0);
 }
 
+void TopScoringBoards::clear() {
+    heap.clear();
+}
+
 bool TopScoringBoards::empty() const {
     return heap.empty();
 }

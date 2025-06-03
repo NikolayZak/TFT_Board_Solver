@@ -77,6 +77,7 @@ public:
     ~TopScoringBoards(); // destructor
     void push(const BoardEntry& entry);
     void pop();
+    void clear();
     const BoardEntry& top() const;
     bool empty() const;
     int size() const;

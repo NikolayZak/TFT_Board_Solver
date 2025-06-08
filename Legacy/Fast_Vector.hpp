@@ -14,8 +14,7 @@
     the vector can only pop and push based on the largest integer
     the vector can be seen as a priority queue without duplicates and only ints 0-63
 */
-#ifndef FAST_VECTOR
-#define FAST_VECTOR
+#pragma once
 #include <iostream>
 #include <stdint.h>
 #include <vector>
@@ -42,5 +41,3 @@ class Fast_Vector{
     Fast_Vector& operator=(const std::vector<int>& vector);
     int operator[](int index) const;
 };
-
-#endif

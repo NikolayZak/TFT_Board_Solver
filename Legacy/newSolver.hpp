@@ -9,8 +9,9 @@
 */
 #pragma once
 #include "newBoard.hpp"
+#include "TopScoringBoards.hpp"
 #include <chrono>
-#include <algorithm>
+#include <algorithm> // to be removed
 
 class Solver {
     private:

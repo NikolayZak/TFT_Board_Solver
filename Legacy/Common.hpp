@@ -63,23 +63,3 @@ struct BoardResult {
     BoardResult(const vector<string> &board, int score);
     void Print() const;
 };
-
-class TopScoringBoards {
-private:
-    vector<BoardNode> heap;
-    int max_size;
-
-    void heapify_up(int index);
-    void heapify_down(int index);
-    bool compare(const BoardNode& a, const BoardNode& b) const;
-
-public:
-    TopScoringBoards(int max_size); // constructor
-    ~TopScoringBoards(); // destructor
-    void push(const BoardNode& entry);
-    void pop();
-    void clear();
-    const BoardNode& top() const;
-    bool empty() const;
-    int size() const;
-};

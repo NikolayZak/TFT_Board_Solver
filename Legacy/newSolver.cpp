@@ -62,7 +62,7 @@ vector<BoardResult> Solver::Solve(int target_size) {
     
     vector<BoardResult> result;
     while(!optimal_boards.empty()) {
-        BoardEntry entry = optimal_boards.top();
+        BoardNode entry = optimal_boards.top();
         optimal_boards.pop();
         vector<string> board_strings = B.ConvertBoard(entry.board);
         sort(board_strings.begin(), board_strings.end());

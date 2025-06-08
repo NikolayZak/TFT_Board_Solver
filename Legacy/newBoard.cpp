@@ -58,7 +58,7 @@ void Board::PopChampion(){
     current_board_score += set_data.champions[champion_id]->DecrementTraits();
 }
 
-BoardEntry Board::GetBoard() {
+BoardNode Board::GetBoard() {
     return {current_board, current_board_score};
 }
 

@@ -193,11 +193,11 @@ void TopScoringBoards::heapify_down(int index) {
     }
 }
 // ensures that the board with the lowest score is at the top of the heap
-bool TopScoringBoards::compare(const BoardEntry& a, const BoardEntry& b) const {
+bool TopScoringBoards::compare(const BoardNode& a, const BoardNode& b) const {
     return a.board_score < b.board_score; // Min-heap based on board score
 }
 
-void TopScoringBoards::push(const BoardEntry& entry) {
+void TopScoringBoards::push(const BoardNode& entry) {
     if (heap.size() < max_size) {
         heap.push_back(entry);
         heapify_up(heap.size() - 1);
@@ -207,7 +207,7 @@ void TopScoringBoards::push(const BoardEntry& entry) {
     }
 }
 
-const BoardEntry& TopScoringBoards::top() const {
+const BoardNode& TopScoringBoards::top() const {
     return heap[0];
 }
 

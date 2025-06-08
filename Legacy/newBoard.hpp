@@ -31,7 +31,7 @@ class Board {
     void RemoveTrait(int trait_id);
     void PushChampion(int champion_id);
     void PopChampion();
-    BoardEntry GetBoard();
+    BoardNode GetBoard();
     int CalculateMaxChampionIncrease();
 
     // pass through methods

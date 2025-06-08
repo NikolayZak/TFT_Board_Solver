@@ -1,8 +1,8 @@
 /*
     Author: Nikolay Zakirov
     Email: nikolayzakirov31@gmail.com
-    Date Created: 2024-05-25
-    Last Modified: 2024-05-26
+    Date Created: 2025-05-25
+    Last Modified: 2025-05-26
 
     Description: Common.hpp
     Common libraries and structures used in the project. Please try to keep it minimal and focused on the core data structures.
@@ -51,7 +51,7 @@ struct SetData{
     void deallocSet(); // deallocate all traits and champions
 };
 
-struct BoardEntry {
+struct BoardNode {
     Fast_Vector board;
     int board_score;
 };
@@ -66,20 +66,20 @@ struct BoardResult {
 
 class TopScoringBoards {
 private:
-    vector<BoardEntry> heap;
+    vector<BoardNode> heap;
     int max_size;
 
     void heapify_up(int index);
     void heapify_down(int index);
-    bool compare(const BoardEntry& a, const BoardEntry& b) const;
+    bool compare(const BoardNode& a, const BoardNode& b) const;
 
 public:
     TopScoringBoards(int max_size); // constructor
     ~TopScoringBoards(); // destructor
-    void push(const BoardEntry& entry);
+    void push(const BoardNode& entry);
     void pop();
     void clear();
-    const BoardEntry& top() const;
+    const BoardNode& top() const;
     bool empty() const;
     int size() const;
 };

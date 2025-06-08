@@ -1,7 +1,7 @@
 #include "../LocalDB.hpp"
 #include "../newSolver.hpp"
 
-// compile test with: g++ ../Fast_Vector.cpp ../Common.cpp ../Serialisation.cpp ../LocalDB.cpp ../newBoard.cpp ../newSolver.cpp newMain.cpp -lsqlite3 -o test
+// compile test with: g++ ../Fast_Vector.cpp ../Common.cpp ../TopScoringBoards.cpp ../Serialisation.cpp ../LocalDB.cpp ../newBoard.cpp ../newSolver.cpp newMain.cpp -lsqlite3 -o test
 int main() {
     // Initialize the local database
     LocalDB db("database.db");

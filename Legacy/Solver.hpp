@@ -11,7 +11,6 @@
 #include "Board.hpp"
 #include "TopScoringBoards.hpp"
 #include <chrono>
-#include <algorithm>
 
 class Solver {
     private:

@@ -60,6 +60,5 @@ struct BoardResult {
     vector<string> board;
     int score;
 
-    BoardResult(const vector<string> &board, int score);
     void Print() const;
 };

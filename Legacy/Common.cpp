@@ -137,11 +137,6 @@ void SetData::deallocSet() {
     this->champion_count = 0;
 }
 
-BoardResult::BoardResult(const vector<string> &board, int score){
-    this->board = board;
-    this->score = score;
-}
-
 void BoardResult::Print() const{
     cout << "Board: ";
     for (const string &champion : board) {

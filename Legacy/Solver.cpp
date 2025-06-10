@@ -15,6 +15,7 @@ void Solver::UpdateData(const SetData& data, int player_level, const vector<int>
     max_champion_increase = B.CalculateMaxChampionIncrease();
 }
 
+// maintains a default board position after complete
 void Solver::SolveBoardsRec() {
     // case: empty board
     if(B.Size() == 0) {
@@ -59,15 +60,7 @@ vector<BoardResult> Solver::Solve(int target_size) {
     SolveBoardsRec();
     auto end = chrono::high_resolution_clock::now();
     runtime = chrono::duration<float, milli>(end - start).count() / 1000.0f; // Convert to seconds
-    
-    vector<BoardResult> result;
-    while(!optimal_boards.empty()) {
-        BoardNode entry = optimal_boards.top();
-        optimal_boards.pop();
-        vector<string> board_strings = B.ConvertBoard(entry.board);
-        sort(board_strings.begin(), board_strings.end());
-        result.push_back({board_strings, entry.board_score});
-    }
-    reverse(result.begin(), result.end()); // Reverse to get highest scores first
+
+    vector<BoardResult> result = B.ConvertBoardsAndClearHeap(optimal_boards);
     return result;
 }

@@ -32,12 +32,25 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
     current_board_score = 0; // Reset the score
 }
 
-vector<string> Board::ConvertBoard(const FastVector &Fast) {
-    vector<string> result;
-    for(int i = 0; i < Fast.size(); i++) {
-        result.push_back(set_data.champions[Fast[i]]->name);
+BoardResult Board::ConvertBoard(const BoardNode &current) {
+    BoardResult answer;
+    for(int i = 0; i < current.board.size(); i++) {
+        Champion* champion = set_data.champions[i];
+        // insert BoardResult data and sort board strings
     }
-    return result;
+    return answer;
+}
+
+// clears the heap and returns the boards
+vector<BoardResult> Board::ConvertBoardsAndClearHeap(TopScoringBoards &heap){
+    vector<BoardResult> result;
+    while(!heap.empty()) {
+        BoardNode entry = heap.top();
+        heap.pop();
+        BoardResult board_data = ConvertBoard(entry);
+        result.push_back(board_data);
+    }
+    reverse(result.begin(), result.end()); // Reverse to get highest scores first
 }
 
 void Board::AddTrait(int trait_id) {

@@ -12,6 +12,8 @@
 // Dependencies
 #include "LocalDB.hpp"
 #include "FastVector.hpp"
+#include "TopScoringBoards.hpp"
+#include <algorithm>
 
 class Board {
     private:
@@ -26,7 +28,8 @@ class Board {
     ~Board();
     
     void UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added);
-    vector<string> ConvertBoard(const FastVector &Fast);
+    BoardResult ConvertBoard(const BoardNode &current);
+    vector<BoardResult> ConvertBoardsAndClearHeap(TopScoringBoards &heap);
     void AddTrait(int trait_id);
     void RemoveTrait(int trait_id);
     void PushChampion(int champion_id);

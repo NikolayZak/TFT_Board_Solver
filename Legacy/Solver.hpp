@@ -8,7 +8,7 @@
     Algorithm using tft Board methods to calculate the optimal tft board
 */
 #pragma once
-#include "newBoard.hpp"
+#include "Board.hpp"
 #include "TopScoringBoards.hpp"
 #include <chrono>
 #include <algorithm>

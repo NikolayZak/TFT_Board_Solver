@@ -1,4 +1,4 @@
-#include "newBoard.hpp"
+#include "Board.hpp"
 
 Board::Board(const SetData& data){
     if(data.champion_count > MAX_CHAMPIONS) {
@@ -6,7 +6,7 @@ Board::Board(const SetData& data){
         exit(EXIT_FAILURE);
     }
     current_board_score = 0;
-    current_board = Fast_Vector();
+    current_board = FastVector();
     set_data.copySet(data);
 }
 
@@ -28,11 +28,11 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
         exit(EXIT_FAILURE);
     }
     // Reset the current board and score
-    current_board = Fast_Vector(); // Reset the current board
+    current_board = FastVector(); // Reset the current board
     current_board_score = 0; // Reset the score
 }
 
-vector<string> Board::ConvertBoard(const Fast_Vector &Fast) {
+vector<string> Board::ConvertBoard(const FastVector &Fast) {
     vector<string> result;
     for(int i = 0; i < Fast.size(); i++) {
         result.push_back(set_data.champions[Fast[i]]->name);

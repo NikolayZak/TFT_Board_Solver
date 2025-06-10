@@ -11,13 +11,13 @@
 #pragma once
 // Dependencies
 #include "LocalDB.hpp"
-#include "Fast_Vector.hpp"
+#include "FastVector.hpp"
 
 class Board {
     private:
     // variables
     SetData set_data;
-    Fast_Vector current_board;
+    FastVector current_board;
     int current_board_score;
 
     public:
@@ -26,7 +26,7 @@ class Board {
     ~Board();
     
     void UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added);
-    vector<string> ConvertBoard(const Fast_Vector &Fast);
+    vector<string> ConvertBoard(const FastVector &Fast);
     void AddTrait(int trait_id);
     void RemoveTrait(int trait_id);
     void PushChampion(int champion_id);

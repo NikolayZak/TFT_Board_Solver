@@ -1,4 +1,4 @@
-#include "Fast_Vector.hpp"
+#include "FastVector.hpp"
 /*          Time Complexity
     Similar to <vector> all Functions are in O(1)
     The speed ups come from it all being compressed into one integer and bitwise operations being faster
@@ -6,29 +6,29 @@
 */
 
 // constructor
-Fast_Vector::Fast_Vector(){
+FastVector::FastVector(){
     vector = 0;
     element_count = 0;
 }
 
-Fast_Vector::Fast_Vector(unsigned long long fast_vec_num){
+FastVector::FastVector(unsigned long long fast_vec_num){
     vector = fast_vec_num;
     element_count = __builtin_popcountll(fast_vec_num);
 }
 
 // nothing to deconstruct
-Fast_Vector::~Fast_Vector(){
+FastVector::~FastVector(){
 
 }
 
 // pushes back an integer
-void Fast_Vector::push_back(int x){
+void FastVector::push_back(int x){
     vector |= 0x8000000000000000 >> x;
     element_count++;
 }
 
 // pops back the highest integer NOT NECESSARILY THE LAST ELEMENT
-int Fast_Vector::pop_back(){
+int FastVector::pop_back(){
     int position = __builtin_ctzll(vector);
     vector ^= (1ULL << position);
     element_count--;
@@ -36,22 +36,22 @@ int Fast_Vector::pop_back(){
 }
 
 // peeks at the highest integer NOT NECESSARILY THE LAST ELEMENT
-int Fast_Vector::back() const{
+int FastVector::back() const{
     return 63 - __builtin_ctzll(vector);
 }
 
 // peeks at the highest integer NOT NECESSARILY THE LAST ELEMENT
-int Fast_Vector::size() const{
+int FastVector::size() const{
     return element_count;
 }
 
-// returns the Fast_Vector as a number
-unsigned long long Fast_Vector::num() const{
+// returns the FastVector as a number
+unsigned long long FastVector::num() const{
     return vector;
 }
 
 // custom assignment
-Fast_Vector& Fast_Vector::operator=(const std::vector<int>& v1){
+FastVector& FastVector::operator=(const std::vector<int>& v1){
     vector = 0;
     for(int i = 0; i < (int)v1.size(); i++){
         push_back(v1[i]);
@@ -61,7 +61,7 @@ Fast_Vector& Fast_Vector::operator=(const std::vector<int>& v1){
 
 
 // custom access
-int Fast_Vector::operator[](int index) const{
+int FastVector::operator[](int index) const{
     int count = 0;
     for (int i = 63; i >= 0; --i) {
         if (vector & (1ULL << i)) {

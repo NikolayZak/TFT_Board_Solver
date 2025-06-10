@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Fast_Vector.hpp"
+#include "FastVector.hpp"
 #include "StaticVariables.hpp"
 
 using namespace std;
@@ -52,7 +52,7 @@ struct SetData{
 };
 
 struct BoardNode {
-    Fast_Vector board;
+    FastVector board;
     int board_score;
 };
 

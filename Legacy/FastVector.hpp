@@ -4,7 +4,7 @@
     Date Created: 2024-03-29
     Last Modified: 2024-03-29
 
-    Description: Fast_Vector.hpp
+    Description: FastVector.hpp
     Special ADT for condensed fast vector methods
     stores all elements in one integer type
     
@@ -21,7 +21,7 @@
 
 
 
-class Fast_Vector{
+class FastVector{
     private:
     unsigned long long vector;
     int element_count;
@@ -34,10 +34,10 @@ class Fast_Vector{
     int size() const;
     unsigned long long num() const;
 
-    Fast_Vector();
-    Fast_Vector(unsigned long long fast_vec_num);
-    ~Fast_Vector();
+    FastVector();
+    FastVector(unsigned long long fast_vec_num);
+    ~FastVector();
     // operators
-    Fast_Vector& operator=(const std::vector<int>& vector);
+    FastVector& operator=(const std::vector<int>& vector);
     int operator[](int index) const;
 };

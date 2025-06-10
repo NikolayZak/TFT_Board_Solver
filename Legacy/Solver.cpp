@@ -1,4 +1,4 @@
-#include "newSolver.hpp"
+#include "Solver.hpp"
 
 Solver::Solver(const SetData& data, int heap_size) : B(data), optimal_boards(heap_size){
     max_champion_increase = B.CalculateMaxChampionIncrease();

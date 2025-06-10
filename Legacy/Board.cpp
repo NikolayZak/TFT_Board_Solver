@@ -1,5 +1,6 @@
 #include "Board.hpp"
 
+// initializes a board class with setdata
 Board::Board(const SetData& data){
     if(data.champion_count > MAX_CHAMPIONS) {
         cerr << "Error: SetData exceeds maximum champion count." << endl;
@@ -10,10 +11,12 @@ Board::Board(const SetData& data){
     set_data.copySet(data);
 }
 
+// deconstructor
 Board::~Board() {
     set_data.deallocSet();
 }
 
+// optimizes the board class to operate on restricted set data
 void Board::UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added) {
     set_data.deallocSet(); // Free the old set data
     set_data.copySet(data); // Copy the new set data
@@ -32,6 +35,7 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
     current_board_score = 0; // Reset the score
 }
 
+// converts a BoardNode to a BoardResult
 BoardResult Board::ConvertBoard(const BoardNode &current) {
     BoardResult answer;
     for(int i = 0; i < current.board.size(); i++) {
@@ -53,28 +57,34 @@ vector<BoardResult> Board::ConvertBoardsAndClearHeap(TopScoringBoards &heap){
     reverse(result.begin(), result.end()); // Reverse to get highest scores first
 }
 
+// adds a trait to the board
 void Board::AddTrait(int trait_id) {
     current_board_score += set_data.traits[trait_id]->Increment();
 }
 
+// removes a trait from the board
 void Board::RemoveTrait(int trait_id) {
     current_board_score += set_data.traits[trait_id]->Decrement();
 }
 
+// adds a champion to the board
 void Board::PushChampion(int champion_id) {
     current_board.push_back(champion_id);
     current_board_score += set_data.champions[champion_id]->IncrementTraits();
 }
 
+// removes the largest champion added
 void Board::PopChampion(){
     int champion_id = current_board.pop_back();
     current_board_score += set_data.champions[champion_id]->DecrementTraits();
 }
 
+// returns a board node
 BoardNode Board::GetBoard() {
     return {current_board, current_board_score};
 }
 
+// calculates the largest possible champion increase
 int Board::CalculateMaxChampionIncrease() {
     vector<int> max_trait_increases;
     int max_trait_tier_increase = 0;

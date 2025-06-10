@@ -11,7 +11,7 @@
 #include "newBoard.hpp"
 #include "TopScoringBoards.hpp"
 #include <chrono>
-#include <algorithm> // to be removed
+#include <algorithm>
 
 class Solver {
     private:

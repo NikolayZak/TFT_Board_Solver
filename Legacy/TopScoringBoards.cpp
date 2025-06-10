@@ -57,6 +57,7 @@ void TopScoringBoards::push(const BoardNode& entry) {
     }
 }
 
+// return the lowest top board
 const BoardNode& TopScoringBoards::top() const {
     return heap[0];
 }

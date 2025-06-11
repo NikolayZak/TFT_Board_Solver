@@ -1,1 +1,0 @@
-Here is the initial commit to the rebuild project which will be build using a javascript framework will the goal of integrating my c++ algorithm into a website.

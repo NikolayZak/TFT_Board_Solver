@@ -38,9 +38,10 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<in
 // converts a BoardNode to a BoardResult
 BoardResult Board::ConvertBoard(const BoardNode &current) {
     BoardResult answer;
+    answer.score = current.board_score;
     for(int i = 0; i < current.board.size(); i++) {
         Champion* champion = set_data.champions[i];
-        // insert BoardResult data and sort board strings
+        answer.board.push_back(champion->name);
     }
     return answer;
 }
@@ -55,6 +56,7 @@ vector<BoardResult> Board::ConvertBoardsAndClearHeap(TopScoringBoards &heap){
         result.push_back(board_data);
     }
     reverse(result.begin(), result.end()); // Reverse to get highest scores first
+    return result;
 }
 
 // adds a trait to the board
@@ -116,6 +118,5 @@ int Board::CalculateMaxChampionIncrease() {
             max_champion_increase = champion_increase;
         }
     }
-    
     return max_champion_increase;
 }

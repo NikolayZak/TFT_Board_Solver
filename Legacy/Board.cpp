@@ -40,7 +40,7 @@ BoardResult Board::ConvertBoard(const BoardNode &current) {
     BoardResult answer;
     answer.score = current.board_score;
     for(int i = 0; i < current.board.size(); i++) {
-        Champion* champion = set_data.champions[i];
+        Champion* champion = set_data.champions[current.board[i]];
         answer.board.push_back(champion->name);
     }
     return answer;

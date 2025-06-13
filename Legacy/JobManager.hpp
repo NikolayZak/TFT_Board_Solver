@@ -1,18 +1,45 @@
 #pragma once
+#include "Common.hpp"
 #include <unordered_map>
+#include <functional>
 #include <mutex>
-#include <string>
+#include <chrono>
+#include <memory>
+#include <atomic>
+#include <thread>
+#include <optional>
+
+enum class JobStatus {
+    NotFound,
+    Running,
+    Completed
+};
+
+struct Job {
+    BoardResult result;
+    JobStatus status = JobStatus::Running;
+    mutex mtx;
+    chrono::steady_clock::time_point completed_at;
+};
 
 class JobManager {
-public:
-    JobManager();
-
-    int create_job(); // creates and returns a new job ID
-    void set_status(int job_id, const std::string& status);
-    std::string get_status(int job_id);
-
 private:
-    std::unordered_map<int, std::string> job_status;
-    std::mutex status_mutex;
-    int next_job_id;
+    atomic<int> next_id;
+    unordered_map<int, shared_ptr<Job>> results;
+    mutex result_mutex;
+    thread cleanup_thread;
+    int job_expiry_duration;
+    int cleanup_timer;
+    bool stop_cleanup;
+
+    void cleanup_expired_jobs();
+
+public:
+    // values are in seconds
+    JobManager(int job_expiry_duration, int cleanup_timer);
+    ~JobManager();
+
+    int submit(function<BoardResult()> func);
+    JobStatus get_status(int job_id);
+    optional<BoardResult> get_result(int job_id);
 };

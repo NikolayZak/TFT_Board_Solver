@@ -1,24 +1,86 @@
 #include "JobManager.hpp"
 
-JobManager::JobManager() : next_job_id(0) {}
+JobManager::JobManager(int job_expiry_duration, int cleanup_timer){
+    this->job_expiry_duration = job_expiry_duration;
+    this->cleanup_timer = cleanup_timer;
+    next_id = 1;
+    stop_cleanup = false;
+    cleanup_thread = std::thread([this]() { this->cleanup_expired_jobs(); }); // initialise the housekeeping thread
+}
 
-int JobManager::create_job() {
-    std::lock_guard<std::mutex> lock(status_mutex);
-    int job_id = next_job_id++;
-    job_status[job_id] = "created";
+JobManager::~JobManager() {
+    stop_cleanup = true;
+    if (cleanup_thread.joinable()){
+        cleanup_thread.join();
+    }
+}
+
+int JobManager::submit(function<BoardResult()> func) {
+    // create a new job
+    int job_id = next_id++;
+    auto current = make_shared<Job>();
+
+    // add the job to the map
+    {
+        lock_guard<mutex> lock(result_mutex);
+        results[job_id] = current;
+    }
+
+    // queue the job
+    thread([func = move(func), current]() {
+
+        BoardResult r = func(); // compute the job
+
+        // expose the result
+        {
+            unique_lock<mutex> lock(current->mtx);
+            current->result = r;
+            current->status = JobStatus::Completed;
+            current->completed_at = chrono::steady_clock::now();
+        }
+    }).detach();
+
     return job_id;
 }
 
-void JobManager::set_status(int job_id, const std::string& status) {
-    std::lock_guard<std::mutex> lock(status_mutex);
-    job_status[job_id] = status;
+JobStatus JobManager::get_status(int job_id) {
+    lock_guard<mutex> lock(result_mutex);
+    auto it = results.find(job_id);
+    if (it == results.end()) return JobStatus::NotFound;
+
+    lock_guard<mutex> lock2(it->second->mtx);
+    return it->second->status;
 }
 
-std::string JobManager::get_status(int job_id) {
-    std::lock_guard<std::mutex> lock(status_mutex);
-    auto it = job_status.find(job_id);
-    if (it != job_status.end()) {
-        return it->second;
+optional<BoardResult> JobManager::get_result(int job_id) {
+    lock_guard<mutex> lock(result_mutex);
+    auto it = results.find(job_id);
+    if (it == results.end()) {
+        return nullopt; // Job was cleaned up or not found
     }
-    return "not_found";
+
+    lock_guard<mutex> job_lock(it->second->mtx);
+    return it->second->result;
+}
+
+void JobManager::cleanup_expired_jobs() {
+    while (!stop_cleanup) { // cleanup thread loop
+        {
+            lock_guard<mutex> lock(result_mutex);
+            auto now = chrono::steady_clock::now();
+
+            for (auto it = results.begin(); it != results.end(); ) {
+                lock_guard<mutex> lock2(it->second->mtx);
+                if (it->second->status == JobStatus::Completed) {
+                    auto elapsed = chrono::duration_cast<chrono::seconds>(now - it->second->completed_at);
+                    if (elapsed.count() > job_expiry_duration) {
+                        it = results.erase(it);
+                        continue;
+                    }
+                }
+                ++it;
+            }
+        }
+        this_thread::sleep_for(chrono::seconds(cleanup_timer));
+    }
 }

@@ -185,6 +185,22 @@ void LocalDB::increaseChampionPickCount(int set_number, string champion_name, in
     execute(sql);
 }
 
+void LocalDB::incrementAllChampions(int set_number, const vector<BoardResult>& boards) {
+    unordered_map<string, int> champion_counts;
+
+    // count how many of each champion is present
+    for (const auto& board_result : boards) {
+        for (const auto& champ_name : board_result.board) {
+            champion_counts[champ_name]++;
+        }
+    }
+
+    // add each champion total to the database
+    for(const auto& champion : champion_counts){
+        increaseChampionPickCount(set_number, champion.first, champion.second);
+    }
+}
+
 vector<int> LocalDB::getCostRestriction(int set_number) {
     vector<int> restrictions;
     string sql = "SELECT cost_restriction FROM level_restrictions WHERE set_number = " + to_string(set_number) + ";";

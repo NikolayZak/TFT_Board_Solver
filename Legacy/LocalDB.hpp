@@ -15,6 +15,7 @@
 #pragma once
 #include "Common.hpp"
 #include "Serialisation.hpp"
+#include <unordered_map>
 #include <sqlite3.h>
 
 // TODO: Add method for adding a new set remotely
@@ -25,6 +26,7 @@ public:
     SetData allocSet(int set_number);
     vector<int> getSets();
     void increaseChampionPickCount(int set_number, string champion_name, int increment);
+    void incrementAllChampions(int set_number, const vector<BoardResult> &boards);
 
 private:
     void execute(const string& sql);

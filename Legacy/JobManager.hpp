@@ -1,3 +1,13 @@
+/*
+    Author: Nikolay Zakirov
+    Email: nikolayzakirov31@gmail.com
+    Date Created: 2025-06-13
+    Last Modified: 2025-06-13
+
+    Description: JobManager.hpp
+    Resposible for queuing jobs, fetching results and polling jobs
+*/
+
 #pragma once
 #include "Common.hpp"
 #include <unordered_map>

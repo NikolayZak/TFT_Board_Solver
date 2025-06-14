@@ -15,7 +15,7 @@ JobManager::~JobManager() {
     }
 }
 
-int JobManager::submit(function<BoardResult()> func) {
+int JobManager::submit(function<vector<BoardResult>()> func) {
     // create a new job
     int job_id = next_id++;
     auto current = make_shared<Job>();
@@ -29,12 +29,12 @@ int JobManager::submit(function<BoardResult()> func) {
     // queue the job
     thread([func = move(func), current]() {
 
-        BoardResult r = func(); // compute the job
+        vector<BoardResult> r = func(); // compute the job
 
         // expose the result
         {
             unique_lock<mutex> lock(current->mtx);
-            current->result = r;
+            current->results = r;
             current->status = JobStatus::Completed;
             current->completed_at = chrono::steady_clock::now();
         }
@@ -52,7 +52,7 @@ JobStatus JobManager::get_status(int job_id) {
     return it->second->status;
 }
 
-optional<BoardResult> JobManager::get_result(int job_id) {
+optional<vector<BoardResult>> JobManager::get_result(int job_id) {
     lock_guard<mutex> lock(result_mutex);
     auto it = results.find(job_id);
     if (it == results.end()) {
@@ -60,7 +60,7 @@ optional<BoardResult> JobManager::get_result(int job_id) {
     }
 
     lock_guard<mutex> job_lock(it->second->mtx);
-    return it->second->result;
+    return it->second->results;
 }
 
 void JobManager::cleanup_expired_jobs() {

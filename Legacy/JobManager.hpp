@@ -26,7 +26,7 @@ enum class JobStatus {
 };
 
 struct Job {
-    BoardResult result;
+    vector<BoardResult> results;
     JobStatus status = JobStatus::Running;
     mutex mtx;
     chrono::steady_clock::time_point completed_at;
@@ -49,7 +49,7 @@ public:
     JobManager(int job_expiry_duration, int cleanup_timer);
     ~JobManager();
 
-    int submit(function<BoardResult()> func);
+    int submit(function<vector<BoardResult>()> func);
     JobStatus get_status(int job_id);
-    optional<BoardResult> get_result(int job_id);
+    optional<vector<BoardResult>> get_result(int job_id);
 };

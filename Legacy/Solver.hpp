@@ -31,5 +31,4 @@ class Solver {
     vector<BoardResult> Solve(int target_size);
     float Runtime() const { return runtime; }
 
-
 };

@@ -1,0 +1,16 @@
+
+// poll job
+{
+    "job_id": 5
+} // returns something that signifies it's still running until it's done and it will return a list of list of strings (boards)
+
+// compute job
+{
+    "set_number": 5.5,
+    "player_level": 10,
+    "target_size": 7,
+    
+    "champions_added": ["Kai'Sa, Cho'Gath"],
+    "traits_added": ["Void, Demacia"]
+
+}// returns a job id

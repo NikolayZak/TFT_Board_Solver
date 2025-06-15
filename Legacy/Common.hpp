@@ -17,23 +17,25 @@
 using namespace std;
 
 struct Trait{
+    int id;
     int quantity;
     int value[MAX_TRAIT_TIERS];
     string name;
 
-    Trait(const string &name, vector<int> &value);
+    Trait(int id, const string &name, vector<int> &value);
     Trait(const Trait &a_trait);
     int Increment(); // returns the positive value of the increment
     int Decrement(); // returns the negative value of the decrement
 };
 
 struct Champion{
+    int id;
     int cost;
     int num_traits;
     Trait* traits[MAX_CHAMPION_TRAITS];
     string name;
 
-    Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
+    Champion(Trait** all_traits, int id, int cost, const string &name, const vector<string> &champion_traits);
     int IncrementTraits(); // returns the total positive value of all traits
     int DecrementTraits(); // returns the total negative value of all traits
 };

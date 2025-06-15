@@ -99,17 +99,19 @@ Trait** LocalDB::allocTraits(int set_number) {
     // Allocate memory for traits
     Trait** traits = new Trait*[getTraitCount(set_number)];
 
-    // Fetch trait data
-    string sql = "SELECT name, value FROM traits WHERE set_number = " + to_string(set_number) + ";";
+    string sql = "SELECT id, name, value FROM traits WHERE set_number = " + to_string(set_number) + ";";
     sqlite3_stmt* stmt;
     int counter = 0;
 
     if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {
-            string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-            string value = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+            int trait_id = sqlite3_column_int(stmt, 0);
+            string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+            string value = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
             vector<int> value_list = deserializeIntVector(value);
-            traits[counter++] = new Trait(name, value_list);
+
+            Trait* trait = new Trait(trait_id, name, value_list);
+            traits[counter++] = trait;
         }
         sqlite3_finalize(stmt);
     } else {
@@ -154,7 +156,7 @@ Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
             string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
 
             vector<string> trait_names = getTraitsForChampion(champion_id);
-            champions[counter++] = new Champion(all_traits, cost, name, trait_names);
+            champions[counter++] = new Champion(all_traits, champion_id, cost, name, trait_names);
         }
         sqlite3_finalize(stmt);
     } else {

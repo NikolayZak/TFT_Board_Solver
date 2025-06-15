@@ -1,6 +1,7 @@
 #include "Common.hpp"
 
-Trait::Trait(const string &name, vector<int> &value){
+Trait::Trait(int id, const string &name, vector<int> &value){
+    this->id = id;
     this->name = name;
     quantity = 0;
     int prev_value = 0;
@@ -19,6 +20,7 @@ Trait::Trait(const string &name, vector<int> &value){
 Trait::Trait(const Trait &a_trait){
     name = a_trait.name;
     quantity = a_trait.quantity;
+    id = a_trait.id;
 
     for(int i = 0; i < MAX_TRAIT_TIERS; i++){
         value[i] = a_trait.value[i];
@@ -35,9 +37,10 @@ int Trait::Decrement(){
     return -value[quantity + 1];
 }
 
-Champion::Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits){
+Champion::Champion(Trait** all_traits,int id, int cost, const string &name, const vector<string> &champion_traits){
     this->cost = cost;
     this->name = name;
+    this->id = id;
 
     for(int i = 0; i < MAX_CHAMPION_TRAITS; i++){
         traits[i] = nullptr; // initialize all traits to nullptr

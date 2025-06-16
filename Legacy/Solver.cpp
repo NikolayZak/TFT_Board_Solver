@@ -2,17 +2,17 @@
 
 Solver::Solver(const SetData& data, int heap_size) : B(data), optimal_boards(heap_size){
     max_champion_increase = B.CalculateMaxChampionIncrease();
+    target_size = 0;
 }
 
 Solver::~Solver() {
+    
 }
 
-void Solver::UpdateData(const SetData& data, int player_level, const vector<int> &champions_added, const vector<int> &traits_added) {
-    B.UpdateSetData(data, player_level, champions_added);
-    for (int trait_id : traits_added) {
-        B.AddTrait(trait_id);
-    }
+void Solver::UpdateData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added) {
+    B.UpdateSetData(data, player_level, traits_added, champions_added);
     max_champion_increase = B.CalculateMaxChampionIncrease();
+    target_size = -(champions_added.size());
 }
 
 // maintains a default board position after complete
@@ -52,14 +52,17 @@ void Solver::SolveBoardsRec() {
 }
 
 vector<BoardResult> Solver::Solve(int target_size) {
-    this->target_size = target_size;
     highscore = 0;
     optimal_boards.clear();
+
+    this->target_size += target_size;
 
     auto start = chrono::high_resolution_clock::now();
     SolveBoardsRec();
     auto end = chrono::high_resolution_clock::now();
     runtime = chrono::duration<float, milli>(end - start).count() / 1000.0f; // Convert to seconds
+
+    this->target_size -= target_size;
 
     vector<BoardResult> result = B.ConvertBoardsAndClearHeap(optimal_boards);
     return result;

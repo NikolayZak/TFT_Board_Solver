@@ -17,13 +17,22 @@ Board::~Board() {
 }
 
 // optimizes the board class to operate on restricted set data
-void Board::UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added) {
+void Board::UpdateSetData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added) {
     set_data.deallocSet(); // Free the old set data
     set_data.copySet(data); // Copy the new set data
-    for(int i = 0; i < champions_added.size(); i++) {
-        PushChampion(champions_added[i]); // Add the champions to the board
+
+    for(int i = 0; i < traits_added.size(); i++) {
+        AddTrait(data.findTraitIndex(traits_added[i])); // add the traits
     }
-    set_data.restrictSet(player_level, champions_added);
+
+    vector<int> champion_indexes; // create and fill a vector with the indexes
+    for(int i = 0; i < champions_added.size(); i++) {
+        int current = data.findChampionIndex(champions_added[i]);
+        PushChampion(current); // Add the champions to the board
+        champion_indexes.push_back(current);
+    }
+
+    set_data.restrictSet(player_level, champion_indexes);
 
     // Check if the new set data exceeds the maximum champion count
     if(data.champion_count > MAX_CHAMPIONS) {

@@ -24,7 +24,7 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
     auto job = [=]() -> vector<BoardResult> {
         SetData set_data = database.allocSet(set_number);
         Solver solver(set_data, 10); // or configurable heap
-        solver.UpdateData(set_data, player_level, champions_added, traits_added);
+        solver.UpdateData(set_data, player_level, traits_added, champions_added);
         return solver.Solve(target_size);
     };
 

@@ -27,7 +27,7 @@ class Board {
     Board(const SetData& data);
     ~Board();
     
-    void UpdateSetData(const SetData& data, int player_level, const vector<int> &champions_added);
+    void UpdateSetData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added);
     BoardResult ConvertBoard(const BoardNode &current);
     vector<BoardResult> ConvertBoardsAndClearHeap(TopScoringBoards &heap);
     void AddTrait(int trait_id);

@@ -86,6 +86,7 @@ void SetData::copySet(const SetData &a_set_data) {
     }
 }
 
+// traits remain unchanged
 void SetData::restrictSet(int player_level, const vector<int> &champions_to_remove) {
     // Update the current cost restriction based on the player level
     int current_cost_restriction = this->cost_restriction[player_level - 1];
@@ -135,6 +136,26 @@ void SetData::deallocSet() {
     // Reset counts
     this->trait_count = 0;
     this->champion_count = 0;
+}
+
+int SetData::findTraitIndex(const string &name) const{
+    for(int i = 0; i < trait_count; i++){
+        if(traits[i]->name == name){
+            return i;
+        }
+    }
+    cerr << "Trait Not Found";
+    return -1;
+}
+
+int SetData::findChampionIndex(const string &name) const{
+    for(int i = 0; i < champion_count; i++){
+        if(champions[i]->name == name){
+            return i;
+        }
+    }
+    cerr << "Champion Not Found";
+    return -1;
 }
 
 void BoardResult::Print() const{

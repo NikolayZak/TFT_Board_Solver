@@ -49,6 +49,8 @@ struct SetData{
     void copySet(const SetData &data); // copy the set data from another SetData object
     void restrictSet(int player_level, const vector<int> &champions_to_remove); // restrict the set data based on player level and champions to remove
     void deallocSet(); // deallocate all traits and champions
+    int findTraitIndex(const string &name) const;
+    int findChampionIndex(const string &name) const;
 };
 
 struct BoardNode {

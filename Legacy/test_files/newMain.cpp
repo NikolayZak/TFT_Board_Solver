@@ -9,9 +9,9 @@ int main() {
     // Initialize the local database
     LocalDB db("database.db");
     SetData set_data = db.allocSet(11);
-    set_data.restrictSet(10, {}); // Restrict the set data (optional)
-    Solver solver(set_data, 100); // Create a solver with heap size of n
-    vector<BoardResult> answer = solver.Solve(8); // compute the target size
+    Solver solver(set_data, 10); // Create a solver with heap size of n
+    solver.UpdateData(set_data, 10, {"Dryad"}, {"Janna"});
+    vector<BoardResult> answer = solver.Solve(6); // compute the target size
 
     // send result to crow 
 

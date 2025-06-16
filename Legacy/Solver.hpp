@@ -27,8 +27,8 @@ class Solver {
     public:
     Solver(const SetData& data, int heap_size);
     ~Solver();
-    void UpdateData(const SetData& data, int player_level, const vector<int> &champions_added, const vector<int> &traits_added);
-    vector<BoardResult> Solve(int target_size);
+    void UpdateData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added);
+    vector<BoardResult> Solve(int target_size); // does not return the champions and traits added
     float Runtime() const { return runtime; }
 
 };

@@ -14,7 +14,7 @@
     { "name": "Porcelain", "value": "0,0,2,2,4,4,6" },
     { "name": "Storyweaver", "value": "0,0,0,3,3,5,5,7,7,7,10" },
     { "name": "Umbral", "value": "0,0,2,2,4,4,6,6,8" },
-    { "name": "Altruist", "value": "0,2,3,4" },
+    { "name": "Altruist", "value": "0,0,2,3,4" },
     { "name": "Arcanist", "value": "0,0,2,2,4,4,6,6,8" },
     { "name": "Artist", "value": "0,1" },
     { "name": "Behemoth", "value": "0,0,2,2,4,4,6" },

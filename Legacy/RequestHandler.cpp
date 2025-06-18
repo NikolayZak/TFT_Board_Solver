@@ -1,7 +1,7 @@
 #include "RequestHandler.hpp"
 
-RequestHandler::RequestHandler() : database(LOCAL_DB_PATH), TaskSchedular(JOB_EXPIRY_DURATION, JOB_CLEANUP_TIMER){
-
+RequestHandler::RequestHandler(string database_folder, string static_folder, int result_expiry_duration, int job_cleanup_timer) : database(database_folder), TaskSchedular(result_expiry_duration, job_cleanup_timer){
+    static_filepath = static_folder;
 }
 
 crow::response RequestHandler::handle_compute(const crow::request& req) {
@@ -19,6 +19,34 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
 
     vector<string> champions_added = body.value("champions_added", vector<string>{});
     vector<string> traits_added = body.value("traits_added", vector<string>{});
+
+    // Validate inputs
+    if (player_level < 1 || player_level > MAX_PLAYER_LEVEL) {
+        return crow::response(400, "Invalid player_level: " + to_string(player_level));
+    }
+
+    if(target_size < 1 || target_size > MAX_BOARD_SIZE) {
+        return crow::response(400, "Invalid target_size: " + to_string(target_size));
+    }
+
+    vector<int> valid_sets = database.getSets();
+    if(find(valid_sets.begin(), valid_sets.end(), set_number) == valid_sets.end()) {
+        return crow::response(400, "Invalid set_number: " + to_string(set_number));
+    }
+
+    for(int i = 0; i < champions_added.size(); i++){
+        if(!database.isChampionInSet(set_number, champions_added[i])){
+            return crow::response(400, "Invalid champions_added: " + champions_added[i]);
+        }
+    }
+
+    for(int i = 0; i < traits_added.size(); i++){
+        if(!database.isTraitInSet(set_number, traits_added[i])){
+            return crow::response(400, "Invalid traits_added: " + traits_added[i]);
+        }
+    }
+
+    // need to figure out a way to validate excess traits
 
     // Prepare job
     auto job = [=]() -> vector<BoardResult> {
@@ -98,11 +126,10 @@ crow::response RequestHandler::handle_static(const crow::request& req) {
     }
 
     string set_number = url_params.get("set_number");
-    string file_path = string(STATIC_DATA_FILE) + "/set" + set_number + ".json";
 
-    ifstream file(file_path);
+    ifstream file(static_filepath);
     if (!file.is_open()) {
-        return crow::response(500, "Failed to open " + file_path);
+        return crow::response(500, "Failed to open " + static_filepath);
     }
     
     json j;

@@ -50,6 +50,30 @@ Champion::Champion(Trait** all_traits, int cost, const string &name, const vecto
     }
 }
 
+// internal helper function to find the index of a trait by name
+int getTraitIndex(Trait** traits, int trait_count, const string &name) {
+    for (int i = 0; i < trait_count; i++) {
+        if (traits[i]->name == name) {
+            return i;
+        }
+    }
+    return -1; // Trait not found
+}
+
+Champion::Champion(const Champion& other, Trait** new_traits, int new_traits_count) {
+    cost = other.cost;
+    name = other.name;
+    num_traits = other.num_traits;
+
+    for(int i = 0; i < MAX_CHAMPION_TRAITS; i++){
+        if(i < num_traits) {
+            traits[i] = new_traits[getTraitIndex(new_traits, new_traits_count, other.traits[i]->name)];
+        } else {
+            traits[i] = nullptr; // initialize remaining traits to nullptr
+        }
+    }
+}
+
 int Champion::IncrementTraits() {
     int result = 0;
     for(int i = 0; i < num_traits; i++) {
@@ -67,75 +91,75 @@ int Champion::DecrementTraits() {
 }
 
 void SetData::copySet(const SetData &a_set_data) {
-    this->set_number = a_set_data.set_number;
-    this->champion_count = a_set_data.champion_count;
-    this->trait_count = a_set_data.trait_count;
+    set_number = a_set_data.set_number;
+    champion_count = a_set_data.champion_count;
+    trait_count = a_set_data.trait_count;
     
     for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
-        this->cost_restriction[i] = a_set_data.cost_restriction[i];
+        cost_restriction[i] = a_set_data.cost_restriction[i];
     }
 
-    this->traits = new Trait*[this->trait_count];
-    this->champions = new Champion*[this->champion_count];
+    traits = new Trait*[trait_count];
+    champions = new Champion*[champion_count];
 
-    for(int i = 0; i < this->trait_count; i++){
-        this->traits[i] = new Trait(*a_set_data.traits[i]);
+    for(int i = 0; i < trait_count; i++){
+        traits[i] = new Trait(*a_set_data.traits[i]);
     }
-    for(int i = 0; i < this->champion_count; i++){
-        this->champions[i] = new Champion(*a_set_data.champions[i]);
+    for(int i = 0; i < champion_count; i++){
+        champions[i] = new Champion(*a_set_data.champions[i], traits, trait_count);
     }
 }
 
 // traits remain unchanged
 void SetData::restrictSet(int player_level, const vector<int> &champions_to_remove) {
     // Update the current cost restriction based on the player level
-    int current_cost_restriction = this->cost_restriction[player_level - 1];
+    int current_cost_restriction = cost_restriction[player_level - 1];
     int delete_count = 0;
 
     // Deallocate specified champions from the set
     for (int champion_id : champions_to_remove) {
-        delete this->champions[champion_id]; // Deallocate the champion
-        this->champions[champion_id] = nullptr; // Set to nullptr to avoid dangling pointer
+        delete champions[champion_id]; // Deallocate the champion
+        champions[champion_id] = nullptr; // Set to nullptr to avoid dangling pointer
         delete_count++;
     }
 
     // Deallocate champions that don't meet the cost restriction
-    for (int i = 0; i < this->champion_count; ++i) {
-        if (this->champions[i] && this->champions[i]->cost > current_cost_restriction) {
-            delete this->champions[i]; // Deallocate the champion
-            this->champions[i] = nullptr; // Set to nullptr to avoid dangling pointer
+    for (int i = 0; i < champion_count; ++i) {
+        if (champions[i] && champions[i]->cost > current_cost_restriction) {
+            delete champions[i]; // Deallocate the champion
+            champions[i] = nullptr; // Set to nullptr to avoid dangling pointer
             delete_count++;
         }
     }
     // Reallocate champions to remove nullptrs
-    Champion** new_champions = new Champion*[this->champion_count - delete_count];
+    Champion** new_champions = new Champion*[champion_count - delete_count];
     int new_index = 0;
-    for (int i = 0; i < this->champion_count; ++i) {
-        if (this->champions[i]) { // Only keep non-nullptr champions
-            new_champions[new_index++] = this->champions[i];
+    for (int i = 0; i < champion_count; ++i) {
+        if (champions[i]) { // Only keep non-nullptr champions
+            new_champions[new_index++] = champions[i];
         }
     }
-    delete[] this->champions; // Deallocate old champions array
-    this->champions = new_champions; // Assign the new champions array
-    this->champion_count -= delete_count; // Update the champion count
+    delete[] champions; // Deallocate old champions array
+    champions = new_champions; // Assign the new champions array
+    champion_count -= delete_count; // Update the champion count
 }
 
 void SetData::deallocSet() {
     // Deallocate champions
-    for (int i = 0; i < this->champion_count; ++i) {
-        delete this->champions[i];
+    for (int i = 0; i < champion_count; ++i) {
+        delete champions[i];
     }
-    delete[] this->champions;
+    delete[] champions;
 
     // Deallocate traits
-    for (int i = 0; i < this->trait_count; ++i) {
-        delete this->traits[i];
+    for (int i = 0; i < trait_count; ++i) {
+        delete traits[i];
     }
-    delete[] this->traits;
+    delete[] traits;
 
     // Reset counts
-    this->trait_count = 0;
-    this->champion_count = 0;
+    trait_count = 0;
+    champion_count = 0;
 }
 
 int SetData::findTraitIndex(const string &name) const{

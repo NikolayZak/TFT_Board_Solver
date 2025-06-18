@@ -34,6 +34,7 @@ struct Champion{
     string name;
 
     Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits);
+    Champion(const Champion& other, Trait** new_traits, int new_traits_count);
     int IncrementTraits(); // returns the total positive value of all traits
     int DecrementTraits(); // returns the total negative value of all traits
 };

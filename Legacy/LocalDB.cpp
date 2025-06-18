@@ -61,6 +61,42 @@ LocalDB::~LocalDB() {
     if (db) sqlite3_close(db);
 }
 
+bool LocalDB::isChampionInSet(int set_number, const string& champion_name) {
+    string sql = "SELECT COUNT(*) FROM champions WHERE set_number = " + to_string(set_number) +
+                 " AND name = '" + champion_name + "';";
+    sqlite3_stmt* stmt;
+    bool exists = false;
+
+    if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            exists = sqlite3_column_int(stmt, 0) > 0;
+        }
+        sqlite3_finalize(stmt);
+    } else {
+        cerr << "Failed to check champion existence: " << sqlite3_errmsg(db) << "\n";
+    }
+
+    return exists;
+}
+
+bool LocalDB::isTraitInSet(int set_number, const string& trait_name) {
+    string sql = "SELECT COUNT(*) FROM traits WHERE set_number = " + to_string(set_number) +
+                 " AND name = '" + trait_name + "';";
+    sqlite3_stmt* stmt;
+    bool exists = false;
+
+    if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            exists = sqlite3_column_int(stmt, 0) > 0;
+        }
+        sqlite3_finalize(stmt);
+    } else {
+        cerr << "Failed to check trait existence: " << sqlite3_errmsg(db) << "\n";
+    }
+
+    return exists;
+}
+
 int LocalDB::getTraitCount(int set_number) {
     string sql = "SELECT COUNT(*) FROM traits WHERE set_number = " + to_string(set_number) + ";";
     sqlite3_stmt* stmt;

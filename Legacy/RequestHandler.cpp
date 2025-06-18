@@ -1,7 +1,7 @@
 #include "RequestHandler.hpp"
 
-RequestHandler::RequestHandler(string database_folder, string static_folder, int result_expiry_duration, int job_cleanup_timer) : database(database_folder), TaskSchedular(result_expiry_duration, job_cleanup_timer){
-    static_filepath = static_folder;
+RequestHandler::RequestHandler(string database_file, string static_folder, int result_expiry_duration, int job_cleanup_timer) : database(database_file), TaskSchedular(result_expiry_duration, job_cleanup_timer){
+    saved_static_folder = static_folder;
 }
 
 crow::response RequestHandler::handle_compute(const crow::request& req) {
@@ -50,10 +50,17 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
 
     // Prepare job
     auto job = [=]() -> vector<BoardResult> {
-        SetData set_data = database.allocSet(set_number);
-        Solver solver(set_data, 10); // or configurable heap
-        solver.UpdateData(set_data, player_level, traits_added, champions_added);
-        return solver.Solve(target_size);
+        try
+        {
+            SetData set_data = database.allocSet(set_number);
+            Solver solver(set_data, 10); // or configurable heap
+            solver.UpdateData(set_data, player_level, traits_added, champions_added);
+            return solver.Solve(target_size);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     };
 
     int job_id = TaskSchedular.submit(job);
@@ -104,10 +111,10 @@ crow::response RequestHandler::handle_status(const crow::request& req) {
     // Convert vector<BoardResult> to JSON
     json boards_json = json::array();
     for (const auto& board_result : *results) {
-        json board_json = json::array();
-        for (const auto& name : board_result.board) {
-            board_json.push_back(name);
-        }
+        json board_json;
+        board_json["board"] = board_result.board;
+        board_json["score"] = board_result.score;
+
         boards_json.push_back(board_json);
     }
 
@@ -127,9 +134,9 @@ crow::response RequestHandler::handle_static(const crow::request& req) {
 
     string set_number = url_params.get("set_number");
 
-    ifstream file(static_filepath);
+    ifstream file(saved_static_folder + "/" + "set" + set_number);
     if (!file.is_open()) {
-        return crow::response(500, "Failed to open " + static_filepath);
+        return crow::response(500, "Failed to open: " + saved_static_folder + "/" + "set" + set_number);
     }
     
     json j;

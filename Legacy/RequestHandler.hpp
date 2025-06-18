@@ -19,10 +19,10 @@ class RequestHandler{
     private:
     LocalDB database;
     JobManager TaskSchedular;
-    string static_filepath;
+    string saved_static_folder;
 
     public:
-    RequestHandler(string database_folder, string static_folder, int result_expiry_duration, int job_cleanup_timer);
+    RequestHandler(string database_file, string static_folder, int result_expiry_duration, int job_cleanup_timer);
     crow::response handle_compute(const crow::request& req); // uses POST method
     crow::response handle_status(const crow::request& req); // uses GET method with no caching
     crow::response handle_static(const crow::request& req); // uses GET method

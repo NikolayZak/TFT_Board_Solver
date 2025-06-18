@@ -2,7 +2,7 @@
 
 int main() {
     crow::SimpleApp app;
-    RequestHandler handler;
+    RequestHandler handler("database.db", "static", 67, 29);
 
     CROW_ROUTE(app, "/api/compute").methods("POST"_method)
     ([&handler](const crow::request& req){

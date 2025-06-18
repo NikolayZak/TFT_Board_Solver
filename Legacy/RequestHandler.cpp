@@ -60,6 +60,8 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
         catch(const std::exception& e)
         {
             std::cerr << e.what() << '\n';
+            vector<BoardResult> empty;
+            return empty;
         }
     };
 

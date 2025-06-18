@@ -77,7 +77,7 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
 
 crow::response RequestHandler::handle_status(const crow::request& req) {
     // Parse job_id from query string
-    auto url_params = crow::query_string(req.url);
+    auto url_params = req.url_params;
     if (!url_params.get("job_id")) {
         return crow::response(400, "Missing job_id parameter");
     }
@@ -136,7 +136,7 @@ crow::response RequestHandler::handle_static(const crow::request& req) {
 
     string set_number = url_params.get("set_number");
 
-    ifstream file(saved_static_folder + "/" + "set" + set_number);
+    ifstream file(saved_static_folder + "/" + "set" + set_number + ".json");
     if (!file.is_open()) {
         return crow::response(500, "Failed to open: " + saved_static_folder + "/" + "set" + set_number);
     }

@@ -8,8 +8,15 @@
 
 */
 #pragma once
-#include "Common.hpp"
 #include <sstream>
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
+using std::ostringstream;
+using std::istringstream;
+
 
 string serializeVector(const vector<int>& vec);
 string serializeVector(const vector<string>& vec);

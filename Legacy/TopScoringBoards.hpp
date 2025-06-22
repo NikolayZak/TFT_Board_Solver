@@ -5,11 +5,14 @@
     Last Modified: 2025-06-7
 
     Description: TopScoringBoards.hpp
-    Heap Based ADT for keeping and sorting the top K boards
+    Heap Based ADT for keeping and sorting the top n boards
 */
 
 #pragma once
+#include <vector>
 #include "Common.hpp"
+
+using std::vector;
 
 class TopScoringBoards {
 private:

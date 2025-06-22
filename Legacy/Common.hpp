@@ -14,7 +14,10 @@
 #include "FastVector.hpp"
 #include "StaticVariables.hpp"
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::cerr;
+using std::cout;
 
 struct Trait{
     int quantity;

@@ -13,7 +13,7 @@ void TopScoringBoards::heapify_up(int index) {
     while (index > 0) {
         int parent = (index - 1) / 2;
         if (compare(heap[index], heap[parent])) {
-            swap(heap[index], heap[parent]);
+            std::swap(heap[index], heap[parent]);
             index = parent;
         } else {
             break;
@@ -35,7 +35,7 @@ void TopScoringBoards::heapify_down(int index) {
             largest = right;
         }
         if (largest != index) {
-            swap(heap[index], heap[largest]);
+            std::swap(heap[index], heap[largest]);
             index = largest;
         } else {
             break;

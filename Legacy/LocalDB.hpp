@@ -13,12 +13,22 @@
 
 */
 #pragma once
-#include "Common.hpp"
-#include "Serialisation.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
 #include <unordered_map>
 #include <sqlite3.h>
+#include "Common.hpp"
+#include "StaticVariables.hpp"
+#include "Serialisation.hpp"
 
-// TODO: Add method for adding a new set remotely
+using std::string;
+using std::vector;
+using std::unordered_map;
+using std::cerr;
+using std::to_string;
+
+
 class LocalDB {
 public:
     LocalDB(const string& dbPath);

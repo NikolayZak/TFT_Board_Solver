@@ -50,10 +50,12 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
     auto job = [=]() -> vector<BoardResult> {
         try
         {
-            SetData set_data = database.allocSet(set_number);
-            Solver solver(set_data, 10);
-            solver.UpdateData(set_data, player_level, traits_added, champions_added);
-            return solver.Solve(target_size);
+            SetData set_data = database.allocSet(set_number);                         // allocate the set
+            Solver solver(set_data, 10);                                              // create the solver
+            solver.UpdateData(set_data, player_level, traits_added, champions_added); // refine the data
+            vector<BoardResult> result = solver.Solve(target_size);                   // solve the data
+            database.incrementAllChampions(set_number, result);                       // optimise the database
+            return result;                                                            // return result
         }
         catch(const std::exception& e)
         {

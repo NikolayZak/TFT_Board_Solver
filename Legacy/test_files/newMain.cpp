@@ -2,6 +2,10 @@
 #include "../Solver.hpp"
 
 
+// problems
+// trait not found crashes
+// champion not found crashes
+
 
 
 // compile test with: g++ ../FastVector.cpp ../Common.cpp ../TopScoringBoards.cpp ../Serialisation.cpp ../LocalDB.cpp ../Board.cpp ../Solver.cpp newMain.cpp -lsqlite3 -o test
@@ -14,12 +18,13 @@ int main() {
     set_data.deallocSet(); // Clean up the allocated set data
     
     Solver test(copy, 10);
-    vector<BoardResult> ans = test.Solve(3);
+    test.UpdateData(copy, 10, {"Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad"},{});
+    vector<BoardResult> ans = test.Solve(2);
 
     for(int i = 0; i < ans.size(); i++){
         ans[i].Print();
     }
-
+    cout << test.Runtime();
     
     copy.deallocSet();
 

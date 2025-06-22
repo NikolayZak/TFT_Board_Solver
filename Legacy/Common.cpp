@@ -26,13 +26,18 @@ Trait::Trait(const Trait &a_trait){
 }
 
 int Trait::Increment(){
-    quantity++;
+    if(quantity < MAX_TRAIT_TIERS){
+        quantity++;
+    }
     return value[quantity];
 }
 
 int Trait::Decrement(){
+    if(quantity == 0){
+        return 0;
+    }
     quantity--;
-    return -value[quantity + 1];
+    return -value[quantity + 1]; // return the lost value
 }
 
 Champion::Champion(Trait** all_traits, int cost, const string &name, const vector<string> &champion_traits){

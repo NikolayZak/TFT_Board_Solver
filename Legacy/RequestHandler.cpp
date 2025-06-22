@@ -46,14 +46,12 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
         }
     }
 
-    // need to figure out a way to validate excess traits
-
     // Prepare job
     auto job = [=]() -> vector<BoardResult> {
         try
         {
             SetData set_data = database.allocSet(set_number);
-            Solver solver(set_data, 10); // or configurable heap
+            Solver solver(set_data, 10);
             solver.UpdateData(set_data, player_level, traits_added, champions_added);
             return solver.Solve(target_size);
         }
@@ -135,6 +133,10 @@ crow::response RequestHandler::handle_static(const crow::request& req) {
     }
 
     string set_number = url_params.get("set_number");
+
+    if (!std::all_of(set_number.begin(), set_number.end(), ::isdigit)) {
+        return crow::response(400, "Invalid set_number format");
+    }
 
     ifstream file(saved_static_folder + "/" + "set" + set_number + ".json");
     if (!file.is_open()) {

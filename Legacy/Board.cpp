@@ -21,6 +21,9 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<st
     set_data.deallocSet(); // Free the old set data
     set_data.copySet(data); // Copy the new set data
 
+    current_board = FastVector(); // Reset the current board
+    current_board_score = 0; // Reset the score
+
     for(int i = 0; i < traits_added.size(); i++) {
         AddTrait(data.findTraitIndex(traits_added[i])); // add the traits
     }
@@ -39,9 +42,6 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<st
         cerr << "Error: SetData exceeds maximum champion count." << endl;
         exit(EXIT_FAILURE);
     }
-    // Reset the current board and score
-    current_board = FastVector(); // Reset the current board
-    current_board_score = 0; // Reset the score
 }
 
 // converts a BoardNode to a BoardResult

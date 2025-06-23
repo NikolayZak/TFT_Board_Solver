@@ -140,7 +140,7 @@ crow::response RequestHandler::handle_static(const crow::request& req) {
         return crow::response(400, "Invalid set_number format");
     }
 
-    ifstream file(saved_static_folder + "/" + "set" + set_number + ".json");
+    std::ifstream file(saved_static_folder + "/" + "set" + set_number + ".json");
     if (!file.is_open()) {
         return crow::response(500, "Failed to open: " + saved_static_folder + "/" + "set" + set_number);
     }

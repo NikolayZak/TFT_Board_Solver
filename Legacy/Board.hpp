@@ -10,10 +10,19 @@
 */
 #pragma once
 // Dependencies
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include "Common.hpp"
 #include "LocalDB.hpp"
 #include "FastVector.hpp"
 #include "TopScoringBoards.hpp"
-#include <algorithm>
+
+using std::string;
+using std::vector;
+using std::cerr;
+using std::endl;
 
 class Board {
     private:

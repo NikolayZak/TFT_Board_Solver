@@ -18,7 +18,7 @@ JobManager::~JobManager() {
 int JobManager::submit(function<vector<BoardResult>()> func) {
     // create a new job
     int job_id = next_id++;
-    auto current = make_shared<Job>();
+    auto current = std::make_shared<Job>();
 
     // add the job to the map
     {
@@ -36,7 +36,7 @@ int JobManager::submit(function<vector<BoardResult>()> func) {
             unique_lock<mutex> lock(current->mtx);
             current->results = r;
             current->status = JobStatus::Completed;
-            current->completed_at = chrono::steady_clock::now();
+            current->completed_at = std::chrono::steady_clock::now();
         }
     }).detach();
 
@@ -67,12 +67,12 @@ void JobManager::cleanup_expired_jobs() {
     while (!stop_cleanup) { // cleanup thread loop
         {
             lock_guard<mutex> lock(result_mutex);
-            auto now = chrono::steady_clock::now();
+            auto now = std::chrono::steady_clock::now();
 
             for (auto it = results.begin(); it != results.end(); ) {
                 lock_guard<mutex> lock2(it->second->mtx);
                 if (it->second->status == JobStatus::Completed) {
-                    auto elapsed = chrono::duration_cast<chrono::seconds>(now - it->second->completed_at);
+                    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second->completed_at);
                     if (elapsed.count() > job_expiry_duration) {
                         it = results.erase(it);
                         continue;
@@ -81,6 +81,6 @@ void JobManager::cleanup_expired_jobs() {
                 ++it;
             }
         }
-        this_thread::sleep_for(chrono::seconds(cleanup_timer));
+        std::this_thread::sleep_for(std::chrono::seconds(cleanup_timer));
     }
 }

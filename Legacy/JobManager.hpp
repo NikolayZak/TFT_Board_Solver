@@ -10,6 +10,7 @@
 
 #pragma once
 #include "Common.hpp"
+#include <vector>
 #include <unordered_map>
 #include <functional>
 #include <mutex>
@@ -18,6 +19,18 @@
 #include <atomic>
 #include <thread>
 #include <optional>
+
+using std::vector;
+using std::mutex;
+using std::shared_ptr;
+using std::atomic;
+using std::thread;
+using std::function;
+using std::optional;
+using std::lock_guard;
+using std::unique_lock;
+using std::nullopt;
+using std::unordered_map;
 
 enum class JobStatus {
     NotFound,
@@ -29,7 +42,7 @@ struct Job {
     vector<BoardResult> results;
     JobStatus status = JobStatus::Running;
     mutex mtx;
-    chrono::steady_clock::time_point completed_at;
+    std::chrono::_V2::steady_clock::time_point completed_at;
 };
 
 class JobManager {

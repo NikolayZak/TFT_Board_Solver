@@ -8,9 +8,15 @@
     Algorithm using tft Board methods to calculate the optimal tft board
 */
 #pragma once
+#include <string>
+#include <vector>
+#include <chrono>
+#include "Common.hpp"
 #include "Board.hpp"
 #include "TopScoringBoards.hpp"
-#include <chrono>
+
+using std::string;
+using std::vector;
 
 class Solver {
     private:

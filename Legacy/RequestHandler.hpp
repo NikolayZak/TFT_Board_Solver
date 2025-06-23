@@ -7,13 +7,17 @@
     Description: RequestHandler.hpp
     Responsible to parsing HTML requests and returning HTML responses
 */
+#include <string>
+#include <vector>
+#include <nlohmann/json.hpp>
+#include "../Crow/include/crow.h"
 #include "LocalDB.hpp"
 #include "Solver.hpp"
 #include "JobManager.hpp"
-#include "../Crow/include/crow.h"
-#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+using std::string;
+using std::vector;
 
 class RequestHandler{
     private:

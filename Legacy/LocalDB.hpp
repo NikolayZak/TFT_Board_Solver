@@ -35,7 +35,6 @@ public:
     ~LocalDB();
     SetData allocSet(int set_number);
     vector<int> getSets();
-    void increaseChampionPickCount(int set_number, string champion_name, int increment);
     void incrementAllChampions(int set_number, const vector<BoardResult> &boards);
     bool isChampionInSet(int set_number, const string& champion_name);
     bool isTraitInSet(int set_number, const string& trait_name);

@@ -215,27 +215,41 @@ vector<int> LocalDB::getSets() {
     return sets;
 }
 
-void LocalDB::increaseChampionPickCount(int set_number, string champion_name, int increment) {
-    string sql = "UPDATE champions SET pick_count = pick_count + " + to_string(increment) +
-                 " WHERE set_number = " + to_string(set_number) + " AND name = '" + champion_name + "';";
-    execute(sql);
-}
-
 void LocalDB::incrementAllChampions(int set_number, const vector<BoardResult>& boards) {
     unordered_map<string, int> champion_counts;
 
-    // count how many of each champion is present
+    // Count champions
     for (const auto& board_result : boards) {
         for (const auto& champ_name : board_result.board) {
             champion_counts[champ_name]++;
         }
     }
 
-    // add each champion total to the database
-    for(const auto& champion : champion_counts){
-        increaseChampionPickCount(set_number, champion.first, champion.second);
+    // Prepare one SQL statement and reuse it
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE champions SET pick_count = pick_count + ? WHERE set_number = ? AND name = ?;";
+
+    // Begin transaction
+    execute("BEGIN TRANSACTION;");
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        for (const auto& [name, count] : champion_counts) {
+            sqlite3_bind_int(stmt, 1, count);
+            sqlite3_bind_int(stmt, 2, set_number);
+            sqlite3_bind_text(stmt, 3, name.c_str(), -1, SQLITE_STATIC);
+
+            sqlite3_step(stmt);
+            sqlite3_reset(stmt); // Ready the statement for next bind
+        }
+        sqlite3_finalize(stmt);
+    } else {
+        // handle prepare error
     }
+
+    // End transaction
+    execute("COMMIT;");
 }
+
 
 vector<int> LocalDB::getCostRestriction(int set_number) {
     vector<int> restrictions;

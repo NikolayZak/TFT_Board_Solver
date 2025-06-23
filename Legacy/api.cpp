@@ -1,3 +1,4 @@
+#include "../Crow/include/crow.h"
 #include "RequestHandler.hpp"
 
 // compile with g++ FastVector.cpp Common.cpp TopScoringBoards.cpp Serialisation.cpp LocalDB.cpp Board.cpp Solver.cpp JobManager.cpp RequestHandler.cpp api.cpp -lsqlite3 -o api -I../Crow/include

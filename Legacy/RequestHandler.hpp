@@ -7,10 +7,13 @@
     Description: RequestHandler.hpp
     Responsible to parsing HTML requests and returning HTML responses
 */
+#pragma once
+
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
 #include "../Crow/include/crow.h"
+#include "Common.hpp"
 #include "LocalDB.hpp"
 #include "Solver.hpp"
 #include "JobManager.hpp"

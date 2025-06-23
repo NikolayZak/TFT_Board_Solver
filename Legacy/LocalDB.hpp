@@ -45,7 +45,6 @@ private:
     vector<int> getCostRestriction(int set_number);
     int getTraitCount(int set_number);
     int getChampionCount(int set_number);
-    vector<string> getTraitsForChampion(int champion_id);
 
     Trait** allocTraits(int set_number);
     Champion** allocChampions(int set_number, Trait** all_traits);

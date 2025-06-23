@@ -155,47 +155,55 @@ Trait** LocalDB::allocTraits(int set_number) {
     return traits;
 }
 
-vector<string> LocalDB::getTraitsForChampion(int champion_id) {
-    vector<string> trait_names;
-    string sql = 
-        "SELECT t.name FROM traits t "
-        "JOIN champion_traits ct ON t.id = ct.trait_id "
-        "WHERE ct.champion_id = " + to_string(champion_id) + ";";
+Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
+    vector<Champion*> champion_vector;
 
-    sqlite3_stmt* stmt;
-    if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
-        while (sqlite3_step(stmt) == SQLITE_ROW) {
-            const unsigned char* name = sqlite3_column_text(stmt, 0);
-            if (name) trait_names.emplace_back(reinterpret_cast<const char*>(name));
+    // Step 1: Fetch all traits in one query
+    unordered_map<int, vector<string>> traits_by_champion;
+    string trait_sql =
+        "SELECT ct.champion_id, t.name "
+        "FROM champion_traits ct "
+        "JOIN traits t ON ct.trait_id = t.id "
+        "WHERE ct.champion_id IN (SELECT id FROM champions WHERE set_number = " + to_string(set_number) + ");";
+
+    sqlite3_stmt* trait_stmt;
+    if (sqlite3_prepare_v2(db, trait_sql.c_str(), -1, &trait_stmt, nullptr) == SQLITE_OK) {
+        while (sqlite3_step(trait_stmt) == SQLITE_ROW) {
+            int champ_id = sqlite3_column_int(trait_stmt, 0);
+            const unsigned char* name = sqlite3_column_text(trait_stmt, 1);
+            if (name) {
+                traits_by_champion[champ_id].emplace_back(reinterpret_cast<const char*>(name));
+            }
         }
-        sqlite3_finalize(stmt);
+        sqlite3_finalize(trait_stmt);
     } else {
-        cerr << "Failed to fetch traits for champion " << champion_id << ": " << sqlite3_errmsg(db) << "\n";
+        cerr << "Failed to fetch traits: " << sqlite3_errmsg(db) << "\n";
     }
 
-    return trait_names;
-}
+    // Step 2: Fetch all champions
+    string champ_sql =
+        "SELECT id, cost, name FROM champions "
+        "WHERE set_number = " + to_string(set_number) + " "
+        "ORDER BY pick_count DESC;";
 
-Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
-    Champion** champions = new Champion*[getChampionCount(set_number)];
+    sqlite3_stmt* champ_stmt;
+    if (sqlite3_prepare_v2(db, champ_sql.c_str(), -1, &champ_stmt, nullptr) == SQLITE_OK) {
+        while (sqlite3_step(champ_stmt) == SQLITE_ROW) {
+            int champion_id = sqlite3_column_int(champ_stmt, 0);
+            int cost = sqlite3_column_int(champ_stmt, 1);
+            string name = reinterpret_cast<const char*>(sqlite3_column_text(champ_stmt, 2));
 
-    string sql = "SELECT id, cost, name FROM champions WHERE set_number = " + to_string(set_number) + " ORDER BY pick_count DESC;";
-    sqlite3_stmt* stmt;
-    int counter = 0;
-
-    if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
-        while (sqlite3_step(stmt) == SQLITE_ROW) {
-            int champion_id = sqlite3_column_int(stmt, 0);
-            int cost = sqlite3_column_int(stmt, 1);
-            string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-
-            vector<string> trait_names = getTraitsForChampion(champion_id);
-            champions[counter++] = new Champion(all_traits, cost, name, trait_names);
+            const vector<string>& trait_names = traits_by_champion[champion_id];
+            champion_vector.push_back(new Champion(all_traits, cost, name, trait_names));
         }
-        sqlite3_finalize(stmt);
+        sqlite3_finalize(champ_stmt);
     } else {
         cerr << "Failed to fetch champions: " << sqlite3_errmsg(db) << "\n";
     }
+
+    // Step 3: Convert vector to raw pointer array
+    Champion** champions = new Champion*[champion_vector.size()];
+    std::copy(champion_vector.begin(), champion_vector.end(), champions);
 
     return champions;
 }

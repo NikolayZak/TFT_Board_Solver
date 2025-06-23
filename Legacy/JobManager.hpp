@@ -19,6 +19,7 @@
 #include <atomic>
 #include <thread>
 #include <optional>
+#include <utility>
 
 using std::vector;
 using std::mutex;
@@ -31,6 +32,7 @@ using std::lock_guard;
 using std::unique_lock;
 using std::nullopt;
 using std::unordered_map;
+using std::pair;
 
 enum class JobStatus {
     NotFound,
@@ -43,6 +45,7 @@ struct Job {
     JobStatus status = JobStatus::Running;
     mutex mtx;
     std::chrono::_V2::steady_clock::time_point completed_at;
+    float runtime;
 };
 
 class JobManager {
@@ -64,5 +67,5 @@ public:
 
     int submit(function<vector<BoardResult>()> func);
     JobStatus get_status(int job_id);
-    optional<vector<BoardResult>> get_result(int job_id);
+    optional<pair<vector<BoardResult>, float>> get_result(int job_id);
 };

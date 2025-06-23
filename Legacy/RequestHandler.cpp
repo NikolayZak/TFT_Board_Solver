@@ -101,7 +101,7 @@ crow::response RequestHandler::handle_status(const crow::request& req) {
     }
 
     // Job is finished: try to get result
-    optional<vector<BoardResult>> results = TaskSchedular.get_result(job_id);
+    optional<pair<vector<BoardResult>, float>> results = TaskSchedular.get_result(job_id);
 
     // result no longer exists
     if (!results.has_value()) {
@@ -110,9 +110,11 @@ crow::response RequestHandler::handle_status(const crow::request& req) {
 
     res_json["status"] = "done";
 
+    res_json["runtime"] = to_string(results->second);
+
     // Convert vector<BoardResult> to JSON
     json boards_json = json::array();
-    for (const auto& board_result : *results) {
+    for (const auto& board_result : results->first) {
         json board_json;
         board_json["board"] = board_result.board;
         board_json["score"] = board_result.score;

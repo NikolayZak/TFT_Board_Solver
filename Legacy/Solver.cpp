@@ -57,10 +57,7 @@ vector<BoardResult> Solver::Solve(int target_size) {
 
     this->target_size += target_size;
 
-    auto start = std::chrono::high_resolution_clock::now();
     SolveBoardsRec();
-    auto end = std::chrono::high_resolution_clock::now();
-    runtime = std::chrono::duration<float, std::milli>(end - start).count() / 1000.0f; // Convert to seconds
 
     this->target_size -= target_size;
 

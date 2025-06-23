@@ -10,7 +10,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <chrono>
 #include "Common.hpp"
 #include "Board.hpp"
 #include "TopScoringBoards.hpp"
@@ -26,7 +25,6 @@ class Solver {
     int highscore;
     int target_size;
     int max_champion_increase;
-    float runtime;
 
     void SolveBoardsRec();
 
@@ -35,6 +33,5 @@ class Solver {
     ~Solver();
     void UpdateData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added);
     vector<BoardResult> Solve(int target_size); // does not return the champions and traits added
-    float Runtime() const { return runtime; }
 
 };

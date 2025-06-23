@@ -29,14 +29,15 @@ int JobManager::submit(function<vector<BoardResult>()> func) {
     // queue the job
     thread([func = move(func), current]() {
 
+        auto start = std::chrono::steady_clock::now();
         vector<BoardResult> r = func(); // compute the job
-
         // expose the result
         {
             unique_lock<mutex> lock(current->mtx);
             current->results = r;
             current->status = JobStatus::Completed;
             current->completed_at = std::chrono::steady_clock::now();
+            current->runtime = std::chrono::duration<float, std::milli>(current->completed_at - start).count() / 1000.0f;
         }
     }).detach();
 
@@ -52,7 +53,7 @@ JobStatus JobManager::get_status(int job_id) {
     return it->second->status;
 }
 
-optional<vector<BoardResult>> JobManager::get_result(int job_id) {
+optional<pair<vector<BoardResult>, float>> JobManager::get_result(int job_id) {
     lock_guard<mutex> lock(result_mutex);
     auto it = results.find(job_id);
     if (it == results.end()) {
@@ -60,7 +61,7 @@ optional<vector<BoardResult>> JobManager::get_result(int job_id) {
     }
 
     lock_guard<mutex> job_lock(it->second->mtx);
-    return it->second->results;
+    return make_pair(it->second->results, it->second->runtime);
 }
 
 void JobManager::cleanup_expired_jobs() {

@@ -45,10 +45,10 @@ struct Champion{
 struct SetData{
     Trait** traits; // array of pointers to Trait objects
     Champion** champions; // array of pointers to Champion objects
+    float set_number;
     int cost_restriction[MAX_PLAYER_LEVEL]; // cost restriction[0] is for level 1
     int trait_count;
     int champion_count;
-    int set_number;
 
     void copySet(const SetData &data); // copy the set data from another SetData object
     void restrictSet(int player_level, const vector<int> &champions_to_remove); // restrict the set data based on player level and champions to remove

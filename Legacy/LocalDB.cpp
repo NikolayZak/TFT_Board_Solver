@@ -11,24 +11,24 @@ void LocalDB::execute(const string& sql) {
 void LocalDB::prepareSchema() {
     const char* schema = R"(
         CREATE TABLE IF NOT EXISTS sets (
-            set_number INTEGER PRIMARY KEY
+            set_number FLOAT PRIMARY KEY
         );
 
         CREATE TABLE IF NOT EXISTS level_restrictions (
-            set_number INTEGER,
+            set_number FLOAT,
             cost_restriction TEXT
         );
 
         CREATE TABLE IF NOT EXISTS traits (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            set_number INTEGER,
+            set_number FLOAT,
             name TEXT,
             value TEXT
         );
 
         CREATE TABLE IF NOT EXISTS champions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            set_number INTEGER,
+            set_number FLOAT,
             cost INTEGER,
             name TEXT,
             pick_count INTEGER DEFAULT 0
@@ -61,7 +61,7 @@ LocalDB::~LocalDB() {
     if (db) sqlite3_close(db);
 }
 
-bool LocalDB::isChampionInSet(int set_number, const string& champion_name) {
+bool LocalDB::isChampionInSet(float set_number, const string& champion_name) {
     string sql = "SELECT COUNT(*) FROM champions WHERE set_number = " + to_string(set_number) +
                  " AND name = '" + champion_name + "';";
     sqlite3_stmt* stmt;
@@ -79,7 +79,7 @@ bool LocalDB::isChampionInSet(int set_number, const string& champion_name) {
     return exists;
 }
 
-bool LocalDB::isTraitInSet(int set_number, const string& trait_name) {
+bool LocalDB::isTraitInSet(float set_number, const string& trait_name) {
     string sql = "SELECT COUNT(*) FROM traits WHERE set_number = " + to_string(set_number) +
                  " AND name = '" + trait_name + "';";
     sqlite3_stmt* stmt;
@@ -97,7 +97,7 @@ bool LocalDB::isTraitInSet(int set_number, const string& trait_name) {
     return exists;
 }
 
-int LocalDB::getTraitCount(int set_number) {
+int LocalDB::getTraitCount(float set_number) {
     string sql = "SELECT COUNT(*) FROM traits WHERE set_number = " + to_string(set_number) + ";";
     sqlite3_stmt* stmt;
     int count = 0;
@@ -114,7 +114,7 @@ int LocalDB::getTraitCount(int set_number) {
     return count;
 }
 
-int LocalDB::getChampionCount(int set_number) {
+int LocalDB::getChampionCount(float set_number) {
     string sql = "SELECT COUNT(*) FROM champions WHERE set_number = " + to_string(set_number) + ";";
     sqlite3_stmt* stmt;
     int count = 0;
@@ -131,7 +131,7 @@ int LocalDB::getChampionCount(int set_number) {
     return count;
 }
 
-Trait** LocalDB::allocTraits(int set_number) {
+Trait** LocalDB::allocTraits(float set_number) {
     // Allocate memory for traits
     Trait** traits = new Trait*[getTraitCount(set_number)];
 
@@ -155,7 +155,7 @@ Trait** LocalDB::allocTraits(int set_number) {
     return traits;
 }
 
-Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
+Champion** LocalDB::allocChampions(float set_number, Trait** all_traits) {
     vector<Champion*> champion_vector;
 
     // Step 1: Fetch all traits in one query
@@ -208,8 +208,8 @@ Champion** LocalDB::allocChampions(int set_number, Trait** all_traits) {
     return champions;
 }
 
-vector<int> LocalDB::getSets() {
-    vector<int> sets;
+vector<float> LocalDB::getSets() {
+    vector<float> sets;
     string sql = "SELECT set_number FROM sets;";
     sqlite3_stmt* stmt;
     if (sqlite3_prepare_v3(db, sql.c_str(), -1, SQLITE_PREPARE_PERSISTENT, &stmt, nullptr) == SQLITE_OK) {
@@ -223,7 +223,7 @@ vector<int> LocalDB::getSets() {
     return sets;
 }
 
-void LocalDB::incrementAllChampions(int set_number, const vector<BoardResult>& boards) {
+void LocalDB::incrementAllChampions(float set_number, const vector<BoardResult>& boards) {
     unordered_map<string, int> champion_counts;
 
     // Count champions
@@ -259,7 +259,7 @@ void LocalDB::incrementAllChampions(int set_number, const vector<BoardResult>& b
 }
 
 
-vector<int> LocalDB::getCostRestriction(int set_number) {
+vector<int> LocalDB::getCostRestriction(float set_number) {
     vector<int> restrictions;
     string sql = "SELECT cost_restriction FROM level_restrictions WHERE set_number = " + to_string(set_number) + ";";
     sqlite3_stmt* stmt;
@@ -277,7 +277,7 @@ vector<int> LocalDB::getCostRestriction(int set_number) {
     return restrictions;
 }
 
-SetData LocalDB::allocSet(int set_number) {
+SetData LocalDB::allocSet(float set_number) {
     SetData set_data;
     set_data.set_number = set_number;
     set_data.traits = allocTraits(set_number);

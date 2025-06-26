@@ -13,7 +13,7 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
     }
 
     // extract data
-    int set_number = body.value("set_number", 0);
+    float set_number = body.value("set_number", 0.0);
     int player_level = body.value("player_level", 0);
     int target_size = body.value("target_size", 0);
 
@@ -29,7 +29,7 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
         return crow::response(400, "Invalid target_size: " + to_string(target_size));
     }
 
-    vector<int> valid_sets = database.getSets();
+    vector<float> valid_sets = database.getSets();
     if(find(valid_sets.begin(), valid_sets.end(), set_number) == valid_sets.end()) {
         return crow::response(400, "Invalid set_number: " + to_string(set_number));
     }
@@ -138,9 +138,12 @@ crow::response RequestHandler::handle_static(const crow::request& req) {
 
     string set_number = url_params.get("set_number");
 
-    if (!std::all_of(set_number.begin(), set_number.end(), ::isdigit)) {
+    if (!std::all_of(set_number.begin(), set_number.end(), [](char c) {
+        return std::isdigit(c) || c == '.' || c == '-';
+    })) {
         return crow::response(400, "Invalid set_number format");
     }
+
 
     std::ifstream file(saved_static_folder + "/" + "set" + set_number + ".json");
     if (!file.is_open()) {

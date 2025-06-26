@@ -33,20 +33,20 @@ class LocalDB {
 public:
     LocalDB(const string& dbPath);
     ~LocalDB();
-    SetData allocSet(int set_number);
-    vector<int> getSets();
-    void incrementAllChampions(int set_number, const vector<BoardResult> &boards);
-    bool isChampionInSet(int set_number, const string& champion_name);
-    bool isTraitInSet(int set_number, const string& trait_name);
+    SetData allocSet(float set_number);
+    vector<float> getSets();
+    void incrementAllChampions(float set_number, const vector<BoardResult> &boards);
+    bool isChampionInSet(float set_number, const string& champion_name);
+    bool isTraitInSet(float set_number, const string& trait_name);
 
 private:
     void execute(const string& sql);
     void prepareSchema();
-    vector<int> getCostRestriction(int set_number);
-    int getTraitCount(int set_number);
-    int getChampionCount(int set_number);
+    vector<int> getCostRestriction(float set_number);
+    int getTraitCount(float set_number);
+    int getChampionCount(float set_number);
 
-    Trait** allocTraits(int set_number);
-    Champion** allocChampions(int set_number, Trait** all_traits);
+    Trait** allocTraits(float set_number);
+    Champion** allocChampions(float set_number, Trait** all_traits);
     sqlite3* db;
 };

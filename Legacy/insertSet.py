@@ -26,7 +26,7 @@ if "set_number" not in data:
     print("❌ 'set_number' missing in JSON file.")
     sys.exit(1)
 
-set_number = data["set_number"]
+set_number = float(data["set_number"])
 cost_restriction = data.get("cost_restriction", "")
 
 # === Step 3: Connect to DB and create schema ===
@@ -35,24 +35,24 @@ cur = conn.cursor()
 
 schema = """
 CREATE TABLE IF NOT EXISTS sets (
-    set_number INTEGER PRIMARY KEY
+    set_number FLOAT PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS level_restrictions (
-    set_number INTEGER,
+    set_number FLOAT,
     cost_restriction TEXT
 );
 
 CREATE TABLE IF NOT EXISTS traits (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    set_number INTEGER,
+    set_number FLOAT,
     name TEXT,
     value TEXT
 );
 
 CREATE TABLE IF NOT EXISTS champions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    set_number INTEGER,
+    set_number FLOAT,
     cost INTEGER,
     name TEXT,
     pick_count INTEGER DEFAULT 0

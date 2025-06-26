@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <numeric>
+#include "StaticVariables.hpp"
 #include "Common.hpp"
 #include "LocalDB.hpp"
 #include "FastVector.hpp"
@@ -44,7 +46,7 @@ class Board {
     void PushChampion(int champion_id);
     void PopChampion();
     BoardNode GetBoard();
-    int CalculateMaxChampionIncrease();
+    void InitialiseMaxChampionIncrease(int (&table)[MAX_PLAYER_LEVEL][MAX_CHAMPIONS]);
 
     // pass through methods
     int ChampionsInSet() const { return set_data.champion_count; }

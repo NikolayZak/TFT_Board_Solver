@@ -18,13 +18,12 @@ int main() {
     set_data.deallocSet(); // Clean up the allocated set data
     
     Solver test(copy, 10);
-    test.UpdateData(copy, 10, {"Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad","Dryad"},{});
-    vector<BoardResult> ans = test.Solve(2);
+    test.UpdateData(copy, 10, {},{});
+    vector<BoardResult> ans = test.Solve(3);
 
     for(int i = 0; i < ans.size(); i++){
         ans[i].Print();
     }
-    cout << test.Runtime();
     
     copy.deallocSet();
 

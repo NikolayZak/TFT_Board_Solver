@@ -95,14 +95,27 @@ BoardNode Board::GetBoard() {
     return {current_board, current_board_score};
 }
 
+// makes sure the finish is not bounds and if so, does not add them
+// adds [start,finish) exclusive
+int PedanticSum(vector<int> A, int start, int finish){
+    if(A.size() < finish){
+        finish = A.size();
+    }
+    int ans = 0;
+    for(int i = start; i < finish; i++){
+        ans += A[i];
+    }
+    return ans;
+}
+
 // calculates the largest possible champion increase
-int Board::CalculateMaxChampionIncrease() {
+void Board::InitialiseMaxChampionIncrease(int (&table)[MAX_PLAYER_LEVEL][MAX_CHAMPIONS]){
     vector<int> max_trait_increases;
-    int max_trait_tier_increase = 0;
+    vector<int> max_champion_increase;
 
     // calculate the maximum trait tier increase for each trait
     for(int i = 0; i < set_data.trait_count; i++) {
-        max_trait_tier_increase = 0;
+        int max_trait_tier_increase = 0;
         for(int j = 0; j < MAX_TRAIT_TIERS; j++) {
             if(set_data.traits[i]->value[j] > max_trait_tier_increase) {
                 max_trait_tier_increase = set_data.traits[i]->value[j];
@@ -112,20 +125,33 @@ int Board::CalculateMaxChampionIncrease() {
     }
 
     // calculate the maximum champion increase based on traits
-    int max_champion_increase = 0;
-    for(int i = 0; i < set_data.champion_count; i++) {
+    for(int i = 0; i < set_data.champion_count; i++) { // for every champion
         int champion_increase = 0;
-        for(int j = 0; j < set_data.champions[i]->num_traits; j++) {
+        for(int j = 0; j < set_data.champions[i]->num_traits; j++) { // for every champ trait
             string current_trait = set_data.champions[i]->traits[j]->name;
-            for(int k = 0; k < set_data.trait_count; k++) {
+            for(int k = 0; k < set_data.trait_count; k++) { // find the trait increase
                 if(set_data.traits[k]->name == current_trait) {
                     champion_increase += max_trait_increases[k];
                 }
             }
         }
-        if(champion_increase > max_champion_increase) {
-            max_champion_increase = champion_increase;
+        max_champion_increase.push_back(champion_increase);
+    }
+
+    // initialise to 0
+    for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
+        for(int j = 0; j < MAX_CHAMPIONS; j++){
+            table[i][j] = 0;
         }
     }
-    return max_champion_increase;
+
+    // accumulate valid indexes
+    for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
+        for(int j = 0; j < set_data.champion_count; j++){
+            if(i + j >= set_data.champion_count){
+                continue; // goes out of bounds
+            }
+            table[i][j] = std::accumulate(max_champion_increase.begin() + j, max_champion_increase.begin() + j + i + 1, 0);// sum x[j] to x[j+i]
+        }
+    }
 }

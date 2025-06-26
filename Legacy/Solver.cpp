@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
 Solver::Solver(const SetData& data, int heap_size) : B(data), optimal_boards(heap_size){
-    max_champion_increase = B.CalculateMaxChampionIncrease();
+    B.InitialiseMaxChampionIncrease(max_potential_increase);
     target_size = 0;
 }
 
@@ -11,7 +11,7 @@ Solver::~Solver() {
 
 void Solver::UpdateData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added) {
     B.UpdateSetData(data, player_level, traits_added, champions_added);
-    max_champion_increase = B.CalculateMaxChampionIncrease();
+    B.InitialiseMaxChampionIncrease(max_potential_increase);
     target_size = -(champions_added.size());
 }
 
@@ -40,13 +40,13 @@ void Solver::SolveBoardsRec() {
     int counter = B.Back() + 1;
     int champions_remaining = target_size - B.Size();
     int max_index = B.ChampionsInSet() - champions_remaining;
-    int max_increase = max_champion_increase * (champions_remaining - 1);
     while(counter <= max_index) {
-        B.PushChampion(counter);
-        if(B.GetScore() + max_increase >= highscore) {
+        // calculate the potential increase from this champion and extra champions to add
+        if(B.GetScore() + max_potential_increase[champions_remaining - 1][counter] >= highscore) {
+            B.PushChampion(counter);
             SolveBoardsRec();
+            B.PopChampion();
         }
-        B.PopChampion();
         counter++;
     }
 }

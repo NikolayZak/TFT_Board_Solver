@@ -12,7 +12,6 @@ Solver::~Solver() {
 void Solver::UpdateData(const SetData& data, int player_level, const vector<string> &traits_added, const vector<string> &champions_added) {
     B.UpdateSetData(data, player_level, traits_added, champions_added);
     B.InitialiseMaxChampionIncrease(max_potential_increase);
-    target_size = -(champions_added.size());
 }
 
 // maintains a default board position after complete
@@ -55,11 +54,9 @@ vector<BoardResult> Solver::Solve(int target_size) {
     highscore = 0;
     optimal_boards.clear();
 
-    this->target_size += target_size;
+    this->target_size = target_size;
 
     SolveBoardsRec();
-
-    this->target_size -= target_size;
 
     vector<BoardResult> result = B.ConvertBoardsAndClearHeap(optimal_boards);
     return result;

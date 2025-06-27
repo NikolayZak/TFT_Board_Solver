@@ -21,7 +21,6 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<st
     set_data.deallocSet(); // Free the old set data
     set_data.copySet(data); // Copy the new set data
 
-    current_board = FastVector(); // Reset the current board
     current_board_score = 0; // Reset the score
 
     for(int i = 0; i < traits_added.size(); i++) {
@@ -34,14 +33,11 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<st
         PushChampion(current); // Add the champions to the board
         champion_indexes.push_back(current);
     }
+    
+    current_board = FastVector(); // eliminate dangling champions added
 
     set_data.restrictSet(player_level, champion_indexes);
 
-    // Check if the new set data exceeds the maximum champion count
-    if(data.champion_count > MAX_CHAMPIONS) {
-        cerr << "Error: SetData exceeds maximum champion count." << endl;
-        exit(EXIT_FAILURE);
-    }
 }
 
 // converts a BoardNode to a BoardResult
@@ -109,7 +105,7 @@ int PedanticSum(vector<int> A, int start, int finish){
 }
 
 // calculates the largest possible champion increase
-void Board::InitialiseMaxChampionIncrease(int (&table)[MAX_PLAYER_LEVEL][MAX_CHAMPIONS]){
+void Board::InitialiseMaxChampionIncrease(int (&table)[MAX_BOARD_SIZE][MAX_CHAMPIONS]){
     vector<int> max_trait_increases;
     vector<int> max_champion_increase;
 
@@ -139,19 +135,32 @@ void Board::InitialiseMaxChampionIncrease(int (&table)[MAX_PLAYER_LEVEL][MAX_CHA
     }
 
     // initialise to 0
-    for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
+    for(int i = 0; i < MAX_BOARD_SIZE; i++){
         for(int j = 0; j < MAX_CHAMPIONS; j++){
             table[i][j] = 0;
         }
     }
 
     // accumulate valid indexes
-    for(int i = 0; i < MAX_PLAYER_LEVEL; i++){
+    for(int i = 0; i < MAX_BOARD_SIZE; i++){
         for(int j = 0; j < set_data.champion_count; j++){
             if(i + j >= set_data.champion_count){
                 continue; // goes out of bounds
             }
-            table[i][j] = std::accumulate(max_champion_increase.begin() + j, max_champion_increase.begin() + j + i + 1, 0);// sum x[j] to x[j+i]
+            
+            // add the first champion
+            table[i][j] = max_champion_increase[j];
+
+            if(i == 0){
+                continue; // top k not needed
+            }
+            
+            // Select top k values
+            vector<int> top_k(i);
+            std::partial_sort_copy(max_champion_increase.begin() + j + 1, max_champion_increase.end(), top_k.begin(), top_k.end(), std::greater<int>());
+
+            // Store their sum
+            table[i][j] += std::accumulate(top_k.begin(), top_k.end(), 0);
         }
     }
 }

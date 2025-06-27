@@ -25,7 +25,7 @@ class Solver {
     TopScoringBoards optimal_boards;
     int highscore;
     int target_size;
-    int max_potential_increase[MAX_PLAYER_LEVEL][MAX_CHAMPIONS]; // [extra champions to add][starting index]
+    int max_potential_increase[MAX_BOARD_SIZE][MAX_CHAMPIONS]; // [extra champions to add][starting index]
 
     void SolveBoardsRec();
 

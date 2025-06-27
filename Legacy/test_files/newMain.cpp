@@ -19,7 +19,7 @@ int main() {
     
     Solver test(copy, 10);
     test.UpdateData(copy, 10, {},{});
-    vector<BoardResult> ans = test.Solve(3);
+    vector<BoardResult> ans = test.Solve(7);
 
     for(int i = 0; i < ans.size(); i++){
         ans[i].Print();

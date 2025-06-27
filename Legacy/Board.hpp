@@ -46,7 +46,7 @@ class Board {
     void PushChampion(int champion_id);
     void PopChampion();
     BoardNode GetBoard();
-    void InitialiseMaxChampionIncrease(int (&table)[MAX_PLAYER_LEVEL][MAX_CHAMPIONS]);
+    void InitialiseMaxChampionIncrease(int (&table)[MAX_BOARD_SIZE][MAX_CHAMPIONS]);
 
     // pass through methods
     int ChampionsInSet() const { return set_data.champion_count; }

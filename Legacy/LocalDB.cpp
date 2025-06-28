@@ -287,10 +287,10 @@ SetData LocalDB::allocSet(float set_number) {
 
     // Get cost restrictions
     vector<int> cost_restrictions = getCostRestriction(set_number);
-    for (int i = 0; i < cost_restrictions.size(); ++i) {
+    for (size_t i = 0; i < cost_restrictions.size(); ++i) {
         set_data.cost_restriction[i] = cost_restrictions[i];
     }
-    for (int i = cost_restrictions.size(); i < MAX_PLAYER_LEVEL; ++i) {
+    for (size_t i = cost_restrictions.size(); i < MAX_PLAYER_LEVEL; ++i) {
         set_data.cost_restriction[i] = cost_restrictions.back();
     }
 

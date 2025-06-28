@@ -6,7 +6,7 @@ Trait::Trait(const string &name, vector<int> &value){
     int prev_value = 0;
 
     // fill the value array with the increments
-    for(int i = 0; i < value.size(); i++){
+    for(size_t i = 0; i < value.size(); i++){
         this->value[i] = value[i] - prev_value;
         prev_value = value[i];
     }

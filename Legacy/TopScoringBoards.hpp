@@ -17,7 +17,7 @@ using std::vector;
 class TopScoringBoards {
 private:
     vector<BoardNode> heap;
-    int max_size;
+    size_t max_size;
 
     void heapify_up(int index);
     void heapify_down(int index);

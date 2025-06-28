@@ -23,12 +23,12 @@ void Board::UpdateSetData(const SetData& data, int player_level, const vector<st
 
     current_board_score = 0; // Reset the score
 
-    for(int i = 0; i < traits_added.size(); i++) {
+    for(size_t i = 0; i < traits_added.size(); i++) {
         AddTrait(data.findTraitIndex(traits_added[i])); // add the traits
     }
 
     vector<int> champion_indexes; // create and fill a vector with the indexes
-    for(int i = 0; i < champions_added.size(); i++) {
+    for(size_t i = 0; i < champions_added.size(); i++) {
         int current = data.findChampionIndex(champions_added[i]);
         PushChampion(current); // Add the champions to the board
         champion_indexes.push_back(current);
@@ -89,19 +89,6 @@ void Board::PopChampion(){
 // returns a board node
 BoardNode Board::GetBoard() {
     return {current_board, current_board_score};
-}
-
-// makes sure the finish is not bounds and if so, does not add them
-// adds [start,finish) exclusive
-int PedanticSum(vector<int> A, int start, int finish){
-    if(A.size() < finish){
-        finish = A.size();
-    }
-    int ans = 0;
-    for(int i = start; i < finish; i++){
-        ans += A[i];
-    }
-    return ans;
 }
 
 // calculates the largest possible champion increase

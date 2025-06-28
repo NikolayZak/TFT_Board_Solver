@@ -34,20 +34,20 @@ crow::response RequestHandler::handle_compute(const crow::request& req) {
         return crow::response(400, "Invalid set_number: " + to_string(set_number));
     }
 
-    for(int i = 0; i < champions_added.size(); i++){
+    for(size_t i = 0; i < champions_added.size(); i++){
         if(!database.isChampionInSet(set_number, champions_added[i])){
             return crow::response(400, "Invalid champions_added: " + champions_added[i]);
         }
     }
 
-    for(int i = 0; i < traits_added.size(); i++){
+    for(size_t i = 0; i < traits_added.size(); i++){
         if(!database.isTraitInSet(set_number, traits_added[i])){
             return crow::response(400, "Invalid traits_added: " + traits_added[i]);
         }
     }
 
     // Prepare job
-    auto job = [=]() -> vector<BoardResult> {
+    auto job = [this, set_number, player_level, traits_added, champions_added, target_size]() -> vector<BoardResult> {
         try
         {
             SetData set_data = database.allocSet(set_number);                         // allocate the set

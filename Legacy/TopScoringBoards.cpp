@@ -1,8 +1,8 @@
 #include "TopScoringBoards.hpp"
 
-TopScoringBoards::TopScoringBoards(int max_size){
-    heap.reserve(max_size);
-    this->max_size = max_size;
+TopScoringBoards::TopScoringBoards(int size){
+    heap.reserve(size);
+    max_size = size_t(size);
 }
 
 TopScoringBoards::~TopScoringBoards() {
